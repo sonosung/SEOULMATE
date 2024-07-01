@@ -105,31 +105,32 @@
 	});
 
 	function renderComments(commentList) {
-		var commentContainer = $("#commentList");
-		commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
+	    var commentContainer = $("#commentList");
+	    commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
 
-		if (commentList.length > 0) {
-			// 댓글이 있는 경우 HTML을 생성하여 추가
-			var html = "";
-			for (var i = 0; i < commentList.length; i++) {
-				var comment = commentList[i];
-				html += '<div class="card mb-2">';
-				html += '<div class="card-body">';
-				html += '<h5 class="card-title">' + comment.writer + '</h5>';
-				html += '<p class="card-text">' + comment.content + '</p>';
-				html += '<p class="card-text">';
-				html += '<small class="text-muted">' + comment.createdat
-						+ '</small>';
-				html += '</p>';
-				html += '</div>';
-				html += '</div>';
-			}
-			commentContainer.html(html); // 댓글 목록을 HTML에 추가
-		} else {
-			commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
-		}
+	    if (commentList.length > 0) {
+	        // 댓글이 있는 경우 HTML을 생성하여 추가
+	        var html = "";
+	        for (var i = 0; i < commentList.length; i++) {
+	            var comment = commentList[i];
+	            html += '<div class="card mb-2">';
+	            html += '<div class="card-body">';
+	            html += '<h5 class="card-title">' + comment.writer + '</h5>';
+	            html += '<p class="card-text">' + comment.content + '</p>';
+	            html += '<p class="card-text">';
+	            html += '<small class="text-muted">' + comment.createdat + '</small>';
+	            html += '</p>';
+	            // 수정 및 삭제 버튼 추가
+	            html += '<button class="btn btn-sm btn-primary mr-2">수정</button>';
+	            html += '<button class="btn btn-sm btn-danger">삭제</button>';
+	            html += '</div>';
+	            html += '</div>';
+	        }
+	        commentContainer.html(html); // 댓글 목록을 HTML에 추가
+	    } else {
+	        commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
+	    }
 	}
-
 	// 서버에서 댓글 목록을 가져오는 함수
 	function loadComments() {
 		var idx = "${dto.idx}"; // 게시글의 idx 값을 가져옴 (서버에서 JSP로 데이터 전달 방식에 따라 다를 수 있음)
@@ -405,6 +406,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 			id="commentSection">
 			<div class="container">
 				<h2 class="section-heading text-center text-uppercase">댓글 목록</h2>
+				
 				<div id="commentList">
 					<!-- 댓글 목록을 동적으로 추가할 공간 -->
 					<c:if test="${not empty commentList}">
@@ -416,7 +418,11 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 									<p class="card-text">
 										<small class="text-muted">${comment.createdat}</small>
 									</p>
+
+
+
 								</div>
+
 							</div>
 						</c:forEach>
 					</c:if>
@@ -424,25 +430,28 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 						<p>No comments found.</p>
 					</c:if>
 				</div>
+			</div>
 
-				<div class="container">
-					<div class="text-center">
-						<h2 class="section-heading text-uppercase">댓글 작성</h2>
-					</div>
-					<div class="row">
-						<div class="col-lg-8 mx-auto">
-							<form id="commentForm" action="commentwrite.do" method="post">
-								<input type="hidden" name="idx" value="${dto.getIdx()}">
-								<div class="form-group">
-									<textarea class="form-control" id="content" name="content"
-										rows="5" placeholder="댓글을 입력하세요..." required></textarea>
-								</div>
-								<button class="btn btn-primary btn-xl text-uppercase"
-									type="submit">댓글 작성</button>
-							</form>
-						</div>
+
+
+			<div class="container">
+				<div class="text-center">
+					<h2 class="section-heading text-uppercase">댓글 작성</h2>
+				</div>
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<form id="commentForm" action="commentwrite.do" method="post">
+							<input type="hidden" name="idx" value="${dto.getIdx()}">
+							<div class="form-group">
+								<textarea class="form-control" id="content" name="content"
+									rows="5" placeholder="댓글을 입력하세요..." required></textarea>
+							</div>
+							<button class="btn btn-primary btn-xl text-uppercase"
+								type="submit">댓글 작성</button>
+						</form>
 					</div>
 				</div>
+			</div>
 		</section>
 
 		<!-- Contact Section-->
