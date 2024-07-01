@@ -34,6 +34,7 @@ try {
 <%@ page import="smtp.NaverSMTP"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
 <%
 // 폼값(이메일 내용) 저장
 Map<String, String> emailInfo = new HashMap<String, String>();

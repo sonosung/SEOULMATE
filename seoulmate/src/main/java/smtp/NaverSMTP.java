@@ -80,7 +80,7 @@ public class NaverSMTP {
         auth = new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("msh071", "Mundovico9105!");
+                return new PasswordAuthentication("msh071", "");
             }
         };
     }
