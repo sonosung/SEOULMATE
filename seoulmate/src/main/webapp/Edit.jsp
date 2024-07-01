@@ -158,7 +158,7 @@ th {
 						<button type="submit" class="btn btn-secondary">수정 완료</button>
 						<button type="reset" class="btn btn-secondary">RESET</button>
 						<button type="button" class="btn btn-secondary"
-							onclick="location.href='list.do';">목록 바로가기</button>
+							onclick="location.href='userlist.do';">목록 바로가기</button>
 					</td>
 				</tr>
 			</table>

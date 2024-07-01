@@ -182,10 +182,10 @@
     </section>
 
     <div class="button-container">
-    <a class="btn btn-primary small-button" href="list.do">
+    <a class="btn btn-primary small-button" href="./MainContent/index.jsp">
         <i class="fas fa-download me-2"></i>메인페이지
     </a>
-    <a class="btn btn-primary small-button" href="list.do">
+    <a class="btn btn-primary small-button" href="userlist.do">
         <i class="fas fa-download me-2"></i>유저 공유 게시판
     </a>
     <a class="btn btn-primary small-button" href="fes_write.jsp">

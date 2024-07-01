@@ -338,7 +338,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 					<button type="button" class="btn btn-secondary"
 						onclick="location.href='fesdelete.do?idx=${dto.idx}';">삭제</button>
 					<button type="button" class="btn btn-secondary"
-						onclick="location.href='list.do';">목록 바로가기</button>
+						onclick="location.href='feslist.do';">목록 바로가기</button>
 				</td>
 
 
