@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*, java.io.InputStream, java.util.Base64" %> <!-- 필요한 클래스 임포트 -->
+<%@ page import="java.sql.*, java.io.InputStream, java.util.Base64" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,8 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <link href="./resources/css/styles.css" rel="stylesheet" />
     <style>
-
-        /* 내장 스타일 정의 */
         .masthead { padding-top: 6rem; padding-bottom: 6rem; }
         @media (min-width: 768px) {
             .masthead { padding-top: 8rem; padding-bottom: 2rem; }
@@ -25,40 +23,12 @@
         .search-bar { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: -2rem; margin-bottom: -7rem; }
         .search-bar select, .search-bar input { flex: 1; min-width: 200px; }
         .search-bar button { height: 38px; min-width: 100px; }
-        
-         .button-container {
-        text-align: center; /* 버튼들을 가운데 정렬 */
-        margin-top: 20px; /* 상단 여백 추가 */
-        margin-bottom: 60px; /* 하단 여백 추가 */
-    }
-    .small-button {
-        width: 250px; /* 버튼의 너비 설정 */
-        padding: 10px 15px; /* 상하, 좌우 패딩 */
-        border-radius: 15px; /* 둥근 모서리 */
-        margin-right: 10px; /* 오른쪽 여백 추가 */
-    }
-    .small-button:last-child {
-        margin-right: 0; /* 마지막 버튼 오른쪽 여백 제거 */
-    }
-
-    /* 링크 스타일 변경 */
-    a {
-        text-decoration: none;
-        color: black;
-    }
-
-    /* 링크 호버 스타일 */
-    a:hover {
-        text-decoration: none;
-        color: black;
-    }
-
-    /* 텍스트 스타일 */
-    .portfolio-item h5, .portfolio-item p {
-        color: black;
-        text-decoration: none;
-    }
-    
+        .button-container { text-align: center; margin-top: 20px; margin-bottom: 60px; }
+        .small-button { width: 250px; padding: 10px 15px; border-radius: 15px; margin-right: 10px; }
+        .small-button:last-child { margin-right: 0; }
+        a { text-decoration: none; color: black; }
+        a:hover { text-decoration: none; color: black; }
+        .portfolio-item h5, .portfolio-item p { color: black; text-decoration: none; }
     </style>
 </head>
 <body id="page-top">
@@ -282,9 +252,25 @@
                 });
 
                 visibleItems.sort((a, b) => {
-                    const aTarget = a.getAttribute('data-bs-target');
-                    const bTarget = b.getAttribute('data-bs-target');
-                    return aTarget.localeCompare(bTarget);
+                    const today = new Date();
+                    const aStartDate = new Date(a.getAttribute('data-start-date'));
+                    const bStartDate = new Date(b.getAttribute('data-start-date'));
+                    const aEndDate = new Date(a.getAttribute('data-end-date'));
+                    const bEndDate = new Date(b.getAttribute('data-end-date'));
+                    
+                    const aStatus = (today >= aStartDate && today <= aEndDate) ? '개최중' : (today < aStartDate) ? '개최예정' : '종료';
+                    const bStatus = (today >= bStartDate && today <= bEndDate) ? '개최중' : (today < bStartDate) ? '개최예정' : '종료';
+                    
+                    if (aStatus === bStatus) {
+                        if (aStatus === '개최중') {
+                            return aStartDate - bStartDate;
+                        } else if (aStatus === '개최예정') {
+                            return aStartDate - bStartDate;
+                        } else {
+                            return bEndDate - aEndDate;
+                        }
+                    }
+                    return (aStatus === '개최중') ? -1 : (aStatus === '개최예정' && bStatus === '종료') ? -1 : 1;
                 });
 
                 generateHTML(visibleItems);
@@ -298,10 +284,36 @@
                 generateHTML(portfolioItems);
             }
 
+            function initialSort() {
+                const today = new Date();
+                portfolioItems.sort((a, b) => {
+                    const aStartDate = new Date(a.getAttribute('data-start-date'));
+                    const bStartDate = new Date(b.getAttribute('data-start-date'));
+                    const aEndDate = new Date(a.getAttribute('data-end-date'));
+                    const bEndDate = new Date(b.getAttribute('data-end-date'));
+                    
+                    const aStatus = (today >= aStartDate && today <= aEndDate) ? '개최중' : (today < aStartDate) ? '개최예정' : '종료';
+                    const bStatus = (today >= bStartDate && today <= bEndDate) ? '개최중' : (today < bStartDate) ? '개최예정' : '종료';
+                    
+                    if (aStatus === bStatus) {
+                        if (aStatus === '개최중') {
+                            return aStartDate - bStartDate;
+                        } else if (aStatus === '개최예정') {
+                            return aStartDate - bStartDate;
+                        } else {
+                            return bEndDate - aEndDate;
+                        }
+                    }
+                    return (aStatus === '개최중') ? -1 : (aStatus === '개최예정' && bStatus === '종료') ? -1 : 1;
+                });
+
+                generateHTML(portfolioItems);
+            }
+
             searchButton.addEventListener('click', filterItems);
             resetButton.addEventListener('click', resetFilters);
             portfolioItems.forEach(updateFestivalStatus);
-            generateHTML(portfolioItems);
+            initialSort(); // Sort the items initially when the page loads
         });
     </script>
 </body>
