@@ -1,6 +1,5 @@
 package seoulmate.board;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -205,10 +204,12 @@ public class UserBoardDAO extends DBConnPool {
     public void updateLikeCount(String idx) {
         String query = "UPDATE userboard SET likecount = likecount + 1 WHERE idx=?";
         
-        try (PreparedStatement psmt = con.prepareStatement(query)) {
+        try (
+        	PreparedStatement psmt = con.prepareStatement(query)) {
             psmt.setString(1, idx);
             psmt.executeUpdate();
         } catch (SQLException e) {
+        	System.out.println("게시물 추천수 증가 중 예외 발생");
             e.printStackTrace();
         }
     }
