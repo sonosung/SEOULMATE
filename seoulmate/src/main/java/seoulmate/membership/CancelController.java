@@ -53,7 +53,7 @@ public class CancelController  extends HttpServlet {
 	            response.setContentType("text/html; charset=utf-8");
 	            PrintWriter w = response.getWriter();
 	            w.write("<script>alert('"+message+"');</script>");
-	            w.write("<script>location.href = 'logout2.jsp';</script>");
+	            w.write("<script>location.href = 'logout.jsp';</script>");
 	            w.flush();
 	            w.close();
 	        } catch(Exception e) {

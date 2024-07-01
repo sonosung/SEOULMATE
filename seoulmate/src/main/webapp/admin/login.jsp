@@ -1,5 +1,15 @@
+
+<%@ page import="utils.CookieManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%
+String loginEmail = CookieManager.readCookie(request, "loginEmail");
+
+String cookieCheck = "";
+if (!loginEmail.equals("")) {
+cookieCheck = "checked";
+}
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,7 +56,7 @@
                                     <form class="user" action="login.do" method="post">
                                         <div class="form-group">
                                             <input type="email" class="form-control form-control-user"
-                                                id="USER_EMAIL" aria-describedby="emailHelp" name="EMAIL" required 
+                                                id="USER_EMAIL" aria-describedby="emailHelp" name="EMAIL" required value="<%=loginEmail%>"
                                                 placeholder="이메일 / Enter Email...">
                                         </div>
                                         <div class="form-group">
@@ -55,7 +65,7 @@
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck" name="save_check"  value="Y">
                                                 <label class="custom-control-label" for="customCheck">Remember
                                                     Me</label>
                                             </div>
