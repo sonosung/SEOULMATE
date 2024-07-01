@@ -30,7 +30,7 @@ public class UserDeleteController extends HttpServlet {
             out.println("<html><body>");
             out.println("<script>");
             out.println("alert('삭제가 완료되었습니다.');");
-            out.println("location.href='list.do';");
+            out.println("location.href='userlist.do';");
             out.println("</script>");
             out.println("</body></html>");    
         } else {
