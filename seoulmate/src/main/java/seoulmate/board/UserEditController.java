@@ -88,8 +88,8 @@ public class UserEditController extends HttpServlet {
         dao.close();
 
         if (result == 1) {
-            response.sendRedirect("list.do"); // Redirect to view post page
-            JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "list.do");
+            response.sendRedirect("userlist.do"); // Redirect to view post page
+            JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "userlist.do");
         } else {
             JSFunction.alertLocation(response, "게시글 수정에 실패했습니다.", "Edit.jsp?idx=" + idx);
         }
