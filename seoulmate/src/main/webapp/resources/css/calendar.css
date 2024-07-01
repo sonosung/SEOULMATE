@@ -1,0 +1,87 @@
+@charset "utf-8";
+
+@font-face {
+    font-family: "GmarketSansMedium";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff")
+    format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+table, tbody, tfoot, thead, th, tr, td, colgroup, col{padding: 0; margin: 0;}
+/* .calendar_wrap{height: 1102px; background:url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/bg_cal.png) center center no-repeat;}*/
+.calendar_wrap{height: auto; padding-bottom: 50px; background:#f8f9ff url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/bg_cal.png) top center no-repeat;}
+
+.calendar_wrap .inr{width:940px;margin:0 auto;}
+.calendar_wrap h3{padding-top: 60px; font-size: 32px; font-weight: 700;}
+.calendar_wrap .month_btn{display: flex; justify-content: space-between; align-items: center;}
+.calendar_wrap .month_btn button{width: 38px; height:38px;vertical-align: middle;text-indent: -9999px; border: none; background-color: transparent; background-size: 100% auto; background-repeat: no-repeat;}
+.calendar_wrap .month_btn .prev{background-image:url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_prev.png); margin-right: 10px;}
+.calendar_wrap .month_btn .next{background-image:url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_next.png);}
+.calendar_wrap .month_btn .prev:hover, .calendar_wrap .month_btn .next:hover{background-position: 0 -38px;}
+.calendar_wrap .month_btn span{display:block;padding:0 0 30px;font-size:64px; font-weight: 500; letter-spacing: -1px;color:#7a45e5;}
+.calendar_wrap table{box-sizing: border-box; border-radius: 8px; border: 1px solid #7a45e5; overflow: hidden; border-collapse: separate; text-align: center; }
+.calendar_wrap table th{height:60px;font-size: 32px;line-height:48px;color:#000; font-weight: 500; border-bottom: 1px solid #7a45e5; background: #ece8fd;}
+.calendar_wrap table th span{display:block;font-size: 13px;line-height:16px;font-weight: 300;font-family:NotoSansKR;}
+.calendar_wrap table th.holiday{color:#f60056;}
+.calendar_wrap table td.holiday{color:#ff3179;}
+.calendar_wrap table .saturday{color:#2572E4;}
+.calendar_wrap table tbody{background: #fff;}
+.calendar_wrap table td{height:150px; position: relative;}
+.calendar_wrap table td a > span{display:block;font-size:16px;font-weight: 500;line-height:18px; position: relative;}
+.calendar_wrap td a > span:after{content:'';display:inline-block; position: absolute; left: 50%; top: calc(100% + 8px);; transform: translateX(-50%); width:12px;height:8px;background:url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_down.png) no-repeat;}
+.calendar_wrap td span em{font-size:16px;color:#80808a;}
+.calendar_wrap table td a{display:block;height:100%;}
+.calendar_wrap table td a strong{display:block;padding:32px 0 10px;font-weight: 500;font-size: 40px;line-height:40px;letter-spacing: -2px;color:#1a1a2a;}
+.calendar_wrap table td.holiday a strong{color:#ff3179;}
+.calendar_wrap table td.saturday a strong{color:#2572E4;}
+.calendar_wrap table tbody tr{position: relative;}
+.calendar_wrap table tbody tr:after{content: ''; display: block; width: 100%; height: 1px; background-color: #e6e6eb; position: absolute; left: 0; top: 100%;}
+.calendar_wrap table tbody tr:first-child td{border-top:0;}
+.calendar_wrap table tbody tr:last-child td:first-child{border-bottom:0;}
+.calendar_wrap table tbody tr:last-child td:last-child{border-bottom:0;}
+.calendar_wrap table tbody td:first-child{border-left:0;}
+.calendar_wrap table tbody tr td:last-child{border-right:0;}
+.calendar_wrap table tbody td.on{background:#7a45e5; border-radius: 8px; position: relative;}
+.calendar_wrap table tbody td.on a strong{color: #fff;}
+.calendar_wrap table tbody td.on a > span{color: #fff;}
+.calendar_wrap table tbody td.on a > span::after{background-image: url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_down_on.png);}
+.calendar_wrap table tbody td.on span em{color: #fff;}
+.calendar_wrap table tbody td a:hover{background-color: #f8f9ff;}
+.calendar_wrap table tbody td a:hover strong, .calendar_wrap table tbody a:hover span em{color: #7a45e5;}
+.calendar_wrap table tbody td a:hover > span:after{background-image: url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_down_hover.png);}
+.calendar_wrap table tbody td a:hover::after{content:'';display:block;width:100%;height:100%;position:absolute;left:0;top:0;border:2px solid #7A45E5 ; border-radius: 8px; box-sizing: border-box;}
+
+.other_festival h4{font-size: 32px; font-weight: 700; border-bottom: 1px solid #e6e6eb; padding-bottom: 30px;}
+.other_list.type2 .tab_cont_area.list_none{padding-top: 130px;}
+.other_festival .list_none img{width: 110px;}
+.other_festival .list_none p{font-size: 24px; text-align: center; margin: 50px 0 10px; font-weight: 500;}
+.other_festival .list_none span{display: block; font-size: 16px; color: #9999a3; text-align: center; font-weight: 500;}
+
+/* 모바일 */
+@media all and (max-width: 1008px) {
+    .calendar_wrap{height: auto; background:url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/bg_mcal.png) top center / cover no-repeat; padding-bottom: 25px;}
+    .calendar_wrap h3{font-size: 20px; padding-top: 30px;}
+    .calendar_wrap .month_btn .arrowbtn{margin-top: -20px;}
+    .calendar_wrap .month_btn button{width: 36px; height: 36px; background-size: 100% auto !important;}
+    .calendar_wrap .month_btn .prev{margin-right: 5px;}
+    .calendar_wrap .month_btn .prev:hover, .calendar_wrap .month_btn .next:hover{background-position: 0 -36px;}
+    .calendar_wrap .month_btn span{font-size: 40px; padding: 0 0 20px;}
+    .calendar_wrap table th{font-size: 16px; height: 48px;}
+    .calendar_wrap table td{height: 80px;}
+    .calendar_wrap table td a strong{font-size: 24px; line-height: 24px; padding: 16px 0 4px;}
+    .calendar_wrap table td a > span{font-size: 12px; line-height: 14px;}
+    .calendar_wrap td a > span:after{width: 10px; height: 6px; background-size: 100% 100%; top: calc(100% + 4px); background-image: url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_mdown.png);}
+    .calendar_wrap table tbody td.on{border-radius: 6px; background: #7a45e5;}
+    .calendar_wrap table tbody td.on a > span::after, .calendar_wrap table tbody td a:hover > span:after{background-image: url(https://kfescdn.visitkorea.or.kr/kfes/resources/img/calendar/arrow_mdown_on.png);}
+    .calendar_wrap td span em{font-size: 12px;}
+    .calendar_wrap table tbody td a:hover{background-color: #7a45e5; border-radius: 6px;}
+    .calendar_wrap table tbody td a:hover strong{color: #fff;}
+    .calendar_wrap table tbody td a:hover span em{color: #fff;}
+    .calendar_wrap table tbody td a:hover::after{content:'';display:none;width:100%;height:100%;position:absolute;left:0;top:0;border:2px solid #7A45E5 ; border-radius: 8px; box-sizing: border-box;}
+
+    .other_festival h4{font-size: 20px; padding-bottom: 20px;}
+    .other_list.type2 .tab_cont_area.list_none{padding-top: 70px;}
+    .other_festival .list_none img{width: 88px;}
+    .other_festival .list_none p{font-size: 18px; margin: 30px 0 10px; }
+    .other_festival .list_none span{font-size: 14px;}
+}
