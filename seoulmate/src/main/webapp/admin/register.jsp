@@ -5,6 +5,9 @@
 
 <head>
 	<style>
+    #EmailMessage {
+        margin-top: 10px;
+    }
 	button {
 		width : 100px;
 		height : 35px;
@@ -55,10 +58,20 @@
                                             placeholder="성명 / Full Name" required>
                                     </div>
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                  	  <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="EMAIL" 
+                                  	  <input type="email" class="form-control form-control-user" id="exampleInputEmail" name="EMAIL" onkeyup="checkEmail();"
                                         placeholder="이메일 / Email" required>
+<!--       이메일 인증 보류                                <button type="button" class="btn btn-primary btn-user-An-search btn-block" id="" onclick="">이메일 인증</button> -->
                                     </div>
-                                </div>
+                               </div>
+<!--       이메일 인증 보류                            <div class="form-group row">
+                                    <div class="col-sm-4 mb-3 mb-sm-0">
+                                  	  <input type="text" class="form-control form-control-user" id="InputEmailverification" name="EMAILverification"
+                                        placeholder="인증번호 / Code" required>
+                                    </div>
+                                    <div class="col-sm-8">
+      								  <div id="EmailMessage"></div>
+ 								    </div>
+ 								    </div> -->
                                 <div class="form-group row">
                                 <div class="col-sm-6 mb-3 mb-sm-0">
                                     <input type="text" class="form-control form-control-user" id="exampleID" name="USER_ID" 
@@ -82,7 +95,7 @@
                                  <div class="col-sm-12">
       								  <div id="passwordMatchMessage"></div>
       								  <hr>
- 								    </div>
+ 								 </div>
                                 <div class="form-group row">			
 								<div class="col-sm-2-An mb-3 mb-sm-0">
 									<input type="text" class="form-control form-control-user postcodify_postcode5" name="USER_ZIP" 
@@ -127,6 +140,16 @@
 	<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
 	
 	<script>
+		function checkEmail(){
+			var InputEmail = document.getElementById("exampleInputEmail").value;
+			var messagEmail = document.getElementById("EmailMessage");
+			
+			messagEmail.innerHTML = "이메일 인증해주세요.";
+			messagEmail.style.color = "red";
+		}
+	</script>
+	
+	<script>
         function checkPasswordMatch() {
             var password = document.getElementById("exampleInputPassword").value;
             var repeatPassword = document.getElementById("exampleRepeatPassword2").value;
@@ -157,9 +180,9 @@
             var message = document.getElementById("passwordMatchMessage");
             var inputPHONE = document.getElementById("exampleInputPhone").value.trim();
             
-            var nameRegex = /^[a-zA-Z가-힣]+$/;
+            var nameRegex = /^([a-zA-Z가-힣]+( [a-zA-Z가-힣]+)*)$/;
             var nameKor = /^[가-힣]+$/;
-            var nameEng = /^[a-zA-Z]+$/;
+            var nameEng = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
             var Email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
             var USER_PHONE = /^[0-9]*$/;
 
