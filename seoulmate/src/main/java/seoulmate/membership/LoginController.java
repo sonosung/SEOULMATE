@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import utils.CookieManager;
 
-//prevPage 사용자가 로그인 요청을 보낸 페이지로 다시 돌아갈 수 있음 숨겨진 필드를 통해 이전 페이지 URL을 LoginController로 전달하고, 로그인 성공 시 해당 URL로 리디렉션합니다.
 @WebServlet("/admin/login.do")
 public class LoginController extends HttpServlet {
     private static final long serialVersionUID = 1L;
@@ -40,10 +39,14 @@ public class LoginController extends HttpServlet {
             }
             HttpSession session = request.getSession();
             session.setAttribute("user", member);
-            if(prevPage != null) {
-            	response.sendRedirect(prevPage != null && !prevPage.isEmpty() ? prevPage : "../MainContent/index.jsp"); 
-            }else if(prevPage == null ){
-            	response.sendRedirect("../MainContent/index.jsp"); 
+            System.out.println("prevPage: " + prevPage);
+
+            if (prevPage == null || prevPage.equals("null") || prevPage.trim().isEmpty()) {
+                System.out.println("prevPage is null or empty");
+                response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
+            } else {
+                System.out.println("prevPage is not empty: " + prevPage);
+                response.sendRedirect(prevPage);
             }
         } else {
             alertAndGo(response, "로그인 정보가 일치하지 않습니다.", "login.jsp?error=");
