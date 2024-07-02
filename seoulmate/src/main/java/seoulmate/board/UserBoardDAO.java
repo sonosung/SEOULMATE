@@ -220,4 +220,21 @@ public class UserBoardDAO extends DBConnPool {
             e.printStackTrace();
         }
     }
+    
+    public String getPostAuthor(String idx) {
+        String query = "SELECT name FROM userboard WHERE idx = ?";
+        try (PreparedStatement psmt = con.prepareStatement(query)) {
+            psmt.setString(1, idx);
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("name");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    
 }

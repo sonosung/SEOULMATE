@@ -19,6 +19,15 @@ public class UserEditController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+    	  MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
+          if (member == null) {
+              // 유저 정보가 없는 경우 로그인 페이지로 리디렉션
+              JSFunction.alertBack(response, "로그인이 필요한 기능입니다. 해당 게시물은 작성자 및 관리자만 수정 할 수 있습니다.");
+              return;
+          }
+          
+          
         String idx = request.getParameter("idx");
 
         if (idx == null || !idx.matches("\\d+")) {
@@ -28,6 +37,15 @@ public class UserEditController extends HttpServlet {
 
         UserBoardDAO dao = new UserBoardDAO();
         UserBoardDTO dto = dao.selectView(idx); // 숫자를 문자열로 변환하여 전달
+        
+        String postAuthor = dao.getPostAuthor(idx);
+
+        // 유저 권한 확인
+        if (member.getUSER_NUM() > 4 && !member.getUSER_ID().equals(postAuthor)) {
+            JSFunction.alertBack(response, "게시글 삭제 권한이 없습니다. 해당 게시물은 작성자 및 관리자만 수정 할 수 있습니다.");
+            return;
+        }
+        
         dao.close();
         request.setAttribute("dto", dto);
         request.getRequestDispatcher("/Edit.jsp").forward(request, response);
