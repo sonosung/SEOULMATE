@@ -2,6 +2,7 @@
 <%@ page import="seoulmate.membership.MemberDAO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <!--게시판헤더-->
     
 <!--------------------------------------------------------- Navigation --------------------------------------------------------->
 	 <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">

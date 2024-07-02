@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%-- 유저정보게시판 리스트 입니다 --%>
+<%-- 유저정보게시판 리스트 입니다.. --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
