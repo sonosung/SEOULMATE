@@ -21,7 +21,9 @@
         .portfolio-item { margin-bottom: 30px; flex: 0 1 calc(33.33% - 30px); box-sizing: border-box; padding: 0 15px; margin-left: 0.8cm; }
         @media (max-width: 768px) { .portfolio-item { flex: 0 1 100%; } }
         .search-bar { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: -2rem; margin-bottom: -7rem; }
-        .search-bar select, .search-bar input { flex: 1; min-width: 200px; }
+        .search-bar select, .search-bar input { flex: 1; min-width: 200px; text-align: center; position: relative; }
+        .search-bar select::after, .search-bar input::after { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        .search-bar select option, .search-bar input::placeholder { text-align: center; }
         .search-bar button { height: 38px; min-width: 100px; }
         .button-container { text-align: center; margin-top: 20px; margin-bottom: 60px; }
         .small-button { width: 250px; padding: 10px 15px; border-radius: 15px; margin-right: 10px; }
@@ -31,10 +33,11 @@
         .portfolio-item h5, .portfolio-item p { color: black; text-decoration: none; }
     </style>
 </head>
+<!--헤더시작-->
 <body id="page-top">
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="#page-top">SEOULMATE</a>
+            <a class="navbar-brand" href="./MainContent/index.jsp">SEOULMATE</a>
             <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars"></i>
@@ -42,15 +45,17 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">행사정보</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#festival">게시판</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/login.jsp" id="Login">Login</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/register.jsp" id="SignIn">SignIn</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <header class="masthead bg-primary text-white text-center">
+    
+    <!-- <header class="masthead bg-primary text-white text-center">
         <div class="container d-flex align-items-center flex-column">
-            <img class="masthead-avatar mb-5" src="./resources/assets/img/mainicon.png" alt="..." />
+            <img class="masthead-avatar mb-5" src="./resources/img/Logo.png" alt="..." />
             <h1 class="masthead-heading text-uppercase mb-0">SEOULMATE</h1>
             <div class="divider-custom divider-light">
                 <div class="divider-custom-line"></div>
@@ -59,7 +64,9 @@
             </div>
             <p class="masthead-subheading font-weight-light mb-0">너와 나의 SEOULMATE!</p>
         </div>
-    </header>
+    </header> -->
+    <jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
+    <!--헤더끝-->
     <section class="page-section search-bar" id="search">
         <div class="container">
             <div class="row justify-content-center">
@@ -89,7 +96,7 @@
                         <option value="food">먹거리</option>
                         <option value="show">공연</option>
                     </select>
-                    <input type="search" id="search-text" class="form-control me-2" placeholder="검색">
+                    <input type="search" id="search-text" class="form-control me-2" placeholder="검색어를 입력해주세요.">
                     <button id="search-btn" class="btn btn-primary">검색</button>
                     <button id="reset-btn" class="btn btn-secondary">리셋</button>
                 </div>
@@ -151,7 +158,7 @@
         </div>
     </section>
 
-    <div class="button-container">
+    <div class="button-container" id="festival">
     <a class="btn btn-primary small-button" href="./MainContent/index.jsp">
         <i class="fas fa-download me-2"></i>메인페이지
     </a>
@@ -163,27 +170,54 @@
     </a>
 </div>
 
-    <footer class="footer text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Location</h4>
-                    <p class="lead mb-0">2215 John Daniel Drive<br>Clark, MO 65243</p>
-                </div>
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Around the Web</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
-                </div>
-                <div class="col-lg-4">
-                    <h4 class="text-uppercase mb-4">About Freelancer</h4>
-                    <p class="lead mb-0">Freelance is a free to use, MIT licensed Bootstrap theme created by <a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+   <footer class="footer text-center">
+	<div class="container">
+		<div class="row">
+			<!-- Footer Location-->
+			<div class="col-lg-4 mb-5 mb-lg-0">
+				<h4 class="text-uppercase mb-4">who made it?</h4>
+				<br>
+				<p class="lead mb-0">
+					문승호, 김별, 이진규, 안상환 
+					<br /> 
+					<br /> 
+					Started from 2024.06.12
+					<br>
+					to 2024.07.11
+				</p>
+			</div>
+			<!-- Footer Social Icons-->
+			<div class="col-lg-4 mb-5 mb-lg-0">
+				<h4 class="text-uppercase mb-4">visit our github</h4>
+					<br> 
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/byeol1286">
+					<i class="fab fa-fw fa-facebook-f"></i>
+				</a>
+				
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/GOTERCODE">
+					<i class="fab fa-fw fa-twitter"></i>
+				</a> 
+				
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/poong1125">
+					<i class="fab fa-fw fa-linkedin-in"></i>
+				</a> 
+				
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/sonosung">
+					<i class="fab fa-fw fa-dribbble"></i>
+				</a>
+			</div>
+			<!-- Footer About Text--->
+			<div class="col-lg-4">
+				<h4 class="text-uppercase mb-4">About Us</h4>
+				<p class="lead mb-0">
+					SEUOLMATE는<br>JSP & OracleDB 기반 팀 프로젝트입니다.<br> <br>
+					MIT licensed Bootstrap theme<br>created by <a
+						href="http://startbootstrap.com">Start Bootstrap</a> .
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>
     <div class="copyright py-4 text-center text-white">
         <div class="container"><small>Copyright &copy; Your Website 2023</small></div>
     </div>
