@@ -1,14 +1,14 @@
-
 <%@ page import="utils.CookieManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%
+<%
 String loginEmail = CookieManager.readCookie(request, "loginEmail");
 
 String cookieCheck = "";
-if (!loginEmail.equals("")) {
-cookieCheck = "checked";
+if (loginEmail != null && !loginEmail.equals("")) {
+    cookieCheck = "checked";
 }
+String prevPage = request.getHeader("Referer"); // 숨겨진 필드를 통해 이전 페이지 URL을 LoginController로 전달하고, 로그인 성공 시 해당 URL로 리디렉션합니다.
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -65,15 +65,14 @@ cookieCheck = "checked";
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck" name="save_check"  value="Y">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <input type="checkbox" class="custom-control-input" id="customCheck" name="save_check" value="Y" <%=cookieCheck%>>
+                                                <label class="custom-control-label" for="customCheck">Remember Me</label>
                                             </div>
                                         </div>
-                                     	<button type="submit" class="btn btn-primary btn-user btn-block" onclick="/admin/login.do">Login</button>
+                                        <input type="hidden" name="prevPage" value="<%=prevPage%>">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">Login</button>
                                         <hr>
                                     </form>
-                                  
                                     <div class="text-center">
                                         <a class="small" href="forgot-password.jsp">Forgot Password?</a>
                                     </div>
