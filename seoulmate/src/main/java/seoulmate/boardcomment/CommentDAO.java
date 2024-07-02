@@ -31,38 +31,32 @@ public class CommentDAO extends DBConnPool {
 		return result;
 	}
 
+	public List<CommentDTO> getCommentsByBoardIdx(int idx) {
+		List<CommentDTO> comments = new ArrayList<>();
+		String sql = "SELECT commentid, writer, content, createdat FROM comments WHERE idx = ?";
 
-	
-	 public List<CommentDTO> getCommentsByBoardIdx(int idx) {
-	        List<CommentDTO> comments = new ArrayList<>();
-	        String sql = "SELECT commentid, writer, content, createdat FROM comments WHERE idx = ?";
+		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-	        try (Connection conn = getDBConnection();
-	             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setInt(1, idx);
 
-	            pstmt.setInt(1, idx);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				while (rs.next()) {
+					int commentId = rs.getInt("commentid");
+					String writer = rs.getString("writer");
+					String content = rs.getString("content");
+					Timestamp createdAt = rs.getTimestamp("createdat");
 
-	            try (ResultSet rs = pstmt.executeQuery()) {
-	                while (rs.next()) {
-	                    int commentId = rs.getInt("commentid");
-	                    String writer = rs.getString("writer");
-	                    String content = rs.getString("content");
-	                    Timestamp createdAt = rs.getTimestamp("createdat");
+					CommentDTO comment = new CommentDTO(commentId, idx, writer, content, createdAt);
+					comments.add(comment);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Failed to fetch comments for idx: " + idx, e);
+		}
 
-	                    CommentDTO comment = new CommentDTO(commentId, idx, writer, content, createdAt);
-	                    comments.add(comment);
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	            throw new RuntimeException("Failed to fetch comments for idx: " + idx, e);
-	        }
-
-	        return comments;
-	    }
-	
-	
-	
+		return comments;
+	}
 
 	// 게시글 번호에 해당하는 모든 댓글 조회 메서드
 
@@ -96,18 +90,31 @@ public class CommentDAO extends DBConnPool {
 	}
 
 	// 댓글 삭제 메서드
-	public int deleteComment(Long comment_Id) {
-		int result = 0;
-		String sql = "DELETE FROM comments WHERE commentId = ?";
+    public boolean deleteComment(int commentId) {
+        boolean result = false;
+        String sql = "DELETE FROM comments WHERE commentId = ?";
 
-		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, commentId);
+            result = pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
-			pstmt.setLong(1, comment_Id);
+    // 댓글 수정 메서드
+    public boolean updateComment(int commentId, String content) {
+        boolean result = false;
+        String sql = "UPDATE comments SET content = ? WHERE commentid = ?";
 
-			result = pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+        try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, content);
+            pstmt.setInt(2, commentId);
+            result = pstmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

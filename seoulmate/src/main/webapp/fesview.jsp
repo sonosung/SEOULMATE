@@ -49,6 +49,66 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+	$(document).on('click', '.edit-btn', function() {
+		var commentId = $(this).data('id');
+		if (commentId === undefined) {
+			console.error('commentId is undefined');
+			return;
+		}
+
+		var content = prompt("수정할 내용을 입력하세요:");
+		if (content !== null) {
+			$.ajax({
+				url : 'commentupdate.do',
+				type : 'POST',
+				data : {
+					commentId : commentId,
+					content : content
+				},
+				success : function(response) {
+					if (response === "success") {
+						alert("댓글이 수정되었습니다.");
+						loadComments(); // 댓글 목록을 다시 로드
+					} else {
+						alert("댓글 수정에 실패했습니다.");
+					}
+				},
+				error : function(xhr, status, error) {
+					console.error('AJAX 요청 실패: ', status, error);
+				}
+			});
+		}
+	});
+
+	$(document).on('click', '.delete-btn', function() {
+		var commentId = $(this).data('id');
+		if (commentId === undefined) {
+			console.error('commentId is undefined');
+			return;
+		}
+
+		if (confirm("정말 이 댓글을 삭제하시겠습니까?")) {
+			$.ajax({
+				url : 'commentdelete.do',
+				type : 'POST',
+				data : {
+					commentId : commentId
+				},
+				success : function(response) {
+					if (response === "success") {
+						alert("댓글이 삭제되었습니다.");
+						loadComments(); // 댓글 목록을 다시 로드
+					} else {
+						alert("댓글 삭제에 실패했습니다.");
+					}
+				},
+				error : function(xhr, status, error) {
+					console.error('AJAX 요청 실패: ', status, error);
+				}
+			});
+		}
+	});
+
 	$(document).ready(function() {
 		$("#likeButton").click(function() {
 			var idx = "${dto.idx}"; // 클릭한 버튼에 대한 DTO 객체의 idx 값 사용
@@ -80,56 +140,61 @@
 		loadComments();
 	});
 
-	$("#commentForm").submit(function(event) {
-		event.preventDefault();
-		var formData = $(this).serialize();
+	$(document).ready(function() {
+	    $("#commentForm").submit(function(event) {
+	        event.preventDefault();
+	        
+	        var formData = $(this).serialize();
 
-		$.ajax({
-			type : "POST",
-			url : "commentwrite.do",
-			data : formData,
-			success : function(response) {
-				if (response.trim() === 'success') {
-					alert('댓글이 성공적으로 작성되었습니다.');
-					$("#commentForm")[0].reset();
-					loadComments();
-				} else {
-					alert('댓글 작성 실패.');
-				}
-			},
-			error : function(xhr, status, error) {
-				alert('댓글 작성 중 오류가 발생했습니다.');
-				console.error(xhr);
-			}
-		});
+	        $.ajax({
+	            type: "POST",
+	            url: "commentwrite.do",
+	            data: formData,
+	            success: function(response) {
+	                if (response.trim() === 'success') {
+	                    alert('댓글이 성공적으로 작성되었습니다.');
+	                    $("#commentForm")[0].reset(); // 폼 초기화
+	                    loadComments(); // 댓글 목록 다시 로드
+	                } else {
+	                    alert('댓글 작성 실패.'); // 이 경고가 뜨는 이유는 서버에서 success가 아닌 다른 값을 반환했기 때문일 수 있습니다.
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert('댓글 작성 중 오류가 발생했습니다.');
+	                console.error(xhr);
+	            }
+	        });
+	    });
 	});
 
-	function renderComments(commentList) {
-	    var commentContainer = $("#commentList");
-	    commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
 
-	    if (commentList.length > 0) {
-	        // 댓글이 있는 경우 HTML을 생성하여 추가
-	        var html = "";
-	        for (var i = 0; i < commentList.length; i++) {
-	            var comment = commentList[i];
-	            html += '<div class="card mb-2">';
-	            html += '<div class="card-body">';
-	            html += '<h5 class="card-title">' + comment.writer + '</h5>';
-	            html += '<p class="card-text">' + comment.content + '</p>';
-	            html += '<p class="card-text">';
-	            html += '<small class="text-muted">' + comment.createdat + '</small>';
-	            html += '</p>';
-	            // 수정 및 삭제 버튼 추가
-	            html += '<button class="btn btn-sm btn-primary mr-2">수정</button>';
-	            html += '<button class="btn btn-sm btn-danger">삭제</button>';
-	            html += '</div>';
-	            html += '</div>';
-	        }
-	        commentContainer.html(html); // 댓글 목록을 HTML에 추가
-	    } else {
-	        commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
-	    }
+
+	function renderComments(commentList) {
+		var commentContainer = $("#commentList");
+		commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
+
+		if (commentList.length > 0) {
+			// 댓글이 있는 경우 HTML을 생성하여 추가
+			var html = "";
+			for (var i = 0; i < commentList.length; i++) {
+				var comment = commentList[i];
+				html += '<div class="card mb-2">';
+				html += '<div class="card-body">';
+				html += '<h5 class="card-title">' + comment.writer + '</h5>';
+				html += '<p class="card-text">' + comment.content + '</p>';
+				html += '<p class="card-text">';
+				html += '<small class="text-muted">' + comment.createdat
+						+ '</small>';
+				html += '</p>';
+				html += '<button class="btn btn-primary btn-sm edit-btn" data-id="' + comment.id + '">수정</button>';
+				html += '<button class="btn btn-danger btn-sm delete-btn" data-id="' + comment.id + '">삭제</button>';
+				html += '</div>';
+				html += '</div>';
+			}
+			commentContainer.html(html); // 댓글 목록을 HTML에 추가
+		} else {
+			commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
+		}
 	}
 	// 서버에서 댓글 목록을 가져오는 함수
 	function loadComments() {
@@ -149,6 +214,7 @@
 				console.error('AJAX 요청 실패: ', status, error);
 			}
 		});
+
 	}
 </script>
 
@@ -406,7 +472,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 			id="commentSection">
 			<div class="container">
 				<h2 class="section-heading text-center text-uppercase">댓글 목록</h2>
-				
+
 				<div id="commentList">
 					<!-- 댓글 목록을 동적으로 추가할 공간 -->
 					<c:if test="${not empty commentList}">
