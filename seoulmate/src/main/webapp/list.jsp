@@ -196,7 +196,7 @@
     <a class="btn btn-primary small-button" href="./MainContent/index.jsp">
         <i class="fas fa-download me-2"></i>메인페이지
     </a>
-    <a class="btn btn-primary small-button" href="festivalList.do">
+    <a class="btn btn-primary small-button" href="feslist.do">
         <i class="fas fa-download me-2"></i>축제 정보 게시판
     </a>
 </div>
