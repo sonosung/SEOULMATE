@@ -141,33 +141,31 @@
 	});
 
 	$(document).ready(function() {
-	    $("#commentForm").submit(function(event) {
-	        event.preventDefault();
-	        
-	        var formData = $(this).serialize();
+		$("#commentForm").submit(function(event) {
+			event.preventDefault();
 
-	        $.ajax({
-	            type: "POST",
-	            url: "commentwrite.do",
-	            data: formData,
-	            success: function(response) {
-	                if (response.trim() === 'success') {
-	                    alert('댓글이 성공적으로 작성되었습니다.');
-	                    $("#commentForm")[0].reset(); // 폼 초기화
-	                    loadComments(); // 댓글 목록 다시 로드
-	                } else {
-	                    alert('댓글 작성 실패.'); // 이 경고가 뜨는 이유는 서버에서 success가 아닌 다른 값을 반환했기 때문일 수 있습니다.
-	                }
-	            },
-	            error: function(xhr, status, error) {
-	                alert('댓글 작성 중 오류가 발생했습니다.');
-	                console.error(xhr);
-	            }
-	        });
-	    });
+			var formData = $(this).serialize();
+
+			$.ajax({
+				type : "POST",
+				url : "commentwrite.do",
+				data : formData,
+				success : function(response) {
+					if (response.trim() === 'success') {
+						alert('댓글이 성공적으로 작성되었습니다.');
+						$("#commentForm")[0].reset(); // 폼 초기화
+						loadComments(); // 댓글 목록 다시 로드
+					} else {
+						alert('댓글 작성 실패.'); // 이 경고가 뜨는 이유는 서버에서 success가 아닌 다른 값을 반환했기 때문일 수 있습니다.
+					}
+				},
+				error : function(xhr, status, error) {
+					alert('댓글 작성 중 오류가 발생했습니다.');
+					console.error(xhr);
+				}
+			});
+		});
 	});
-
-
 
 	function renderComments(commentList) {
 		var commentContainer = $("#commentList");
@@ -272,7 +270,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 
 	<!-- 중앙 이미지 섹션 -->
 
-
+	<jsp:include page="./MainLayoutElements/boardheader.jsp"></jsp:include>
 
 	<jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 

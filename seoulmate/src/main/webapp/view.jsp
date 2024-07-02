@@ -109,7 +109,7 @@ seoulmate.board.UserBoardDTO dto = (seoulmate.board.UserBoardDTO) request.getAtt
 			</div>
 		</div>
 	</nav>
-
+<jsp:include page="./MainLayoutElements/boardheader.jsp"></jsp:include> 
 	<!-- 머리말 -->
 	<jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 
