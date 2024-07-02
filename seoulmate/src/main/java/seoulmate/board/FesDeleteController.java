@@ -8,6 +8,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import seoulmate.membership.MemberDTO;
+import utils.JSFunction;
 
 @WebServlet("/fesdelete.do")
 public class FesDeleteController extends HttpServlet {
@@ -17,6 +19,21 @@ public class FesDeleteController extends HttpServlet {
             throws ServletException, IOException {
         // 게시물 삭제 요청 시 처리할 코드
 
+    	MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
+        if (member == null) {
+            // 유저 정보가 없는 경우 로그인 페이지로 리디렉션
+        	JSFunction.alertBack(response, "로그인이 필요한 기능입니다. 해당 게시물은 관리자만 삭제 할 수 있습니다.");
+            
+            return;
+        }
+
+        // 유저 권한 확인
+        if (member.getUSER_NUM() > 4) {
+            JSFunction.alertBack(response, "게시글 수정 권한이 없습니다. 해당 게시물은 관리자만 삭제 할 수 있습니다.");
+            return;
+        }
+    	
+    	
         // 1. 삭제할 게시물의 idx 파라미터 받기
         String idx = request.getParameter("idx");
 
