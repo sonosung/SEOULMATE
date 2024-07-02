@@ -50,7 +50,6 @@
 					</div>
 				<div class="divider-custom-line"></div>
 			</div>
-
 			<div class="container y mandatory-scroll-snapping" dir="ltr">
 				<div class="row justify-content-center">
 

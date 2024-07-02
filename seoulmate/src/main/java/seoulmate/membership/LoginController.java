@@ -40,7 +40,11 @@ public class LoginController extends HttpServlet {
             }
             HttpSession session = request.getSession();
             session.setAttribute("user", member);
-            response.sendRedirect(prevPage != null && !prevPage.isEmpty() ? prevPage : "../MainContent/index.jsp"); // 로그인 성공 후 리디렉션
+            if(prevPage != null) {
+            	response.sendRedirect(prevPage != null && !prevPage.isEmpty() ? prevPage : "../MainContent/index.jsp"); 
+            }else if(prevPage == null ){
+            	response.sendRedirect("../MainContent/index.jsp"); 
+            }
         } else {
             alertAndGo(response, "로그인 정보가 일치하지 않습니다.", "login.jsp?error=");
         }

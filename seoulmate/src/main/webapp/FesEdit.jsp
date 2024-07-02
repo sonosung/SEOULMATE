@@ -75,19 +75,7 @@ th {
 	</nav>
 
 	<!-- Masthead-->
-	<header class="masthead bg-black text-white text-center">
-		<div class="container d-flex align-items-center flex-column">
-			<!-- Masthead Heading-->
-			<h1 class="masthead-heading text-uppercase mb-0">게시글 수정</h1>
-			<!-- Icon Divider-->
-			<div class="divider-custom divider-light">
-				<div class="divider-custom-line"></div>
-			</div>
-			<!-- Masthead Subheading-->
-			<p class="masthead-subheading font-weight-light mb-0">Board Edit
-				Page</p>
-		</div>
-	</header>
+	<jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 
 	<!-- Form Section -->
 	<div class="container mt-5">

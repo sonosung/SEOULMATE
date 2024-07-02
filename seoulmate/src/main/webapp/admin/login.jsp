@@ -1,3 +1,4 @@
+<%@ page import="seoulmate.membership.MemberDTO" %>
 <%@ page import="utils.CookieManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -9,6 +10,13 @@ if (loginEmail != null && !loginEmail.equals("")) {
     cookieCheck = "checked";
 }
 String prevPage = request.getHeader("Referer"); // 숨겨진 필드를 통해 이전 페이지 URL을 LoginController로 전달하고, 로그인 성공 시 해당 URL로 리디렉션합니다.
+%>
+<%
+   MemberDTO user = (MemberDTO) session.getAttribute("user");
+   if (user != null) {
+       response.sendRedirect("../MainContent/index.jsp");
+   } else if(prevPage == null){
+   }
 %>
 <!DOCTYPE html>
 <html lang="en">

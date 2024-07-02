@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*, java.io.InputStream, java.util.Base64" %> <!-- 필요한 클래스 임포트 -->
+<%@ page import="java.sql.*, java.io.InputStream, java.util.Base64" %>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,8 +12,6 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
     <link href="./resources/css/styles.css" rel="stylesheet" />
     <style>
-
-        /* 내장 스타일 정의 */
         .masthead { padding-top: 6rem; padding-bottom: 6rem; }
         @media (min-width: 768px) {
             .masthead { padding-top: 8rem; padding-bottom: 2rem; }
@@ -23,48 +21,23 @@
         .portfolio-item { margin-bottom: 30px; flex: 0 1 calc(33.33% - 30px); box-sizing: border-box; padding: 0 15px; margin-left: 0.8cm; }
         @media (max-width: 768px) { .portfolio-item { flex: 0 1 100%; } }
         .search-bar { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: -2rem; margin-bottom: -7rem; }
-        .search-bar select, .search-bar input { flex: 1; min-width: 200px; }
+        .search-bar select, .search-bar input { flex: 1; min-width: 200px; text-align: center; position: relative; }
+        .search-bar select::after, .search-bar input::after { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+        .search-bar select option, .search-bar input::placeholder { text-align: center; }
         .search-bar button { height: 38px; min-width: 100px; }
-        
-         .button-container {
-        text-align: center; /* 버튼들을 가운데 정렬 */
-        margin-top: 20px; /* 상단 여백 추가 */
-        margin-bottom: 60px; /* 하단 여백 추가 */
-    }
-    .small-button {
-        width: 250px; /* 버튼의 너비 설정 */
-        padding: 10px 15px; /* 상하, 좌우 패딩 */
-        border-radius: 15px; /* 둥근 모서리 */
-        margin-right: 10px; /* 오른쪽 여백 추가 */
-    }
-    .small-button:last-child {
-        margin-right: 0; /* 마지막 버튼 오른쪽 여백 제거 */
-    }
-
-    /* 링크 스타일 변경 */
-    a {
-        text-decoration: none;
-        color: black;
-    }
-
-    /* 링크 호버 스타일 */
-    a:hover {
-        text-decoration: none;
-        color: black;
-    }
-
-    /* 텍스트 스타일 */
-    .portfolio-item h5, .portfolio-item p {
-        color: black;
-        text-decoration: none;
-    }
-    
+        .button-container { text-align: center; margin-top: 20px; margin-bottom: 60px; }
+        .small-button { width: 250px; padding: 10px 15px; border-radius: 15px; margin-right: 10px; }
+        .small-button:last-child { margin-right: 0; }
+        a { text-decoration: none; color: black; }
+        a:hover { text-decoration: none; color: black; }
+        .portfolio-item h5, .portfolio-item p { color: black; text-decoration: none; }
     </style>
 </head>
+<!--헤더시작-->
 <body id="page-top">
     <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
         <div class="container">
-            <a class="navbar-brand" href="#page-top">SEOULMATE</a>
+            <a class="navbar-brand" href="./MainContent/index.jsp">SEOULMATE</a>
             <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu
                 <i class="fas fa-bars"></i>
@@ -72,15 +45,17 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">행사정보</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about">About</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#contact">Contact</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#festival">게시판</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/login.jsp" id="Login">Login</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/register.jsp" id="SignIn">SignIn</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <header class="masthead bg-primary text-white text-center">
+    
+    <!-- <header class="masthead bg-primary text-white text-center">
         <div class="container d-flex align-items-center flex-column">
-            <img class="masthead-avatar mb-5" src="./resources/assets/img/mainicon.png" alt="..." />
+            <img class="masthead-avatar mb-5" src="./resources/img/Logo.png" alt="..." />
             <h1 class="masthead-heading text-uppercase mb-0">SEOULMATE</h1>
             <div class="divider-custom divider-light">
                 <div class="divider-custom-line"></div>
@@ -89,7 +64,9 @@
             </div>
             <p class="masthead-subheading font-weight-light mb-0">너와 나의 SEOULMATE!</p>
         </div>
-    </header>
+    </header> -->
+    <jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
+    <!--헤더끝-->
     <section class="page-section search-bar" id="search">
         <div class="container">
             <div class="row justify-content-center">
@@ -119,7 +96,7 @@
                         <option value="food">먹거리</option>
                         <option value="show">공연</option>
                     </select>
-                    <input type="search" id="search-text" class="form-control me-2" placeholder="검색">
+                    <input type="search" id="search-text" class="form-control me-2" placeholder="검색어를 입력해주세요.">
                     <button id="search-btn" class="btn btn-primary">검색</button>
                     <button id="reset-btn" class="btn btn-secondary">리셋</button>
                 </div>
@@ -181,7 +158,7 @@
         </div>
     </section>
 
-    <div class="button-container">
+    <div class="button-container" id="festival">
     <a class="btn btn-primary small-button" href="./MainContent/index.jsp">
         <i class="fas fa-download me-2"></i>메인페이지
     </a>
@@ -193,27 +170,54 @@
     </a>
 </div>
 
-    <footer class="footer text-center">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Location</h4>
-                    <p class="lead mb-0">2215 John Daniel Drive<br>Clark, MO 65243</p>
-                </div>
-                <div class="col-lg-4 mb-5 mb-lg-0">
-                    <h4 class="text-uppercase mb-4">Around the Web</h4>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-linkedin-in"></i></a>
-                    <a class="btn btn-outline-light btn-social mx-1" href="#!"><i class="fab fa-fw fa-dribbble"></i></a>
-                </div>
-                <div class="col-lg-4">
-                    <h4 class="text-uppercase mb-4">About Freelancer</h4>
-                    <p class="lead mb-0">Freelance is a free to use, MIT licensed Bootstrap theme created by <a href="http://startbootstrap.com">Start Bootstrap</a>.</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+   <footer class="footer text-center">
+	<div class="container">
+		<div class="row">
+			<!-- Footer Location-->
+			<div class="col-lg-4 mb-5 mb-lg-0">
+				<h4 class="text-uppercase mb-4">who made it?</h4>
+				<br>
+				<p class="lead mb-0">
+					문승호, 김별, 이진규, 안상환 
+					<br /> 
+					<br /> 
+					Started from 2024.06.12
+					<br>
+					to 2024.07.11
+				</p>
+			</div>
+			<!-- Footer Social Icons-->
+			<div class="col-lg-4 mb-5 mb-lg-0">
+				<h4 class="text-uppercase mb-4">visit our github</h4>
+					<br> 
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/byeol1286">
+					<i class="fab fa-fw fa-facebook-f"></i>
+				</a>
+				
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/GOTERCODE">
+					<i class="fab fa-fw fa-twitter"></i>
+				</a> 
+				
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/poong1125">
+					<i class="fab fa-fw fa-linkedin-in"></i>
+				</a> 
+				
+				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/sonosung">
+					<i class="fab fa-fw fa-dribbble"></i>
+				</a>
+			</div>
+			<!-- Footer About Text--->
+			<div class="col-lg-4">
+				<h4 class="text-uppercase mb-4">About Us</h4>
+				<p class="lead mb-0">
+					SEUOLMATE는<br>JSP & OracleDB 기반 팀 프로젝트입니다.<br> <br>
+					MIT licensed Bootstrap theme<br>created by <a
+						href="http://startbootstrap.com">Start Bootstrap</a> .
+				</p>
+			</div>
+		</div>
+	</div>
+</footer>
     <div class="copyright py-4 text-center text-white">
         <div class="container"><small>Copyright &copy; Your Website 2023</small></div>
     </div>
@@ -282,9 +286,25 @@
                 });
 
                 visibleItems.sort((a, b) => {
-                    const aTarget = a.getAttribute('data-bs-target');
-                    const bTarget = b.getAttribute('data-bs-target');
-                    return aTarget.localeCompare(bTarget);
+                    const today = new Date();
+                    const aStartDate = new Date(a.getAttribute('data-start-date'));
+                    const bStartDate = new Date(b.getAttribute('data-start-date'));
+                    const aEndDate = new Date(a.getAttribute('data-end-date'));
+                    const bEndDate = new Date(b.getAttribute('data-end-date'));
+                    
+                    const aStatus = (today >= aStartDate && today <= aEndDate) ? '개최중' : (today < aStartDate) ? '개최예정' : '종료';
+                    const bStatus = (today >= bStartDate && today <= bEndDate) ? '개최중' : (today < bStartDate) ? '개최예정' : '종료';
+                    
+                    if (aStatus === bStatus) {
+                        if (aStatus === '개최중') {
+                            return aStartDate - bStartDate;
+                        } else if (aStatus === '개최예정') {
+                            return aStartDate - bStartDate;
+                        } else {
+                            return bEndDate - aEndDate;
+                        }
+                    }
+                    return (aStatus === '개최중') ? -1 : (aStatus === '개최예정' && bStatus === '종료') ? -1 : 1;
                 });
 
                 generateHTML(visibleItems);
@@ -298,10 +318,36 @@
                 generateHTML(portfolioItems);
             }
 
+            function initialSort() {
+                const today = new Date();
+                portfolioItems.sort((a, b) => {
+                    const aStartDate = new Date(a.getAttribute('data-start-date'));
+                    const bStartDate = new Date(b.getAttribute('data-start-date'));
+                    const aEndDate = new Date(a.getAttribute('data-end-date'));
+                    const bEndDate = new Date(b.getAttribute('data-end-date'));
+                    
+                    const aStatus = (today >= aStartDate && today <= aEndDate) ? '개최중' : (today < aStartDate) ? '개최예정' : '종료';
+                    const bStatus = (today >= bStartDate && today <= bEndDate) ? '개최중' : (today < bStartDate) ? '개최예정' : '종료';
+                    
+                    if (aStatus === bStatus) {
+                        if (aStatus === '개최중') {
+                            return aStartDate - bStartDate;
+                        } else if (aStatus === '개최예정') {
+                            return aStartDate - bStartDate;
+                        } else {
+                            return bEndDate - aEndDate;
+                        }
+                    }
+                    return (aStatus === '개최중') ? -1 : (aStatus === '개최예정' && bStatus === '종료') ? -1 : 1;
+                });
+
+                generateHTML(portfolioItems);
+            }
+
             searchButton.addEventListener('click', filterItems);
             resetButton.addEventListener('click', resetFilters);
             portfolioItems.forEach(updateFestivalStatus);
-            generateHTML(portfolioItems);
+            initialSort(); // Sort the items initially when the page loads
         });
     </script>
 </body>

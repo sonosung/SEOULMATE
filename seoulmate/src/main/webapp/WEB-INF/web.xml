@@ -45,7 +45,7 @@
     <param-value>1234</param-value>
   </context-param>
   <session-config>
-    <session-timeout>1</session-timeout> <!-- 세션 유지시간을 30분으로 설정 -->
+    <session-timeout>30</session-timeout> <!-- 세션 유지시간을 30분으로 설정 -->
   </session-config>
   <context-param>
     <param-name>POSTS_PER_PAGE</param-name>

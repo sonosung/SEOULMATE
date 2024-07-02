@@ -66,7 +66,7 @@
 				}
 			});
 		});
-
+	});
 		
 	        </script>
 
@@ -111,20 +111,7 @@ seoulmate.board.UserBoardDTO dto = (seoulmate.board.UserBoardDTO) request.getAtt
 	</nav>
 
 	<!-- 머리말 -->
-	<header class="masthead bg-black text-white text-center">
-		<div class="container d-flex align-items-center flex-column">
-			<h1 class="masthead-heading text-uppercase mb-0">SEOULMATE</h1>
-			<div class="divider-custom divider-light">
-				<div class="divider-custom-line"></div>
-				<div class="divider-custom-icon">
-					<i class="fas fa-star"></i>
-				</div>
-				<div class="divider-custom-line"></div>
-			</div>
-			<p class="masthead-subheading font-weight-light mb-0">Board -
-				View</p>
-		</div>
-	</header>
+	<jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 
 	<!-- 내용 섹션 -->
 	<div class="masthead bg-white text-black">
