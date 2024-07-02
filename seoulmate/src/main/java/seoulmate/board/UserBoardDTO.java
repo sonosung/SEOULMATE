@@ -21,20 +21,11 @@ public class UserBoardDTO {
     private String base64MainImage;
     private String base64SecImage;
     private String base64ThiImage;
-    private String num;
 
     // Getters and Setters
 
     public String getIdx() {
         return idx;
-    }
-
-    public String getNum() {
-        return num;
-    }
-
-    public void setNum(String num) {
-        this.num = num;
     }
 
     public void setIdx(String idx) {
