@@ -51,13 +51,13 @@
    } else {
 %>
 					<li class="nav-item mx-0 mx-lg-1">
-					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../userPage/contact.jsp">Contact</a>
+					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="./userPage/contact.jsp">Contact</a>
 					</li>
 				      <li class="nav-item mx-0 mx-lg-1">
-				         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/login.jsp" id="Login">Login</a>
+				         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/login.jsp" id="Login">Login</a>
 				      </li>
 				      <li class="nav-item mx-0 mx-lg-1">
-				         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/register.jsp" id="SignIn">SignIn</a>
+				         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/register.jsp" id="SignIn">SignIn</a>
 				      </li>
 <%
    }
