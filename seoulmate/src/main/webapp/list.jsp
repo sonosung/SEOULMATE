@@ -78,38 +78,7 @@
     </style>
 </head>
 <body id="page-top">
-    <nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
-        <div class="container">
-            <a class="navbar-brand" href="./MainContent/index.jsp">SEOULMATE</a>
-            <button class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                Menu
-                <i class="fas fa-bars"></i>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#portfolio">유저공유게시판</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="#festival">게시판</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/login.jsp" id="Login">Login</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/register.jsp" id="SignIn">SignIn</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- <header class="masthead bg-black text-white text-center">
-        <div class="container d-flex align-items-center flex-column">
-            <h1 class="masthead-heading text-uppercase mb-0">SEOULMATE</h1>
-            <div class="divider-custom divider-light">
-                <div class="divider-custom-line"></div>
-                <div class="divider-custom-icon">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="divider-custom-line"></div>
-            </div>
-            <p class="masthead-subheading font-weight-light mb-0">UserBoard - View</p>
-        </div>
-    </header> -->
-    
+    <jsp:include page="./MainLayoutElements/boardheader.jsp"></jsp:include>
     <jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 
     <section class="page-section" id="portfolio">
@@ -193,62 +162,62 @@
     </section>
     
     <div class="button-container" id="festival">
-    <a class="btn btn-primary small-button" href="./MainContent/index.jsp">
-        <i class="fas fa-download me-2"></i>메인페이지
-    </a>
-    <a class="btn btn-primary small-button" href="feslist.do">
-        <i class="fas fa-download me-2"></i>축제 정보 게시판
-    </a>
-</div>
+        <a class="btn btn-primary small-button" href="./MainContent/index.jsp">
+            <i class="fas fa-download me-2"></i>메인페이지
+        </a>
+        <a class="btn btn-primary small-button" href="feslist.do">
+            <i class="fas fa-download me-2"></i>축제 정보 게시판
+        </a>
+    </div>
 
     <footer class="footer text-center">
-	<div class="container">
-		<div class="row">
-			<!-- Footer Location-->
-			<div class="col-lg-4 mb-5 mb-lg-0">
-				<h4 class="text-uppercase mb-4">who made it?</h4>
-				<br>
-				<p class="lead mb-0">
-					문승호, 김별, 이진규, 안상환 
-					<br /> 
-					<br /> 
-					Started from 2024.06.12
-					<br>
-					to 2024.07.11
-				</p>
-			</div>
-			<!-- Footer Social Icons-->
-			<div class="col-lg-4 mb-5 mb-lg-0">
-				<h4 class="text-uppercase mb-4">visit our github</h4>
-					<br> 
-				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/byeol1286">
-					<i class="fab fa-fw fa-facebook-f"></i>
-				</a>
-				
-				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/GOTERCODE">
-					<i class="fab fa-fw fa-twitter"></i>
-				</a> 
-				
-				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/poong1125">
-					<i class="fab fa-fw fa-linkedin-in"></i>
-				</a> 
-				
-				<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/sonosung">
-					<i class="fab fa-fw fa-dribbble"></i>
-				</a>
-			</div>
-			<!-- Footer About Text--->
-			<div class="col-lg-4">
-				<h4 class="text-uppercase mb-4">About Us</h4>
-				<p class="lead mb-0">
-					SEUOLMATE는<br>JSP & OracleDB 기반 팀 프로젝트입니다.<br> <br>
-					MIT licensed Bootstrap theme<br>created by <a
-						href="http://startbootstrap.com">Start Bootstrap</a> .
-				</p>
-			</div>
-		</div>
-	</div>
-</footer>
+        <div class="container">
+            <div class="row">
+                <!-- Footer Location-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">who made it?</h4>
+                    <br>
+                    <p class="lead mb-0">
+                        문승호, 김별, 이진규, 안상환 
+                        <br /> 
+                        <br /> 
+                        Started from 2024.06.12
+                        <br>
+                        to 2024.07.11
+                    </p>
+                </div>
+                <!-- Footer Social Icons-->
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">visit our github</h4>
+                        <br> 
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/byeol1286">
+                        <i class="fab fa-fw fa-facebook-f"></i>
+                    </a>
+                    
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/GOTERCODE">
+                        <i class="fab fa-fw fa-twitter"></i>
+                    </a> 
+                    
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/poong1125">
+                        <i class="fab fa-fw fa-linkedin-in"></i>
+                    </a> 
+                    
+                    <a class="btn btn-outline-light btn-social mx-1" href="https://github.com/sonosung">
+                        <i class="fab fa-fw fa-dribbble"></i>
+                    </a>
+                </div>
+                <!-- Footer About Text--->
+                <div class="col-lg-4">
+                    <h4 class="text-uppercase mb-4">About Us</h4>
+                    <p class="lead mb-0">
+                        SEUOLMATE는<br>JSP & OracleDB 기반 팀 프로젝트입니다.<br> <br>
+                        MIT licensed Bootstrap theme<br>created by <a
+                            href="http://startbootstrap.com">Start Bootstrap</a> .
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
     <div class="copyright py-4 text-center text-white">
         <div class="container">
             <small>&copy; Your Website 2023</small>
