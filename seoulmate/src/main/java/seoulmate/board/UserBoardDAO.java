@@ -21,13 +21,17 @@ public class UserBoardDAO extends DBConnPool {
         String query = "SELECT COUNT(*) FROM userboard";
         
         if (map.get("searchWord") != null) {
-            query += " WHERE " + map.get("searchField") + " LIKE '%" + map.get("searchWord") + "%'";
+            query += " WHERE " + map.get("searchField") + " LIKE ?";
         }
 
-        try (PreparedStatement psmt = con.prepareStatement(query); 
-             ResultSet rs = psmt.executeQuery()) {
-            if (rs.next()) {
-                totalCount = rs.getInt(1);
+        try (PreparedStatement psmt = con.prepareStatement(query)) {
+            if (map.get("searchWord") != null) {
+                psmt.setString(1, "%" + map.get("searchWord") + "%");
+            }
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    totalCount = rs.getInt(1);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,7 +49,7 @@ public class UserBoardDAO extends DBConnPool {
         
         if (map.get("searchWord") != null) {
             query += " WHERE " + map.get("searchField")
-                  + " LIKE '%" + map.get("searchWord") + "%'";
+                  + " LIKE ?";
         }
 
         query += " ORDER BY idx DESC"
@@ -54,8 +58,12 @@ public class UserBoardDAO extends DBConnPool {
                + " WHERE rNum BETWEEN ? AND ?";
 
         try (PreparedStatement psmt = con.prepareStatement(query)) {
-            psmt.setInt(1, (int) map.get("start"));
-            psmt.setInt(2, (int) map.get("end"));
+            int paramIndex = 1;
+            if (map.get("searchWord") != null) {
+                psmt.setString(paramIndex++, "%" + map.get("searchWord") + "%");
+            }
+            psmt.setInt(paramIndex++, (int) map.get("start"));
+            psmt.setInt(paramIndex, (int) map.get("end"));
             
             try (ResultSet rs = psmt.executeQuery()) {
                 while (rs.next()) {
@@ -204,12 +212,11 @@ public class UserBoardDAO extends DBConnPool {
     public void updateLikeCount(String idx) {
         String query = "UPDATE userboard SET likecount = likecount + 1 WHERE idx=?";
         
-        try (
-        	PreparedStatement psmt = con.prepareStatement(query)) {
+        try (PreparedStatement psmt = con.prepareStatement(query)) {
             psmt.setString(1, idx);
             psmt.executeUpdate();
         } catch (SQLException e) {
-        	System.out.println("게시물 추천수 증가 중 예외 발생");
+            System.out.println("게시물 추천수 증가 중 예외 발생");
             e.printStackTrace();
         }
     }
