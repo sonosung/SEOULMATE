@@ -222,8 +222,7 @@
 
 
 
-<script type="text/javascript"
-	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fdf17bc322ecfe3f9b4123bfebc8ae80"></script>
+
 
 <%
 // request에서 dto 객체를 가져옵니다.
@@ -429,15 +428,55 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 				<!-- Icon Divider-->
 				<div id="map" style="width: 100%; height: 500px;"></div>
 				<script type="text/javascript"
-					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fdf17bc322ecfe3f9b4123bfebc8ae80fdf17bc322ecfe3f9b4123bfebc8ae80"></script>
+					src="//dapi.kakao.com/v2/maps/sdk.js?appkey=fdf17bc322ecfe3f9b4123bfebc8ae80&libraries=services"></script>
+
+
+
 				<script>
-					var container = document.getElementById('map');
-					var options = {
-						center : new kakao.maps.LatLng(33.450701, 126.570667),
+					var mapContainer = document.getElementById('map'); // 지도를 표시할 div 요소를 가져옵니다
+					var mapOption = {
+						center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 초기 중심 좌표 설정
 						level : 3
+					// 지도의 초기 확대 레벨 설정
 					};
 
-					var map = new kakao.maps.Map(container, options);
+					// 지도를 생성합니다
+					var map = new kakao.maps.Map(mapContainer, mapOption);
+
+					// 주소를 좌표로 변환하는 객체를 생성합니다
+					var geocoder = new kakao.maps.services.Geocoder();
+
+					// 주소로 좌표를 검색합니다
+					geocoder
+							.addressSearch(
+									'${dto.feslocation}',
+									function(result, status) {
+										// 정상적으로 검색이 완료됐으면
+										if (status === kakao.maps.services.Status.OK) {
+											var coords = new kakao.maps.LatLng(
+													result[0].y, result[0].x); // 검색 결과의 좌표를 가져옵니다
+
+											// 결과값으로 받은 위치를 마커로 표시합니다
+											var marker = new kakao.maps.Marker(
+													{
+														map : map,
+														position : coords
+													});
+
+											// 인포윈도우로 장소에 대한 설명을 표시합니다
+											var infowindow = new kakao.maps.InfoWindow(
+													{
+														content : '<div style="width:150px;text-align:center;padding:6px 0;">행사장소</div>'
+													});
+											infowindow.open(map, marker); // 마커에 인포윈도우를 열어줍니다
+
+											// 지도의 중심을 검색한 위치로 이동시킵니다
+											map.setCenter(coords);
+										} else {
+											alert('디버깅 얼럿 - 주소로 좌표를 검색하는데 실패했습니다: '
+													+ status + " " + '${dto.fesname}');
+										}
+									});
 				</script>
 			</div>
 		</section>
