@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="seoulmate.membership.MemberDTO" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -92,7 +93,11 @@
                                     		Error sending message!
                                     	</div>
                                     </div>
-                                    
+<%
+   MemberDTO user = (MemberDTO) session.getAttribute("user");
+   if (user != null) {
+	   out.println("유저이름 " + user.getUSERNAME() +"유저 메일 " + user.getEMAIL()  +  "님!");};
+%>
                                     <!-- Submit Button-->
                                     <div class="d-grid">
                                     	<button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">

@@ -1,7 +1,15 @@
+<%@ page import="seoulmate.membership.MemberDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+<%
+   MemberDTO user = (MemberDTO) session.getAttribute("user");
+   if (user != null) {
+	   response.sendRedirect("../MainContent/index.jsp");
+   } else {
+   }
+%>
 
 <head>
 

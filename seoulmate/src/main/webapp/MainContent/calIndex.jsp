@@ -49,9 +49,9 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 
 			var calendar = new FullCalendar.Calendar(calendarEl, {
 				plugins : [ 'interaction', 'dayGrid' ],
-				defaultDate : '2024-06-12',
+			/* 	defaultDate : '2024-06-12', */
 				editable : true,
-				eventLimit : true, // allow "more" link when too many events are at the same day.
+				eventLimit : true,
 				events : [ {
 					title : '오늘행사',
 					start : '2024-06-18'
@@ -71,28 +71,9 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 					title : 'Conference',
 					start : '2024-06-11',
 					end : '2024-06-13'
-				}, {
-					title : 'Meeting',
-					start : '2024-06-11T10:30:00',
-					end : '2024-06-11T12:30:00'
-				}, {
-					title : 'Lunch',
-					start : '2024-06-11T12:00:00'
-				}, {
-					title : 'Meeting',
-					start : '2024-06-11T14:30:00'
-				}, {
-					title : 'Happy Hour',
-					start : '2024-06-11T17:30:00'
-				}, {
-					title : 'Dinner',
-					start : '2024-06-02T20:00:00'
-				}, {
-					title : 'Birthday Party',
-					start : '2024-06-19T07:00:00'
-				}, {
+				},{
 					title : 'Click for Google',
-					url : 'http://google.com/',
+					url : 'http://localhost:8081/seoulmate/fesview.do?idx=223',
 					start : '2024-06-07'
 				} ]
 			});

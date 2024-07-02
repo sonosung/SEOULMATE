@@ -1,9 +1,16 @@
+<%@ page import="seoulmate.membership.MemberDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="seoulmate.membership.MemberDTO" %>
 <!DOCTYPE html>
 <html lang="en">
-
+<%
+   MemberDTO user = (MemberDTO) session.getAttribute("user");
+   if (user != null) {
+   } else {
+	   response.sendRedirect("../admin/login.jsp");
+   }
+%>
 <head>
 
     <meta charset="utf-8">
@@ -48,7 +55,6 @@
                                     <form class="Cancel" action="Cancel.do" method="post">
                                         <div class="form-group">
                                      	   <%
-                                            	MemberDTO user = (MemberDTO) session.getAttribute("user");
                                             if (user != null) {
             								    out.println(user.getUSER_ID()+"님 회원탈퇴하신다.");
          								   }
