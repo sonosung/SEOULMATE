@@ -1,5 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="seoulmate.boardcomment.CommentDTO"%>
+<%@ page import="seoulmate.boardcomment.CommentListController"%>
+<%@ page import="java.util.List"%>
+
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,8 +46,69 @@
 
 
 
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+	$(document).on('click', '.edit-btn', function() {
+		var commentId = $(this).data('id');
+		if (commentId === undefined) {
+			console.error('commentId is undefined');
+			return;
+		}
+
+		var content = prompt("수정할 내용을 입력하세요:");
+		if (content !== null) {
+			$.ajax({
+				url : 'commentupdate.do',
+				type : 'POST',
+				data : {
+					commentId : commentId,
+					content : content
+				},
+				success : function(response) {
+					if (response === "success") {
+						alert("댓글이 수정되었습니다.");
+						loadComments(); // 댓글 목록을 다시 로드
+					} else {
+						alert("댓글 수정에 실패했습니다.");
+					}
+				},
+				error : function(xhr, status, error) {
+					console.error('AJAX 요청 실패: ', status, error);
+				}
+			});
+		}
+	});
+
+	$(document).on('click', '.delete-btn', function() {
+		var commentId = $(this).data('id');
+		if (commentId === undefined) {
+			console.error('commentId is undefined');
+			return;
+		}
+
+		if (confirm("정말 이 댓글을 삭제하시겠습니까?")) {
+			$.ajax({
+				url : 'commentdelete.do',
+				type : 'POST',
+				data : {
+					commentId : commentId
+				},
+				success : function(response) {
+					if (response === "success") {
+						alert("댓글이 삭제되었습니다.");
+						loadComments(); // 댓글 목록을 다시 로드
+					} else {
+						alert("댓글 삭제에 실패했습니다.");
+					}
+				},
+				error : function(xhr, status, error) {
+					console.error('AJAX 요청 실패: ', status, error);
+				}
+			});
+		}
+	});
+
 	$(document).ready(function() {
 		$("#likeButton").click(function() {
 			var idx = "${dto.idx}"; // 클릭한 버튼에 대한 DTO 객체의 idx 값 사용
@@ -64,6 +135,87 @@
 			});
 		});
 	});
+
+	$(document).ready(function() {
+		loadComments();
+	});
+
+	$(document).ready(function() {
+	    $("#commentForm").submit(function(event) {
+	        event.preventDefault();
+	        
+	        var formData = $(this).serialize();
+
+	        $.ajax({
+	            type: "POST",
+	            url: "commentwrite.do",
+	            data: formData,
+	            success: function(response) {
+	                if (response.trim() === 'success') {
+	                    alert('댓글이 성공적으로 작성되었습니다.');
+	                    $("#commentForm")[0].reset(); // 폼 초기화
+	                    loadComments(); // 댓글 목록 다시 로드
+	                } else {
+	                    alert('댓글 작성 실패.'); // 이 경고가 뜨는 이유는 서버에서 success가 아닌 다른 값을 반환했기 때문일 수 있습니다.
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert('댓글 작성 중 오류가 발생했습니다.');
+	                console.error(xhr);
+	            }
+	        });
+	    });
+	});
+
+
+
+	function renderComments(commentList) {
+		var commentContainer = $("#commentList");
+		commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
+
+		if (commentList.length > 0) {
+			// 댓글이 있는 경우 HTML을 생성하여 추가
+			var html = "";
+			for (var i = 0; i < commentList.length; i++) {
+				var comment = commentList[i];
+				html += '<div class="card mb-2">';
+				html += '<div class="card-body">';
+				html += '<h5 class="card-title">' + comment.writer + '</h5>';
+				html += '<p class="card-text">' + comment.content + '</p>';
+				html += '<p class="card-text">';
+				html += '<small class="text-muted">' + comment.createdat
+						+ '</small>';
+				html += '</p>';
+				html += '<button class="btn btn-primary btn-sm edit-btn" data-id="' + comment.id + '">수정</button>';
+				html += '<button class="btn btn-danger btn-sm delete-btn" data-id="' + comment.id + '">삭제</button>';
+				html += '</div>';
+				html += '</div>';
+			}
+			commentContainer.html(html); // 댓글 목록을 HTML에 추가
+		} else {
+			commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
+		}
+	}
+	// 서버에서 댓글 목록을 가져오는 함수
+	function loadComments() {
+		var idx = "${dto.idx}"; // 게시글의 idx 값을 가져옴 (서버에서 JSP로 데이터 전달 방식에 따라 다를 수 있음)
+
+		$.ajax({
+			url : 'commentlist.do',
+			type : 'GET',
+			dataType : 'json', // 서버에서 전송하는 데이터 형식이 JSON임을 명시
+			data : {
+				idx : idx
+			},
+			success : function(response) {
+				renderComments(response); // 받아온 데이터를 처리하는 함수 호출
+			},
+			error : function(xhr, status, error) {
+				console.error('AJAX 요청 실패: ', status, error);
+			}
+		});
+
+	}
 </script>
 
 
@@ -122,25 +274,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 
 
 
-	<header class="masthead bg-black text-white text-center">
-		<div class="container d-flex align-items-center flex-column">
-			<!-- Masthead Avatar Image-->
-
-			<!-- Masthead Heading-->
-			<h1 class="masthead-heading text-uppercase mb-0">SEOULMATE</h1>
-			<!-- Icon Divider-->
-			<div class="divider-custom divider-light">
-				<div class="divider-custom-line"></div>
-				<div class="divider-custom-icon">
-					<i class="fas fa-star"></i>
-				</div>
-				<div class="divider-custom-line"></div>
-			</div>
-			<!-- Masthead Subheading-->
-			<p class="masthead-subheading font-weight-light mb-0">Board -
-				View</p>
-		</div>
-	</header>
+	<jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 
 
 
@@ -225,6 +359,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 
 			<tr>
 				<td>
+					<h4>디버깅용 임시 텍스트 dto.idx = ${ dto.idx }</h4>
 					<h4 style="margin-left: 500px;">행사명 : ${ dto.fesname }</h4>
 					<h4 style="margin-left: 500px;">행사종류 : ${ dto.fescate }</h4>
 					<h4 style="margin-left: 500px;">주소 : ${ dto.feslocation }</h4>
@@ -248,9 +383,9 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 				<td colspan="2" align="right">
 					<button type="button" class="btn btn-secondary" id="likeButton">추천</button>
 					<button type="button" class="btn btn-secondary"
-						onclick="location.href='seoulmatepass.do?mode=edit&idx=${ param.idx }';">수정하기</button>
+						onclick="location.href='fesedit.do?idx=${dto.idx}';">수정하기</button>
 					<button type="button" class="btn btn-secondary"
-						onclick="location.href='seoulmatepass.do?mode=delete&idx=${ param.idx }';">삭제</button>
+						onclick="location.href='fesdelete.do?idx=${dto.idx}';">삭제</button>
 					<button type="button" class="btn btn-secondary"
 						onclick="location.href='feslist.do';">목록 바로가기</button>
 				</td>
@@ -309,95 +444,66 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 			</div>
 		</section>
 
-		<!-- Contact Section-->
-		<section class="page-section" id="contact">
+
+		<!-- 댓글 리스트 출력 -->
+
+
+
+		<!-- 댓글 작성 폼 -->
+		<section class="page-section bg-white text-black mb-0"
+			id="commentSection">
 			<div class="container">
-				<!-- Contact Section Heading-->
-				<h2
-					class="page-section-heading text-center text-uppercase text-secondary mb-0">댓글</h2>
-				<!-- Icon Divider-->
-				<div class="divider-custom">
-					<div class="divider-custom-line"></div>
-					<div class="divider-custom-icon">
-						<i class="fas fa-star"></i>
-					</div>
-					<div class="divider-custom-line"></div>
-				</div>
-				<!-- Contact Section Form-->
-				<div class="row justify-content-center">
-					<div class="col-lg-8 col-xl-7">
-						<!-- * * * * * * * * * * * * * * *-->
-						<!-- * * SB Forms Contact Form * *-->
-						<!-- * * * * * * * * * * * * * * *-->
-						<!-- This form is pre-integrated with SB Forms.-->
-						<!-- To make this form functional, sign up at-->
-						<!-- https://startbootstrap.com/solution/contact-forms-->
-						<!-- to get an API token!-->
-						<form id="contactForm" data-sb-form-api-token="API_TOKEN">
-							<!-- Name input-->
-							<div class="form-floating mb-3">
-								<input class="form-control" id="name" type="text"
-									placeholder="Enter your name..." data-sb-validations="required" />
-								<label for="name">Full name</label>
-								<div class="invalid-feedback" data-sb-feedback="name:required">A
-									name is required.</div>
-							</div>
-							<!-- Email address input-->
-							<div class="form-floating mb-3">
-								<input class="form-control" id="email" type="email"
-									placeholder="name@example.com"
-									data-sb-validations="required,email" /> <label for="email">Email
-									address</label>
-								<div class="invalid-feedback" data-sb-feedback="email:required">An
-									email is required.</div>
-								<div class="invalid-feedback" data-sb-feedback="email:email">Email
-									is not valid.</div>
-							</div>
-							<!-- Phone number input-->
-							<div class="form-floating mb-3">
-								<input class="form-control" id="phone" type="tel"
-									placeholder="(123) 456-7890" data-sb-validations="required" />
-								<label for="phone">Phone number</label>
-								<div class="invalid-feedback" data-sb-feedback="phone:required">A
-									phone number is required.</div>
-							</div>
-							<!-- Message input-->
-							<div class="form-floating mb-3">
-								<textarea class="form-control" id="message" type="text"
-									placeholder="Enter your message here..." style="height: 10rem"
-									data-sb-validations="required"></textarea>
-								<label for="message">Message</label>
-								<div class="invalid-feedback"
-									data-sb-feedback="message:required">A message is
-									required.</div>
-							</div>
-							<!-- Submit success message-->
-							<!---->
-							<!-- This is what your users will see when the form-->
-							<!-- has successfully submitted-->
-							<div class="d-none" id="submitSuccessMessage">
-								<div class="text-center mb-3">
-									<div class="fw-bolder">Form submission successful!</div>
-									To activate this form, sign up at <br /> <a
-										href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+				<h2 class="section-heading text-center text-uppercase">댓글 목록</h2>
+
+				<div id="commentList">
+					<!-- 댓글 목록을 동적으로 추가할 공간 -->
+					<c:if test="${not empty commentList}">
+						<c:forEach var="comment" items="${commentList}">
+							<div class="card mb-2">
+								<div class="card-body">
+									<h5 class="card-title">${comment.writer}</h5>
+									<p class="card-text">${comment.content}</p>
+									<p class="card-text">
+										<small class="text-muted">${comment.createdat}</small>
+									</p>
+
+
+
 								</div>
+
 							</div>
-							<!-- Submit error message-->
-							<!---->
-							<!-- This is what your users will see when there is-->
-							<!-- an error submitting the form-->
-							<div class="d-none" id="submitErrorMessage">
-								<div class="text-center text-danger mb-3">Error sending
-									message!</div>
+						</c:forEach>
+					</c:if>
+					<c:if test="${empty commentList}">
+						<p>No comments found.</p>
+					</c:if>
+				</div>
+			</div>
+
+
+
+			<div class="container">
+				<div class="text-center">
+					<h2 class="section-heading text-uppercase">댓글 작성</h2>
+				</div>
+				<div class="row">
+					<div class="col-lg-8 mx-auto">
+						<form id="commentForm" action="commentwrite.do" method="post">
+							<input type="hidden" name="idx" value="${dto.getIdx()}">
+							<div class="form-group">
+								<textarea class="form-control" id="content" name="content"
+									rows="5" placeholder="댓글을 입력하세요..." required></textarea>
 							</div>
-							<!-- Submit Button-->
-							<button class="btn btn-primary btn-xl disabled" id="submitButton"
-								type="submit">Send</button>
+							<button class="btn btn-primary btn-xl text-uppercase"
+								type="submit">댓글 작성</button>
 						</form>
 					</div>
 				</div>
 			</div>
 		</section>
+
+		<!-- Contact Section-->
+
 		<!-- Footer-->
 		<footer class="footer text-center">
 			<div class="container">

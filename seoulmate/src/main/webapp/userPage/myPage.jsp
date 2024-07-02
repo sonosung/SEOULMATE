@@ -4,6 +4,15 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %> 
 <!DOCTYPE html>
 <html lang="en">
+
+<%
+   MemberDTO user = (MemberDTO) session.getAttribute("user");
+   if (user != null) {
+   } else {
+	   response.sendRedirect("../admin/login.jsp");
+   }
+%>
+
 <head>
 <meta charset="utf-8">
 
@@ -87,7 +96,7 @@ body {
 
 <link href="../resources/css/styles.css" rel="stylesheet" />
 <%
-MemberDTO user = (MemberDTO) session.getAttribute("user");
+/* MemberDTO user = (MemberDTO) session.getAttribute("user"); */
 		  if (user != null) {		  
 %>
 
