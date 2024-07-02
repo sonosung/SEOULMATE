@@ -123,7 +123,7 @@
                         <c:otherwise>
                             <c:forEach items="${boardLists}" var="row" varStatus="loop">
                                 <tr>
-                                    <td class="text-center">${row.idx}</td>
+                                    <td class="text-center">${row.num}</td>
                                     <td class="text-center">${row.fescate}</td>
                                     <td align="left">
                                         <a href="view.do?idx=${row.idx}" class="title-link">
