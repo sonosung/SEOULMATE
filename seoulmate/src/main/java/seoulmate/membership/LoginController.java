@@ -44,6 +44,8 @@ public class LoginController extends HttpServlet {
             if (prevPage == null || prevPage.equals("null") || prevPage.trim().isEmpty()) {
                 System.out.println("prevPage is null or empty");
                 response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
+            } else if (prevPage.contains(".do")) {
+                response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
             } else {
                 System.out.println("prevPage is not empty: " + prevPage);
                 response.sendRedirect(prevPage);
