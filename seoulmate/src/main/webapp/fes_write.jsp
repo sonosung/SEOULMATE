@@ -120,6 +120,8 @@
                     </td>
                 </tr>
                 <input type="hidden" name="boardType" value="0"> <!-- festival 타입을 0으로 설정 -->
+                <input type="hidden" name="writernum" value="${sessionScope.user.USER_NUM}">
+                
             </table>
         </form>
     </div>

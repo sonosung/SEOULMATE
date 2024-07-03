@@ -117,6 +117,7 @@ public class UserBoardDAO extends DBConnPool {
                     dto.setVisitcount(rs.getInt("visitcount"));
                     dto.setLikecount(rs.getInt("likecount"));
                     dto.setPostdate(rs.getDate("postdate"));
+                    dto.setWriternum(rs.getString("writernum"));
                 }
             }
         } catch (SQLException e) {
@@ -173,8 +174,8 @@ public class UserBoardDAO extends DBConnPool {
         int result = 0;
         String query = "INSERT INTO userboard (idx, name, title, content, fescate, feslocation, "
                      + "fesname, fesstart, fesend, mainimage, secimage, thiimage, visitcount, "
-                     + "likecount, postdate) "
-                     + "VALUES (userboard_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, SYSDATE)";
+                     + "likecount, postdate, writernum) "
+                     + "VALUES (userboard_seq.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, 0, SYSDATE, ?)";
         
         try (PreparedStatement psmt = con.prepareStatement(query)) {
             psmt.setString(1, dto.getName());
@@ -188,6 +189,7 @@ public class UserBoardDAO extends DBConnPool {
             psmt.setBytes(9, dto.getMainimage());
             psmt.setBytes(10, dto.getSecimage());
             psmt.setBytes(11, dto.getThiimage());
+            psmt.setString(12, dto.getWriternum());
             result = psmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -222,12 +224,12 @@ public class UserBoardDAO extends DBConnPool {
     }
     
     public String getPostAuthor(String idx) {
-        String query = "SELECT name FROM userboard WHERE idx = ?";
+        String query = "SELECT writernum FROM userboard WHERE idx = ?";
         try (PreparedStatement psmt = con.prepareStatement(query)) {
             psmt.setString(1, idx);
             try (ResultSet rs = psmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("name");
+                    return rs.getString("writernum");
                 }
             }
         } catch (SQLException e) {

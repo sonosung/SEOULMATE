@@ -57,7 +57,8 @@ public class FesWriteController extends HttpServlet {
 		MemberDTO member = (MemberDTO) req.getSession().getAttribute("user");
 
 		String user_Id = member.getUSER_ID();
-
+		int user_Num = member.getUSER_NUM();
+		String user_Numst = String.valueOf(user_Num);
 		dto.setName(user_Id); // 세션에 저장된 user_id를 name으로 설정
 		dto.setTitle(req.getParameter("title"));
 		dto.setContent(req.getParameter("content"));
@@ -66,6 +67,7 @@ public class FesWriteController extends HttpServlet {
 		dto.setFesname(req.getParameter("fesname"));
 		dto.setFesstart(req.getParameter("fesstart"));
 		dto.setFesend(req.getParameter("fesend"));
+		dto.setWriternum(user_Numst);
 
 		Part mainimagePart = req.getPart("mainimage");
 		if (mainimagePart != null && mainimagePart.getSize() > 0) {

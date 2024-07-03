@@ -88,8 +88,8 @@ public class BoardDAO extends DBConnPool {
 
 		try {
 			String query = "INSERT INTO board ( "
-					+ " idx, title, content, name, fesname, feslocation, fesstart, fesend, fescate, postdate, mainimage, secimage, thiimage) "
-					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, ?, ?, ?)";
+					+ " idx, title, content, name, fesname, feslocation, fesstart, fesend, fescate, postdate, mainimage, secimage, thiimage, writernum) "
+					+ " VALUES ( " + " seq_board_num.NEXTVAL, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, ?, ?, ?, ?)";
 
 			psmt = con.prepareStatement(query);
 			psmt.setString(1, dto.getTitle());
@@ -103,7 +103,7 @@ public class BoardDAO extends DBConnPool {
 			psmt.setBytes(9, dto.getMainimage()); // 이미지 데이터를 BLOB으로 저장
 			psmt.setBytes(10, dto.getSecimage());
 			psmt.setBytes(11, dto.getThiimage());
-
+			psmt.setString(12, dto.getWriternum());
 			result = psmt.executeUpdate();
 
 		} catch (Exception e) {
@@ -148,6 +148,8 @@ public class BoardDAO extends DBConnPool {
 				dto.setMainimage(rs.getBytes("mainimage"));
 				dto.setSecimage(rs.getBytes("secimage"));
 				dto.setThiimage(rs.getBytes("thiimage"));
+				dto.setWriternum(rs.getString("writernum"));
+				
 			}
 		} catch (Exception e) {
 			System.out.println("게시물 상세보기 중 예외 발생");

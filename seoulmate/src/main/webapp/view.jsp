@@ -184,6 +184,7 @@ seoulmate.board.UserBoardDTO dto = (seoulmate.board.UserBoardDTO) request.getAtt
 		<table border="0" width="100%" align="center">
 			<tr>
 				<td>
+					<h4>디버깅용 임시 텍스트 dto.writernum = ${ dto.writernum }</h4>
 					<h4>디버깅용 임시 텍스트 dto.idx = ${ dto.idx }</h4>
 					<h4 style="margin-left: 500px;">행사명 : ${ dto.fesname }</h4>
 					<h4 style="margin-left: 500px;">행사종류 : ${ dto.fescate }</h4>

@@ -21,7 +21,9 @@ public class UserBoardDTO {
     private String base64MainImage;
     private String base64SecImage;
     private String base64ThiImage;
-
+    private String writernum;
+    
+    
     // Getters and Setters
 
     public String getIdx() {
@@ -173,4 +175,12 @@ public class UserBoardDTO {
     public String getBase64ThiImage() {
         return base64ThiImage;
     }
+
+	public String getWriternum() {
+		return writernum;
+	}
+
+	public void setWriternum(String writernum) {
+		this.writernum = writernum;
+	}
 }

@@ -39,9 +39,13 @@ public class UserEditController extends HttpServlet {
         UserBoardDTO dto = dao.selectView(idx); // 숫자를 문자열로 변환하여 전달
         
         String postAuthor = dao.getPostAuthor(idx);
+        
+        int UN = member.getUSER_NUM();
+        String UNST = Integer.toString(UN);
+        System.out.println(postAuthor);
 
         // 유저 권한 확인
-        if (member.getUSER_NUM() > 4 && !member.getUSER_ID().equals(postAuthor)) {
+        if (member.getUSER_NUM() > 4 && !UNST.equals(postAuthor)) {
             JSFunction.alertBack(response, "게시글 삭제 권한이 없습니다. 해당 게시물은 작성자 및 관리자만 수정 할 수 있습니다.");
             return;
         }

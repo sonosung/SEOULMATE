@@ -38,6 +38,7 @@ public class FesViewController extends HttpServlet {
 		req.setAttribute("dto", dto);
 //		req.setAttribute("isImage", isImage);
 		req.getRequestDispatcher("fesview.jsp").forward(req, resp);
+		
 	}
 
 }

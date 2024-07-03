@@ -356,6 +356,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 
 			<tr>
 				<td>
+					<h4>디버깅용 임시 텍스트 dto.writernum = ${ dto.writernum }</h4>
 					<h4>디버깅용 임시 텍스트 dto.idx = ${ dto.idx }</h4>
 					<h4 style="margin-left: 500px;">행사명 : ${ dto.fesname }</h4>
 					<h4 style="margin-left: 500px;">행사종류 : ${ dto.fescate }</h4>
@@ -474,7 +475,9 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 											map.setCenter(coords);
 										} else {
 											alert('디버깅 얼럿 - 주소로 좌표를 검색하는데 실패했습니다: '
-													+ status + " " + '${dto.fesname}');
+													+ status
+													+ " "
+													+ '${dto.fesname}');
 										}
 									});
 				</script>

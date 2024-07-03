@@ -25,6 +25,7 @@ public class BoardDTO {
 	private String base64MainImage;
 	private String base64SecImage;
 	private String base64ThiImage;
+	private String writernum;
 
 	public String getFesname() {
 		return fesname;
@@ -182,6 +183,14 @@ public class BoardDTO {
 
 	public void setPostdate(java.sql.Date postdate) {
 		this.postdate = postdate;
+	}
+
+	public String getWriternum() {
+		return writernum;
+	}
+
+	public void setWriternum(String writernum) {
+		this.writernum = writernum;
 	}
 
 }

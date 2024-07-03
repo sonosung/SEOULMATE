@@ -32,6 +32,10 @@ public class WriteController extends HttpServlet {
             return;
         }
 
+        
+        int user_Num = member.getUSER_NUM();
+		String user_Numst = String.valueOf(user_Num);
+		
         dto.setName(member.getUSER_ID());
         dto.setTitle(req.getParameter("title"));
         dto.setContent(req.getParameter("content"));
@@ -40,7 +44,8 @@ public class WriteController extends HttpServlet {
         dto.setFesname(req.getParameter("fesname"));
         dto.setFesstart(req.getParameter("fesstart"));
         dto.setFesend(req.getParameter("fesend"));
-
+        dto.setWriternum(user_Numst);
+        
         Part mainimagePart = req.getPart("mainimage");
         if (mainimagePart != null && mainimagePart.getSize() > 0) {
             try (InputStream mainimageInputStream = mainimagePart.getInputStream()) {

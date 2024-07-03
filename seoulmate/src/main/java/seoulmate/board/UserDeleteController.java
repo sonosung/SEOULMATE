@@ -33,9 +33,12 @@ public class UserDeleteController extends HttpServlet {
 
         UserBoardDAO dao = new UserBoardDAO();
         String postAuthor = dao.getPostAuthor(idx);
-
+        int UN = member.getUSER_NUM();
+        String UNST = Integer.toString(UN);
+        
+        
         // 유저 권한 확인
-        if (member.getUSER_NUM() > 4 && !member.getUSER_ID().equals(postAuthor)) {
+        if (member.getUSER_NUM() > 4 && !UNST.equals(postAuthor)) {
             JSFunction.alertBack(response, "게시글 삭제 권한이 없습니다. 해당 게시물은 작성자 및 관리자만 삭제 할 수 있습니다.");
             return;
         }
