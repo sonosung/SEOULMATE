@@ -26,7 +26,6 @@ public class CancelController  extends HttpServlet {
 	     
 	     MemberDAO dao = new MemberDAO(jdbcDriver, dbUrl, dbId, dbPw);
 	     MemberDTO member = dao.getMemberDTO_Cancel(USER_PASSWORD,EMAIL);
-		 
 		 if(member.getCANCEL() != null) {
 			System.out.println("계삭완료");
 			alertAndGo2(response, "회원탈퇴가 진행되었습니다.");
