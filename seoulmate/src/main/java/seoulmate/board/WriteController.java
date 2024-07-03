@@ -16,9 +16,19 @@ import utils.JSFunction;
 public class WriteController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+       
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+    	
+        MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
+    	if (member == null) {
+    		
+            JSFunction.alertLocation(response, "로그인이 필요합니다.", "/admin/login.jsp");
+            return;
+        }
         request.getRequestDispatcher("/write.jsp").forward(request, response);
     }
 
@@ -28,7 +38,7 @@ public class WriteController extends HttpServlet {
         MemberDTO member = (MemberDTO) req.getSession().getAttribute("user");
 
         if (member == null) {
-            JSFunction.alertLocation(resp, "로그인이 필요합니다.", "login.do");
+            JSFunction.alertLocation(resp, "로그인이 필요합니다.", "/admin/login.jsp");
             return;
         }
 

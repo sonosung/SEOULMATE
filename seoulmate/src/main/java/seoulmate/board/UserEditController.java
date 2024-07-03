@@ -42,7 +42,7 @@ public class UserEditController extends HttpServlet {
         
         int UN = member.getUSER_NUM();
         String UNST = Integer.toString(UN);
-        System.out.println(postAuthor);
+        System.out.println("(디버그)작성자 번호 = " + postAuthor);
 
         // 유저 권한 확인
         if (member.getUSER_NUM() > 4 && !UNST.equals(postAuthor)) {
