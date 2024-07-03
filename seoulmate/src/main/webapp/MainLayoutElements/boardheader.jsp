@@ -22,7 +22,7 @@
 			</button>
 			
 			<div class="collapse navbar-collapse" id="navbarResponsive">
-			<form id="user" action ="../index.jsp">
+			<form id="user" action ="./index.jsp">
 				<ul class="navbar-nav ms-auto">
 				
 					<li class="nav-item mx-0 mx-lg-1">
@@ -30,7 +30,7 @@
 					</li>
 					
 					<li class="nav-item mx-0 mx-lg-1">
-					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="festivalList.jsp">축제정보게시판</a>
+					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="feslist.do">축제정보게시판</a>
 					</li>
 					
 					<li class="nav-item mx-0 mx-lg-1">
