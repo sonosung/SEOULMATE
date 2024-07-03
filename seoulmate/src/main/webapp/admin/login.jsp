@@ -9,7 +9,9 @@ String cookieCheck = "";
 if (loginEmail != null && !loginEmail.equals("")) {
     cookieCheck = "checked";
 }
-String prevPage = request.getHeader("Referer"); // 숨겨진 필드를 통해 이전 페이지 URL을 LoginController로 전달하고, 로그인 성공 시 해당 URL로 리디렉션합니다.
+
+String	prevPage = request.getHeader("Referer");
+
 %>
 <%
    MemberDTO user = (MemberDTO) session.getAttribute("user");
