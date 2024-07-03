@@ -1,5 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.List" %>
+<%@ page import="seoulmate.board.BoardDTO" %>
+<%@ page import="seoulmate.board.BoardDAO" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%
+    BoardDAO dao = new BoardDAO();
+    List<BoardDTO> topRecommendedFestivals = dao.getTopRecommendedFestivalsCurrent();
+    request.setAttribute("topRecommendedFestivals", topRecommendedFestivals);
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,9 +50,9 @@
 		<div class="container">
 		
 	<!------------------------------------------------------- 행사 섹션 --------------------------------------------------------->
-		<h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">
+		<!-- <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">
 		추천 행사정보</h2>
-			<!-- Icon Divider-->
+			Icon Divider
 			<div class="divider-custom">
 				<div class="divider-custom-line"> </div>
 					<div class="divider-custom-icon">
@@ -51,9 +61,58 @@
 				<div class="divider-custom-line"></div>
 			</div>
 			<div class="container y mandatory-scroll-snapping" dir="ltr">
-				<div class="row justify-content-center">
+				<div class="row justify-content-center"> -->
+				
+				  <!-- <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">
+		추천 행사정보</h2>
+			Icon Divider
+			<div class="divider-custom">
+				<div class="divider-custom-line"> </div>
+					<div class="divider-custom-icon">
+						<i class="fas fa-star"></i>
+					</div>
+				<div class="divider-custom-line"></div>
+			</div>
+			<div class="container y mandatory-scroll-snapping" dir="ltr">
+				<div class="row justify-content-center"> -->
+				
+				   <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">추천 행사정보</h2>
+                  <!-- 아이콘 구분선 -->
+                  <div class="divider-custom">
+                      <div class="divider-custom-line"></div>
+                      <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                      <div class="divider-custom-line"></div>
+                  </div>
+                  <div class="container y mandatory-scroll-snapping" dir="ltr">
+                      <div class="row justify-content-center">
+                          <!-- JSTL forEach 태그를 사용하여 topRecommendedFestivals 목록을 반복 -->
+                          <c:forEach var="festival" items="${topRecommendedFestivals}">
+                              <div class="col-md-6 col-lg-4 mb-5">
+                                  <a href="../fesview.do?idx=${festival.idx}">
+                                      <div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal${festival.idx}">
+                                          <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                                              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
+                                          </div>
+                                          <!-- base64 인코딩된 이미지를 사용하여 축제 이미지 출력 -->
+                                          <img class="img-fluid" src="data:image/png;base64,${festival.base64MainImage}" alt="..." />
+                                      </div>
+                                      <!-- 축제 이름, 기간 및 위치를 출력 -->
+                                      <br>
+                                      <h5 class="text-center" style="color: black; text-decoration: none;">${festival.fesname}</h5>
+                                      <p class="text-center" style="color: black; text-decoration: none;">기간 ${festival.fesstart}~${festival.fesend}</p>
+                                      <p class="text-center" style="color: black; text-decoration: none;">${festival.feslocation}</p>
+                                  </a>
+                              </div>
+                          </c:forEach>
+                      </div>
+                  </div>
+              </div>
+          </section>
 
-	<!---------------------------------------------------- 메인 중앙 첫번째 이미지 ---------------------------------------------------->
+
+	<!----------------------------------------------------- 축제 상세보기로 가기 ------------------------------------------------------->
+
+	<!------------------------------------------------------ 메인 중앙 첫번째 이미지 ----------------------------------------------------
 
 					<div class="col-md-6 col-lg-4 mb-5">
 						<div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal1">
@@ -66,7 +125,7 @@
 						</div>
 					</div>
 
-	<!--------------------------------------------------- 메인 중앙 두번째 이미지 ------------------------------------------------------>
+	------------------------------------------------- 메인 중앙 두번째 이미지 ----------------------------------------------------
 
 					<div class="col-md-6 col-lg-4 mb-5">
 						<div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal2">
@@ -79,7 +138,7 @@
 						</div>
 					</div>
 
-	<!---------------------------------------------------- 메인 중앙 세번째 이미지 ----------------------------------------------------->
+	-------------------------------------------------- 메인 중앙 세번째 이미지 ---------------------------------------------------
 
 					<div class="col-md-6 col-lg-4 mb-5">
 						<div class="portfolio-item mx-auto" data-bs-toggle="modal" data-bs-target="#portfolioModal3">
@@ -97,7 +156,7 @@
 
 	</section>
 
-	<!------------------------------------------------------ 게시판 섹션 ------------------------------------------------->
+	---------------------------------------------------- 게시판 섹션 ----------------------------------------------- -->
 
 	<section class="page-section text-white mb-0" id="festival" style="background-color:#05445E;">
 		<div class="container">

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.sql.Date;
 
 import common.DBConnPool;
 
@@ -277,5 +278,47 @@ public class BoardDAO extends DBConnPool {
 		}
 		return result;
 	}
+	
+	// 현재 날짜 기준으로 축제 정보 기간이 들어가 있으면서 추천수가 높은 순으로 3개를 반환하는 메서드 만약 같은 조건이 있는 축제 2개가 있으면 축제 개최 기간이 작은 걸로 추출
+	public List<BoardDTO> getTopRecommendedFestivalsCurrent() {
+	    List<BoardDTO> board = new Vector<BoardDTO>();
+	    Date currentDate = new Date(System.currentTimeMillis()); // 현재 날짜를 가져옵니다.
 
+	    // SQL 쿼리를 통해 현재 날짜 기준으로 축제 정보를 조회합니다.
+	    String query = "SELECT * FROM ("
+	            + "SELECT * FROM board WHERE MAINIMAGE IS NOT NULL AND FESSTART <= ? AND FESEND >= ? "
+	            + "ORDER BY likecount DESC, FESSTART ASC) "
+	            + "WHERE ROWNUM <= 3";
+
+	    try {
+	        psmt = con.prepareStatement(query);
+	        psmt.setDate(1, currentDate); // 현재 날짜를 첫 번째 매개변수로 설정합니다.(쿼리에서 현재 날짜를 사용하여 축제 기간을 필터링)
+	        psmt.setDate(2, currentDate); // 현재 날짜를 두 번째 매개변수로 설정합니다.(쿼리에서 현재 날짜를 사용하여 축제 기간을 필터링)
+	        rs = psmt.executeQuery(); // 쿼리를 실행하고 결과를 반환합니다.
+
+	        // 결과 집합을 반복하면서 BoardDTO 객체를 생성하고 리스트에 추가합니다.
+	        while (rs.next()) {
+	            BoardDTO dto = new BoardDTO();
+	            dto.setIdx(rs.getString("IDX"));
+	            dto.setTitle(rs.getString("TITLE"));
+	            dto.setFescate(rs.getString("FESCATE"));
+	            dto.setFesname(rs.getString("FESNAME"));
+	            dto.setFeslocation(rs.getString("FESLOCATION"));
+	            dto.setFesstart(rs.getString("FESSTART"));
+	            dto.setFesend(rs.getString("FESEND"));
+	            dto.setMainimage(rs.getBytes("MAINIMAGE"));
+	            dto.setLikecount(rs.getInt("LIKECOUNT"));
+
+	            board.add(dto); // 리스트에 추가합니다.
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println("추천 수가 높은 축제 정보 조회 중 예외 발생");
+	        e.printStackTrace(); // 예외 발생 시 스택 트레이스를 출력합니다.
+	    } finally {
+	        close(); // 자원을 해제합니다.
+	    }
+
+	    return board; // 추천 축제 정보를 반환합니다.
+	}
 }
