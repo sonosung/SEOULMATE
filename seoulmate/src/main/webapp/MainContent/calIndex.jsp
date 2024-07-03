@@ -23,65 +23,67 @@
 
     <title>행사 달력</title>
     
-<%
-// request에서 dto 객체를 가져옵니다.
-seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("dto");
-%>
-    
   </head>
   <body>
-
 	<div class="content" style="background-color:#EEF7FF;">
 		<div id='calendar'></div>
 	</div>
 
-	<script src="../calendar/js/jquery-3.3.1.min.js"></script>
+	<script src="../calendar/js/jquery-3.3.1.min.js"></script>	
 	<script src="../calendar/js/popper.min.js"></script>
 	<script src="../calendar/js/bootstrap.min.js"></script>
 
 	<script src='../calendar/fullcalendar/packages/core/main.js'></script>
 	<script src='../calendar/fullcalendar/packages/interaction/main.js'></script>
 	<script src='../calendar/fullcalendar/packages/daygrid/main.js'></script>
+	
+	    <!-- Your main.js for custom JavaScript -->
+    <script src="../calendar/js/main.js"></script>
+</head>
+<body>
+    <div class="content" style="background-color:#EEF7FF;">
+        <div id='calendar'></div>
+    </div>
 
-	<script>
-		document.addEventListener('DOMContentLoaded', function() {
-			var calendarEl = document.getElementById('calendar');
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
 
-			var calendar = new FullCalendar.Calendar(calendarEl, {
-				plugins : [ 'interaction', 'dayGrid' ],
-			/* 	defaultDate : '2024-06-12', */
-				editable : true,
-				eventLimit : true,
-				events : [ {
-					title : '오늘행사',
-					start : '2024-06-18'
-				}, {
-					title : 'Long Event',
-					start : '2024-06-17',
-					end : '2024-06-20'
-				}, {
-					groupId : 999,
-					title : 'Repeating Event',
-					start : '2024-06-03T16:00:00'
-				}, {
-					groupId : 999,
-					title : 'Repeating Event',
-					start : '2024-06-03T16:00:00'
-				}, {
-					title : 'Conference',
-					start : '2024-06-11',
-					end : '2024-06-13'
-				},{
-					title : 'Click for Google',
-					url : 'http://localhost:8081/seoulmate/fesview.do?idx=223',
-					start : '2024-06-07'
-				} ]
-			});
+        $.ajax({
+            type: 'POST',
+            url: 'calIndex.do',
+            dataType: 'json',
+            success: function(response) {
+                var events = response; // 서버에서 받은 JSON 데이터
 
-			calendar.render();
-		});
-	</script>
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    plugins: ['interaction', 'dayGrid'],
+                    editable: true,
+                    eventLimit: true,
+                    events: events.map(function(eventData) {
+                        return {
+                            title: eventData[0],   // 이벤트 제목
+                            start: eventData[1],   // 시작 날짜
+                            end: eventData[2],     // 종료 날짜
+                            url: 'http://localhost:8081/seoulmate/fesview.do?idx=' + eventData[3]  // 이벤트 클릭 시 링크
+                        };
+                    })
+                });
 
-	<script src="../calendar/js/main.js"></script>
+                calendar.render();  // 달력 렌더링
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 오류:', error);
+            }
+        });
+    });
+
+    </script>
+		
+
+    
+
+<!-- 		<form id="myForm" action="calIndex.do" method="post">
+    </form>  -->
 </body>
 </html>

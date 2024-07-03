@@ -18,7 +18,7 @@ public class PasswordSearchController extends HttpServlet {
 		String EMAIL = request.getParameter("EMAIL");
         String NAME = request.getParameter("NAME");
         String PHONENUM = request.getParameter("PHONENUM");
-        
+
 	     String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
 	     String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
 	     String dbId = "C##KEAM"; // DB 사용자 아이디
