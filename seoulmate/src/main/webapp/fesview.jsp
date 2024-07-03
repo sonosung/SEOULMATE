@@ -184,8 +184,10 @@
 				html += '<small class="text-muted">' + comment.createdat
 						+ '</small>';
 				html += '</p>';
+				
 				html += '<button class="btn btn-primary btn-sm edit-btn" data-id="' + comment.id + '">수정</button>';
 				html += '<button class="btn btn-danger btn-sm delete-btn" data-id="' + comment.id + '">삭제</button>';
+				
 				html += '</div>';
 				html += '</div>';
 			}

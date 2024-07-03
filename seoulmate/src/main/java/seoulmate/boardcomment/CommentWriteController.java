@@ -23,7 +23,7 @@ public class CommentWriteController extends HttpServlet {
         // 세션에서 사용자 정보를 가져옵니다.
         MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
         String writer = member.getUSER_ID();
-
+        int writernum = member.getUSER_NUM();
         String content = request.getParameter("content");
 
         // 현재 시각을 Timestamp 형식으로 생성합니다.
@@ -35,7 +35,8 @@ public class CommentWriteController extends HttpServlet {
         commentDTO.setWriter(writer); // CommentDTO에서 writer를 필드로 가지고 있는지 확인합니다.
         commentDTO.setContent(content);
         commentDTO.setCreatedAt(createdAt);
-
+        commentDTO.setWriternum(writernum);
+        
         // CommentDAO를 사용하여 댓글을 데이터베이스에 저장합니다.
         CommentDAO commentDAO = new CommentDAO();
         int result = commentDAO.insertComment(commentDTO);

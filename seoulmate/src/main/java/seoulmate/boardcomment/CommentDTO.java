@@ -8,18 +8,20 @@ public class CommentDTO {
     private String writer; // 작성자
     private String content; // 댓글 내용
     private Timestamp createdAt; // 댓글 작성 일시
+    private int writernum; // 작성자 번호
 
     // 기본 생성자
     public CommentDTO() {
     }
 
     // 생성자 (모든 필드 포함)
-    public CommentDTO(int commentId, int idx, String writer, String content, Timestamp createdAt) {
+    public CommentDTO(int commentId, int idx, String writer, String content, Timestamp createdAt, int writernum) {
         this.commentId = commentId;
         this.idx = idx;
         this.writer = writer;
         this.content = content;
         this.createdAt = createdAt;
+        this.writernum = writernum;
     }
 
     // Getter 및 Setter 메소드
@@ -74,4 +76,12 @@ public class CommentDTO {
                 ", createdAt=" + createdAt +
                 '}';
     }
+
+	public int getWriternum() {
+		return writernum;
+	}
+
+	public void setWriternum(int writernum) {
+		this.writernum = writernum;
+	}
 }
