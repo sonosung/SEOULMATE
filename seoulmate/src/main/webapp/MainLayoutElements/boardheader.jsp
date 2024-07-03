@@ -24,6 +24,7 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 			<form id="user" action ="../index.jsp">
 				<ul class="navbar-nav ms-auto">
+				
 					<li class="nav-item mx-0 mx-lg-1">
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="./MainContent/index.jsp">메인페이지</a>
 					</li>
@@ -41,10 +42,10 @@
 	   out.println("안녕하세요, " + user.getUSER_NUM() +"번 " + user.getUSER_ID()  +  "님!");
 %>
       <li class="nav-item mx-0 mx-lg-1">
-         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/logout.jsp" id="Logout">Logout</a>
+         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/logout.jsp" id="Logout">Logout</a>
       </li>
       					<li class="nav-item mx-0 mx-lg-1">
-					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../userPage/myPage.jsp" type="submit"
+					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="./userPage/myPage.jsp" type="submit"
 					onclick="document.getElementById('user').sumbit();">MyPage</a>
 					</li>
 <%

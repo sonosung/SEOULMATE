@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%-- 유저정보게시판 리스트 입니다.. --%>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,32 +116,32 @@
                 </thead>
                 <tbody>
                     <c:choose>
-                        <c:when test="${empty boardLists}">
-                            <tr>
-                                <td colspan="7" align="center">등록된 게시물이 없습니다.</td>
-                            </tr>
-                        </c:when>
-                        <c:otherwise>
-                            <c:forEach items="${boardLists}" var="row" varStatus="loop">
-                                <tr>
-                                    <td class="text-center">${row.idx}</td>
-                                    <td class="text-center">${row.fescate}</td>
-                                    <td align="left">
-                                        <a href="view.do?idx=${row.idx}" class="title-link">
-                                            <c:if test="${not empty row.base64MainImage}">
-                                                <img src="data:image/jpeg;base64,${row.base64MainImage}" alt="메인 이미지" />
-                                            </c:if>
-                                            ${row.title}
-                                        </a>
-                                    </td>
-                                    <td class="text-center">${row.name}</td>
-                                    <td class="text-center">${row.visitcount}</td>
-                                    <td class="text-center">${row.likecount}</td>
-                                    <td class="text-center">${row.postdate}</td>
-                                </tr>
-                            </c:forEach>
-                        </c:otherwise>
-                    </c:choose>
+    <c:when test="${empty boardLists}">
+        <tr>
+            <td colspan="7" align="center">등록된 게시물이 없습니다.</td>
+        </tr>
+    </c:when>
+    <c:otherwise>
+        <c:forEach items="${boardLists}" var="row" varStatus="loop">
+            <tr>
+                <td class="text-center">${fn:length(boardLists) - loop.index}</td>
+                <td class="text-center">${row.fescate}</td>
+                <td align="left">
+                    <a href="view.do?idx=${row.idx}" class="title-link">
+                        <c:if test="${not empty row.base64MainImage}">
+                            <img src="data:image/jpeg;base64,${row.base64MainImage}" alt="메인 이미지" />
+                        </c:if>
+                        ${row.title}
+                    </a>
+                </td>
+                <td class="text-center">${row.name}</td>
+                <td class="text-center">${row.visitcount}</td>
+                <td class="text-center">${row.likecount}</td>
+                <td class="text-center">${row.postdate}</td>
+            </tr>
+        </c:forEach>
+    </c:otherwise>
+</c:choose>
                 </tbody>
             </table>
             <div class="d-flex justify-content-between mt-4">
