@@ -12,7 +12,7 @@
 </head>
 <body>
 <!-- Sidebar - Brand -->
-<a class="sidebar-brand d-flex align-items-center justify-content-center" href="./index.jsp">
+<a class="sidebar-brand d-flex align-items-center justify-content-center" href="../MainContent/index.jsp">
 	<div class="sidebar-brand-icon rotate-n-15">
 		<i class="fas fa-laugh-wink"></i>
 	</div>
@@ -108,7 +108,7 @@
 
 <!-- Nav Item - Charts -->
 <li class="nav-item">
-	<a class="nav-link" href="./admin/charts.jsp">
+	<a class="nav-link" href="./charts.jsp">
 		<i class="fas fa-fw fa-chart-area"></i> 
 		<span>Chart</span>
 	</a>
@@ -116,7 +116,7 @@
 
 <!-- Nav Item - Tables -->
 <li class="nav-item">
-	<a class="nav-link" href="./admin/tables.jsp">
+	<a class="nav-link" href="./tables.jsp">
 		<i class="fas fa-fw fa-table"></i>
 		<span>여기에 관리자 글쓰기 페이지 추가</span>
 	</a>

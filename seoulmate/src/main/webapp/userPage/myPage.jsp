@@ -97,12 +97,18 @@ body {
 <link href="../resources/css/styles.css" rel="stylesheet" />
 <%
 /* MemberDTO user = (MemberDTO) session.getAttribute("user"); */
+// request에서 dto 객체를 가져옵니다.
+seoulmate.membership.MemberDTO dto = (seoulmate.membership.MemberDTO) request.getAttribute("dto");
+/* MemberDTO user = (MemberDTO) session.getAttribute("user"); */
 		  if (user != null) {		  
 %>
 
 </head>
 
 <body style="background-color:#D4F1F4;">
+
+<%-- <form name="user" method="post" enctype="multipart/form-data" action="../membership/profileEdit.do" onsubmit="return validateForm(this);">
+    <input type="hidden" name="email" value="<%= user.getEMAIL() %>"> --%>
 <!-- 헤더와 콘텐트 페이지 분리용 디바이더 -->
 <div class="divider-custom"></div>
 <div class="divider-custom"></div>
@@ -201,7 +207,7 @@ body {
 							<hr>
 							<div class="row">
 								<div class="col-sm-12">
-									<a class="btn btn-primary " target="__blank" href="./profileEdit.jsp">회원정보수정</a>
+									<a class="btn btn-primary " target="__blank" href="../membership/profileEdit.do">회원정보수정</a>
 									<a class="btn btn-primary " target="__blank" href="./contact.jsp">문의하기</a>
 									<a class="btn btn-primary " target="__blank" href="../admin/Cancel.jsp">회원탈퇴</a>
 								</div>
@@ -427,5 +433,6 @@ body {
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript">	
 	</script>
+	</form>
 </body>
 </html>

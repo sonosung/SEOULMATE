@@ -68,6 +68,11 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 
 </head>
 <body style="background-color:#D4F1F4;">
+<!-- <form name="user" method="post" enctype="multipart/form-data" action="./membership/profileEdit.do" onsubmit="return validateForm(this);"> -->
+<form name="user" method="post" enctype="multipart/form-data" action="../membership/profileEdit.do" onsubmit="return validateForm(this);">
+    <input type="hidden" name="email" value="<% out.println(user.getEMAIL()); %>">
+    <!-- 나머지 폼 필드들 -->
+
 <!-- 헤더와 콘텐트 페이지 분리용 디바이더 -->
 <div class="divider-custom"></div>
 <div class="divider-custom"></div>
@@ -87,6 +92,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 
 	<!---------------------------------------- 헤드 네비게이터 끝 ---------------------------------------->
 
+
 			<!-- <div class="row">
 				<div class="col-lg-4"> -->
 		<div style="height: 443px; width: 1260px;"> 
@@ -103,7 +109,10 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									 <% out.println(user.getUSERNAME() + "님 환영합니다!"); %>
 									<!-- <p class="text-muted font-size-sm">그린컴퓨터</p> -->
 									<br><br>
-									<button class="btn btn-primary">프로필사진변경</button>
+									<!-- <button class="btn btn-primary"></button> -->
+									
+										<input type="file" name="ofile" class="btn btn-primary form-control-file">
+									
 									<!-- <button class="btn btn-outline-primary">Message</button> 메시지 버튼 사용은 보류. -->
 								</div>
 							</div>
@@ -113,17 +122,19 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 				</div>
 
 				<!---------------------------------------- 회원 정보 칸 시작 ---------------------------------------->
-
+	
 				<div class="col-md-8">
 					<div class="card mb-3">
 						<div class="card-body" style="height: 396px;">
+						<!-- <form method="post" action="../membership/profileEdit.do"
+							onsubmit="return checkEditForm(this)"> -->
 						<br>
 							<div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Email</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control"
+									<input type="text" class="form-control" name="EMAIL"
 									value="<% out.println(user.getEMAIL()); %>">
 								</div>
 							</div>
@@ -132,7 +143,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">이름</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" 
+									<input type="text" class="form-control" name="USERNAME"
 									value="<% out.println(user.getUSERNAME()); %>">
 								</div>
 							</div>
@@ -141,7 +152,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">닉네임</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" 
+									<input type="text" class="form-control" name="USER_ID"
 									value="<% out.println(user.getUSER_ID()); %>">
 								</div>
 							</div>
@@ -150,7 +161,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">핸드폰</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" 
+									<input type="text" class="form-control" name="PHONENUM"
 									value="<% out.println(user.getPHONENUM()); %>">
 									
 								</div>
@@ -160,11 +171,11 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">주소</h6>
 								</div>
 								<div class="col-sm-5 text-secondary">
-									<input type="text" class="form-control postcodify_address" name="address"
+									<input type="text" class="form-control postcodify_address" name="USER_STREET"
 									value="<% out.println(user.getUSER_STREET()); %>" readonly>
 								</div>
 								<div class="col-sm-2">
-									<input type="text" class="form-control postcodify_postcode5" name="address"
+									<input type="text" class="form-control postcodify_postcode5" name="USER_ZIP"
 									value="<% out.println(user.getUSER_ZIP()); %>" readonly>
 								</div>	
 								<div class=col-sm-2>
@@ -176,15 +187,16 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 								<div class="col-sm-3"></div>
 								<div class="col-sm-9 text-secondary">
 								
-									<!-- <input type="button" class="btn btn-primary px-4" value="Save Changes"> -->
+									
 									<input type="submit" class="btn btn-primary px-4" 
-										value="Save Changes" 
-										onclick="location.href='<%= request.getContextPath() %>/userPage/profileEdit.do';">
+										value="Save Changes"
+										onclick="location.href='../membership/profileEdit.do';">
 									
 									<input type="submit" class="btn btn-primary px-4"
 										value="비밀번호 변경">
 								</div>
-							</div>		
+							</div>
+							<!-- </form>	 -->	
 						</div>
 					</div>
 				</div>
@@ -192,6 +204,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 		</div>
 	</div>
 </div>
+
 
 <% 
 }
@@ -211,6 +224,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 	
 	<!-- "검색" 단추를 누르면 팝업 레이어가 열리도록 설정한다 -->
 	<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
-	
+	</form>
 </body>
 </html>
