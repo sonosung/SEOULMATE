@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import seoulmate.membership.MemberDTO;
+import utils.JSFunction;
 
 @WebServlet("/commentupdate.do")
 public class CommentUpdateController extends HttpServlet {
@@ -23,16 +24,21 @@ public class CommentUpdateController extends HttpServlet {
         MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
         
         int commentId = Integer.parseInt(request.getParameter("commentId"));
-        String writernum = request.getParameter("writernum");
+        
         String content = request.getParameter("content");
         
+        if(member==null) {
+        	JSFunction.alertBack(response, "로그인이 필요한 기능입니다.");
+        	return;
+        }
         
         System.out.println("댓글 번호: " + commentId); // 디버깅용 로그
         System.out.println("수정할 내용: " + content); // 디버깅용 로그
         
         CommentDAO dao = new CommentDAO();
-        boolean result = dao.updateComment(commentId, content);
+        boolean result = dao.updateComment1(commentId, content, member.getUSER_NUM());
         
+        String writernum = request.getParameter("writernum");
         System.out.println("작성자 번호: " + writernum); // 디버깅용 로그
 
         int user_num = member != null ? member.getUSER_NUM() : -1;

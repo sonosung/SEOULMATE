@@ -13,52 +13,46 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/commentlist.do")
 public class CommentListController extends HttpServlet {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		response.setContentType("application/json");
-		PrintWriter out = response.getWriter();
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
-		try {
-			// 게시글의 idx를 파라미터에서 가져옴
-			int idx = Integer.parseInt(request.getParameter("idx"));
+        try {
+            int idx = Integer.parseInt(request.getParameter("idx"));
 
-			// DAO를 통해 댓글 목록을 가져옴
-			CommentDAO commentDAO = new CommentDAO();
-			List<CommentDTO> commentList = commentDAO.getCommentsByBoardIdx(idx);
+            CommentDAO commentDAO = new CommentDAO();
+            List<CommentDTO> commentList = commentDAO.getCommentsByBoardIdx(idx);
 
-			// 가져온 댓글 목록을 JSON 형식으로 변환하여 응답
-			out.print(buildJsonResponse(commentList));
-		} catch (NumberFormatException e) {
-			// idx 파라미터가 없거나 잘못된 경우
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			out.println("Invalid idx parameter");
-			e.printStackTrace();
-		} finally {
-			out.close();
-		}
-	}
+            out.print(buildJsonResponse(commentList)); // buildJsonResponse 메서드로 JSON 응답 생성
+        } catch (NumberFormatException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.println("Invalid idx parameter");
+            e.printStackTrace();
+        } finally {
+            out.close();
+        }
+    }
 
-	private String buildJsonResponse(List<CommentDTO> commentList) {
-		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		for (int i = 0; i < commentList.size(); i++) {
-			CommentDTO comment = commentList.get(i);
-			sb.append("{");
-			sb.append("\"id\":").append(comment.getCommentId()).append(",");
-			sb.append("\"writer\":\"").append(comment.getWriter()).append("\",");
-			sb.append("\"content\":\"").append(comment.getContent()).append("\",");
-			sb.append("\"createdat\":\"").append(comment.getCreatedAt()).append("\"");
-			sb.append("}");
-			if (i < commentList.size() - 1) {
-				sb.append(",");
-			}
-		}
-		sb.append("]");
-		return sb.toString();
-	}
+    private String buildJsonResponse(List<CommentDTO> commentList) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < commentList.size(); i++) {
+            CommentDTO comment = commentList.get(i);
+            sb.append("{");
+            sb.append("\"id\":").append(comment.getCommentId()).append(",");
+            sb.append("\"writer\":\"").append(comment.getWriter()).append("\",");
+            sb.append("\"content\":\"").append(comment.getContent()).append("\",");
+            sb.append("\"createdat\":\"").append(comment.getCreatedAt()).append("\",");
+            sb.append("\"writernum\":").append(comment.getWriternum()); // writernum 추가
+            sb.append("}");
+            if (i < commentList.size() - 1) {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
 }

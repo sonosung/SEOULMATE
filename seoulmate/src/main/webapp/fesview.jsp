@@ -51,6 +51,7 @@
 <script>
 	$(document).on('click', '.edit-btn', function() {
 		var commentId = $(this).data('id');
+		var writernum = $(this).data('writernum');
 		if (commentId === undefined) {
 			console.error('commentId is undefined');
 			return;
@@ -58,12 +59,15 @@
 
 		var content = prompt("수정할 내용을 입력하세요:");
 		if (content !== null) {
+
 			$.ajax({
 				url : 'commentupdate.do',
 				type : 'POST',
 				data : {
 					commentId : commentId,
-					content : content
+					content : content,
+					writernum : writernum
+				// writernum 추가
 				},
 				success : function(response) {
 					if (response === "success") {
@@ -184,10 +188,10 @@
 				html += '<small class="text-muted">' + comment.createdat
 						+ '</small>';
 				html += '</p>';
-				
+
 				html += '<button class="btn btn-primary btn-sm edit-btn" data-id="' + comment.id + '">수정</button>';
 				html += '<button class="btn btn-danger btn-sm delete-btn" data-id="' + comment.id + '">삭제</button>';
-				
+
 				html += '</div>';
 				html += '</div>';
 			}

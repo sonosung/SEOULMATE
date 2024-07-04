@@ -96,12 +96,13 @@ public class CommentDAO extends DBConnPool {
 	}
 
 	// 댓글 삭제 메서드
-	public boolean deleteComment(int commentId) {
+	public boolean deleteComment(int commentId ,int num) {
 		boolean result = false;
-		String sql = "DELETE FROM comments WHERE commentId = ?";
+		String sql = "DELETE FROM comments WHERE commentId = ? AND WRITERNUM = ? ";
 
 		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, commentId);
+			pstmt.setInt(3, num);
 			result = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,13 +115,14 @@ public class CommentDAO extends DBConnPool {
 	// 댓글 수정 메서드
 
 	// 댓글 수정 메서드
-	public boolean updateComment(int commentId, String content) {
+	public boolean updateComment1(int commentId, String content,int num) {
 		boolean result = false;
-		String sql = "UPDATE comments SET content = ? WHERE commentid = ?";
+		String sql = "UPDATE comments SET content = ? WHERE commentid = ? AND WRITERNUM = ? ";
 
 		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, content);
 			pstmt.setInt(2, commentId);
+			pstmt.setInt(3, num);
 			result = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
