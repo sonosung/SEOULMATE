@@ -2,11 +2,12 @@
 //관리자 게시판
 package seoulmate.board;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-import java.sql.Date;
 
 import common.DBConnPool;
 
@@ -150,7 +151,7 @@ public class BoardDAO extends DBConnPool {
 				dto.setSecimage(rs.getBytes("secimage"));
 				dto.setThiimage(rs.getBytes("thiimage"));
 				dto.setWriternum(rs.getString("writernum"));
-				
+
 			}
 		} catch (Exception e) {
 			System.out.println("게시물 상세보기 중 예외 발생");
@@ -160,18 +161,62 @@ public class BoardDAO extends DBConnPool {
 	}
 
 	// 추천수 증가
-	public void updateLikeCount(String idx) {
-		String query = "UPDATE board SET likecount = likecount + 1 WHERE idx = ?";
-
+	public boolean hasUserLiked(int boardIdx, int likeUserNum) {
+		String query = "SELECT COUNT(*) FROM LIKECHECK WHERE boardidx = ? AND likeusernum = ?";
 		try {
 			psmt = con.prepareStatement(query);
-			psmt.setString(1, idx);
-			psmt.executeUpdate();
+			psmt.setInt(1, boardIdx);
+			psmt.setInt(2, likeUserNum);
+			rs = psmt.executeQuery();
+			if (rs.next()) {
+				return rs.getInt(1) > 0;
+			}
 		} catch (Exception e) {
-			System.out.println("게시물 추천수 증가 중 예외 발생");
 			e.printStackTrace();
+		} finally {
+			closeResources(rs, psmt);
+		}
+		return false;
+	}
+
+	public void updateLikeCount(int boardIdx, int likeUserNum) {
+		String updateQuery = "UPDATE board SET likecount = likecount + 1 WHERE idx = ?";
+		String insertQuery = "INSERT INTO LIKECHECK (boardidx, likeusernum) VALUES (?, ?)";
+		try {
+			con.setAutoCommit(false); // 트랜잭션 시작
+
+			psmt = con.prepareStatement(updateQuery);
+			psmt.setInt(1, boardIdx);
+			psmt.executeUpdate();
+			psmt.close();
+
+			psmt = con.prepareStatement(insertQuery);
+			psmt.setInt(1, boardIdx);
+			psmt.setInt(2, likeUserNum);
+			psmt.executeUpdate();
+
+			con.commit(); // 트랜잭션 커밋
+		} catch (Exception e) {
+			try {
+				con.rollback(); // 트랜잭션 롤백
+			} catch (Exception rollbackEx) {
+				rollbackEx.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			closeResources(null, psmt);
 		}
 	}
+	
+	 private void closeResources(ResultSet rs, PreparedStatement psmt) {
+	        try {
+	            if (rs != null) rs.close();
+	            if (psmt != null) psmt.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
 
 	// 조회수를 1 증가시킵니다.
 	public void updateVisitCount(String idx) {
@@ -278,47 +323,47 @@ public class BoardDAO extends DBConnPool {
 		}
 		return result;
 	}
-	
-	// 현재 날짜 기준으로 축제 정보 기간이 들어가 있으면서 추천수가 높은 순으로 3개를 반환하는 메서드 만약 같은 조건이 있는 축제 2개가 있으면 축제 개최 기간이 작은 걸로 추출
+
+	// 현재 날짜 기준으로 축제 정보 기간이 들어가 있으면서 추천수가 높은 순으로 3개를 반환하는 메서드 만약 같은 조건이 있는 축제 2개가
+	// 있으면 축제 개최 기간이 작은 걸로 추출
 	public List<BoardDTO> getTopRecommendedFestivalsCurrent() {
-	    List<BoardDTO> board = new Vector<BoardDTO>();
-	    Date currentDate = new Date(System.currentTimeMillis()); // 현재 날짜를 가져옵니다.
+		List<BoardDTO> board = new Vector<BoardDTO>();
+		Date currentDate = new Date(System.currentTimeMillis()); // 현재 날짜를 가져옵니다.
 
-	    // SQL 쿼리를 통해 현재 날짜 기준으로 축제 정보를 조회합니다.
-	    String query = "SELECT * FROM ("
-	            + "SELECT * FROM board WHERE MAINIMAGE IS NOT NULL AND FESSTART <= ? AND FESEND >= ? "
-	            + "ORDER BY likecount DESC, FESSTART ASC) "
-	            + "WHERE ROWNUM <= 3";
+		// SQL 쿼리를 통해 현재 날짜 기준으로 축제 정보를 조회합니다.
+		String query = "SELECT * FROM ("
+				+ "SELECT * FROM board WHERE MAINIMAGE IS NOT NULL AND FESSTART <= ? AND FESEND >= ? "
+				+ "ORDER BY likecount DESC, FESSTART ASC) " + "WHERE ROWNUM <= 3";
 
-	    try {
-	        psmt = con.prepareStatement(query);
-	        psmt.setDate(1, currentDate); // 현재 날짜를 첫 번째 매개변수로 설정합니다.(쿼리에서 현재 날짜를 사용하여 축제 기간을 필터링)
-	        psmt.setDate(2, currentDate); // 현재 날짜를 두 번째 매개변수로 설정합니다.(쿼리에서 현재 날짜를 사용하여 축제 기간을 필터링)
-	        rs = psmt.executeQuery(); // 쿼리를 실행하고 결과를 반환합니다.
+		try {
+			psmt = con.prepareStatement(query);
+			psmt.setDate(1, currentDate); // 현재 날짜를 첫 번째 매개변수로 설정합니다.(쿼리에서 현재 날짜를 사용하여 축제 기간을 필터링)
+			psmt.setDate(2, currentDate); // 현재 날짜를 두 번째 매개변수로 설정합니다.(쿼리에서 현재 날짜를 사용하여 축제 기간을 필터링)
+			rs = psmt.executeQuery(); // 쿼리를 실행하고 결과를 반환합니다.
 
-	        // 결과 집합을 반복하면서 BoardDTO 객체를 생성하고 리스트에 추가합니다.
-	        while (rs.next()) {
-	            BoardDTO dto = new BoardDTO();
-	            dto.setIdx(rs.getString("IDX"));
-	            dto.setTitle(rs.getString("TITLE"));
-	            dto.setFescate(rs.getString("FESCATE"));
-	            dto.setFesname(rs.getString("FESNAME"));
-	            dto.setFeslocation(rs.getString("FESLOCATION"));
-	            dto.setFesstart(rs.getString("FESSTART"));
-	            dto.setFesend(rs.getString("FESEND"));
-	            dto.setMainimage(rs.getBytes("MAINIMAGE"));
-	            dto.setLikecount(rs.getInt("LIKECOUNT"));
+			// 결과 집합을 반복하면서 BoardDTO 객체를 생성하고 리스트에 추가합니다.
+			while (rs.next()) {
+				BoardDTO dto = new BoardDTO();
+				dto.setIdx(rs.getString("IDX"));
+				dto.setTitle(rs.getString("TITLE"));
+				dto.setFescate(rs.getString("FESCATE"));
+				dto.setFesname(rs.getString("FESNAME"));
+				dto.setFeslocation(rs.getString("FESLOCATION"));
+				dto.setFesstart(rs.getString("FESSTART"));
+				dto.setFesend(rs.getString("FESEND"));
+				dto.setMainimage(rs.getBytes("MAINIMAGE"));
+				dto.setLikecount(rs.getInt("LIKECOUNT"));
 
-	            board.add(dto); // 리스트에 추가합니다.
-	        }
+				board.add(dto); // 리스트에 추가합니다.
+			}
 
-	    } catch (Exception e) {
-	        System.out.println("추천 수가 높은 축제 정보 조회 중 예외 발생");
-	        e.printStackTrace(); // 예외 발생 시 스택 트레이스를 출력합니다.
-	    } finally {
-	        close(); // 자원을 해제합니다.
-	    }
+		} catch (Exception e) {
+			System.out.println("추천 수가 높은 축제 정보 조회 중 예외 발생");
+			e.printStackTrace(); // 예외 발생 시 스택 트레이스를 출력합니다.
+		} finally {
+			close(); // 자원을 해제합니다.
+		}
 
-	    return board; // 추천 축제 정보를 반환합니다.
+		return board; // 추천 축제 정보를 반환합니다.
 	}
 }

@@ -1,44 +1,58 @@
 package seoulmate.board;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import seoulmate.membership.MemberDTO;
 
 @WebServlet("/like.do")
 public class FesLikeController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private BoardDAO boardDAO; // DAO 객체
+	private BoardDAO boardDAO;
 
 	@Override
 	public void init() throws ServletException {
-		// Servlet 초기화 시 BoardDAO 객체 생성
 		boardDAO = new BoardDAO();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String idx = request.getParameter("idx");
+		MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
+		String idxParam = request.getParameter("idx");
+
+		if (member == null) {
+			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "로그인이 필요합니다.");
+			return;
+		}
+
+		int userNum = member.getUSER_NUM();
+		System.out.println("debug unum = " + userNum);
+		System.out.println("debug bidx = " + idxParam);
 
 		try {
-			if (idx != null && !idx.isEmpty()) {
-				// 유효한 idx 값이 있는 경우 처리 로직
-				boardDAO.updateLikeCount(idx);
+			if (idxParam != null && !idxParam.isEmpty()) {
+				int idx = Integer.parseInt(idxParam);
 
-				// 클라이언트에게 성공적인 응답 전송
-				response.setContentType("text/plain");
-				PrintWriter out = response.getWriter();
-				out.print("success");
-				out.flush();
+				if (!boardDAO.hasUserLiked(idx, userNum)) {
+					boardDAO.updateLikeCount(idx, userNum);
+					response.setContentType("text/plain");
+					PrintWriter out = response.getWriter();
+					out.print("success");
+					out.flush();
+				} else {
+					response.setContentType("text/plain");
+					PrintWriter out = response.getWriter();
+					out.print("duplicate");
+					out.flush();
+				}
 			} else {
-				// 잘못된 요청 처리
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or invalid 'idx' parameter");
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing or invalid parameters");
 			}
 		} catch (Exception e) {
-			// 예외 처리
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Error processing request: " + e.getMessage());
 		}
@@ -46,7 +60,6 @@ public class FesLikeController extends HttpServlet {
 
 	@Override
 	public void destroy() {
-		// Servlet 종료 시 DAO 리소스 해제
 		boardDAO.close();
 	}
 }

@@ -129,11 +129,11 @@
 						alert('추천되었습니다.');
 						location.reload(); // 페이지 새로고침 혹은 적절한 방식으로 UI 업데이트
 					} else {
-						alert('추천 요청 실패');
+						alert('이미 추천한 게시글 입니다.');
 					}
 				},
 				error : function(xhr, status, error) {
-					alert('서버 요청 실패');
+					alert('회원만 추천가능합니다');
 					console.error(xhr);
 				}
 			});

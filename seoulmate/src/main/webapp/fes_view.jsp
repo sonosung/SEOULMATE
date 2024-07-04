@@ -124,12 +124,14 @@
 					if (response.trim() === 'success') {
 						alert('추천되었습니다.');
 						location.reload(); // 페이지 새로고침 혹은 적절한 방식으로 UI 업데이트
+					} else if (response.trim() === 'duplicate') {
+						alert('이미 추천한 게시물입니다.');
 					} else {
-						alert('추천 요청 실패');
+						alert('이미 추천한 게시물입니다.');
 					}
 				},
 				error : function(xhr, status, error) {
-					alert('서버 요청 실패');
+					alert('회원만 추천 가능합니다.');
 					console.error(xhr);
 				}
 			});
@@ -141,33 +143,31 @@
 	});
 
 	$(document).ready(function() {
-	    $("#commentForm").submit(function(event) {
-	        event.preventDefault();
-	        
-	        var formData = $(this).serialize();
+		$("#commentForm").submit(function(event) {
+			event.preventDefault();
 
-	        $.ajax({
-	            type: "POST",
-	            url: "commentwrite.do",
-	            data: formData,
-	            success: function(response) {
-	                if (response.trim() === 'success') {
-	                    alert('댓글이 성공적으로 작성되었습니다.');
-	                    $("#commentForm")[0].reset(); // 폼 초기화
-	                    loadComments(); // 댓글 목록 다시 로드
-	                } else {
-	                    alert('댓글 작성 실패.'); // 이 경고가 뜨는 이유는 서버에서 success가 아닌 다른 값을 반환했기 때문일 수 있습니다.
-	                }
-	            },
-	            error: function(xhr, status, error) {
-	                alert('댓글 작성 중 오류가 발생했습니다.');
-	                console.error(xhr);
-	            }
-	        });
-	    });
+			var formData = $(this).serialize();
+
+			$.ajax({
+				type : "POST",
+				url : "commentwrite.do",
+				data : formData,
+				success : function(response) {
+					if (response.trim() === 'success') {
+						alert('댓글이 성공적으로 작성되었습니다.');
+						$("#commentForm")[0].reset(); // 폼 초기화
+						loadComments(); // 댓글 목록 다시 로드
+					} else {
+						alert('댓글 작성 실패.'); // 이 경고가 뜨는 이유는 서버에서 success가 아닌 다른 값을 반환했기 때문일 수 있습니다.
+					}
+				},
+				error : function(xhr, status, error) {
+					alert('댓글 작성 중 오류가 발생했습니다.');
+					console.error(xhr);
+				}
+			});
+		});
 	});
-
-
 
 	function renderComments(commentList) {
 		var commentContainer = $("#commentList");

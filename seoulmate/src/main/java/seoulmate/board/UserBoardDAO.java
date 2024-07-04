@@ -210,18 +210,62 @@ public class UserBoardDAO extends DBConnPool {
         }
     }
 
-    // 추천수 증가
-    public void updateLikeCount(String idx) {
-        String query = "UPDATE userboard SET likecount = likecount + 1 WHERE idx=?";
-        
-        try (PreparedStatement psmt = con.prepareStatement(query)) {
-            psmt.setString(1, idx);
-            psmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("게시물 추천수 증가 중 예외 발생");
+ // 추천수 증가
+    public boolean hasUserLiked(int boardIdx, int likeUserNum) {
+        String query = "SELECT COUNT(*) FROM USERLIKECHECK WHERE boardidx = ? AND likeusernum = ?";
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setInt(1, boardIdx);
+            psmt.setInt(2, likeUserNum);
+            rs = psmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            closeResources(rs, psmt);
         }
+        return false;
     }
+
+    public void updateLikeCount(int boardIdx, int likeUserNum) {
+        String updateQuery = "UPDATE userboard SET likecount = likecount + 1 WHERE idx = ?";
+        String insertQuery = "INSERT INTO USERLIKECHECK (boardidx, likeusernum) VALUES (?, ?)";
+        try {
+            con.setAutoCommit(false); // 트랜잭션 시작
+
+            psmt = con.prepareStatement(updateQuery);
+            psmt.setInt(1, boardIdx);
+            psmt.executeUpdate();
+            psmt.close();
+
+            psmt = con.prepareStatement(insertQuery);
+            psmt.setInt(1, boardIdx);
+            psmt.setInt(2, likeUserNum);
+            psmt.executeUpdate();
+
+            con.commit(); // 트랜잭션 커밋
+        } catch (Exception e) {
+            try {
+                con.rollback(); // 트랜잭션 롤백
+            } catch (Exception rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
+            e.printStackTrace();
+        } finally {
+            closeResources(null, psmt);
+        }
+ 	}
+ 	
+ 	 private void closeResources(ResultSet rs, PreparedStatement psmt) {
+ 	        try {
+ 	            if (rs != null) rs.close();
+ 	            if (psmt != null) psmt.close();
+ 	        } catch (Exception e) {
+ 	            e.printStackTrace();
+ 	        }
+ 	    }
     
     public String getPostAuthor(String idx) {
         String query = "SELECT writernum FROM userboard WHERE idx = ?";
