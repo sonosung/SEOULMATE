@@ -102,7 +102,7 @@ public class CommentDAO extends DBConnPool {
 
 		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, commentId);
-			pstmt.setInt(3, num);
+			pstmt.setInt(2, num);
 			result = pstmt.executeUpdate() > 0;
 		} catch (SQLException e) {
 			e.printStackTrace();
