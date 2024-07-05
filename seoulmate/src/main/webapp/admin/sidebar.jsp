@@ -74,10 +74,10 @@
 	<div id="collapseUserpage" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
 		<div class="bg-white py-2 collapse-inner rounded">
 			<h6 class="collapse-header">Custom Utilities:</h6>
-			<a class="collapse-item" href="./admin/emailAuth.jsp">인증메일 보내기</a>
-			<a class="collapse-item" href="./admin/utilities-border.jsp">Borders</a>
-			<a class="collapse-item" href="./admin/utilities-animation.jsp">Animations</a>
-			<a class="collapse-item" href="./admin/utilities-other.jsp">Other</a>
+			<a class="collapse-item" href="./emailAuth.jsp">메일 보내기</a>
+			<a class="collapse-item" href="./userList.do">회원리스트</a>
+			<a class="collapse-item" href="./utilities-animation.jsp">Animations</a>
+			<a class="collapse-item" href="./utilities-other.jsp">Other</a>
 		</div>
 	</div></li>
 

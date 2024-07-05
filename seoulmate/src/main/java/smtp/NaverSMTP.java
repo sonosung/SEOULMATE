@@ -47,8 +47,8 @@ public class NaverSMTP {
 
         // 2. 메시지 작성
         MimeMessage msg = new MimeMessage(session);
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("user")));  // 받는 사람. 관리자로 고정.
-        msg.setFrom(new InternetAddress(mailInfo.get("auth")));     // 보내는 사람
+        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("auth")));  // 받는 사람. 관리자로 고정.
+        msg.setFrom(new InternetAddress(mailInfo.get("user")));     // 보내는 사람
         msg.setSubject(mailInfo.get("title"));                    // 제목
         msg.setContent(mailInfo.get("content"), mailInfo.get("format"));  // 내용
 
@@ -64,8 +64,8 @@ public class NaverSMTP {
 
         // 2. 메시지 작성
         MimeMessage msg = new MimeMessage(session);
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("auth")));  // 받는 사람. 관리자로 고정.
-        msg.setFrom(new InternetAddress(mailInfo.get("user")));     // 보내는 사람
+        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("user")));  // 받는 사람. 관리자로 고정.
+        msg.setFrom(new InternetAddress(mailInfo.get("auth")));     // 보내는 사람
         msg.setSubject(mailInfo.get("title"));                    // 제목
         msg.setContent(mailInfo.get("content"), mailInfo.get("format"));  // 내용
 

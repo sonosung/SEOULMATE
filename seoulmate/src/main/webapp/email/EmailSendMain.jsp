@@ -37,12 +37,12 @@
 <table border=1>
    <tr>    
         <td>
-            보내는 사람 : <input type="text" name="auth" value="seoulmate01@naver.com" readonly  />
+            받는 사람 : <input type="text" name="auth" value="seoulmate01@naver.com" readonly  />
         </td>
     </tr>
     <tr>    
         <td>
-            받는 사람 : <input type="text" name="user" value="" />
+            보내는 사람 : <input type="text" name="user" value="" />
         </td>
     </tr>
     <tr>    
@@ -50,13 +50,6 @@
             제목 : <input type="text" name="title" size="50" value="" />
         </td>
     </tr>
-   <!-- <tr>    
-        <td>
-            형식 :
-            <input type="radio" name="format" value="text" checked />Text
-            <input type="radio" name="format" value="html" />HTML
-        </td>
-    </tr> -->
     <tr>
         <td>
             <textarea name="content" cols="60" rows="10"></textarea>

@@ -120,17 +120,6 @@
                         <!-- https://startbootstrap.com/solution/contact-forms-->
                         <!-- to get an API token!-->
                         <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN" action="EmailSendProcess.jsp">
-                            <!-- Name input-->
-                            <div class="form-floating mb-3">
-                            	<!-- 관리자 이메일 -->
-                             	<input type="hidden" name="to" value="seoulmate01@naver.com"/> 
-                                
-                                <!-- 사용자 이메일 -->
-                                <input class="form-control" id="name" type="text" name="subject" placeholder="Enter a title..." data-sb-validations="required" />
-                                <label for="name">Title</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
-                            </div>
-                            
                             <!-- Email address input-->
                             <div class="form-floating mb-3">
                                 <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
@@ -138,12 +127,18 @@
                                 <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                 <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                             </div>
-                            <!-- Phone number input-->
-                            <!-- <div class="form-floating mb-3">
-                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
-                                <label for="phone">Phone number</label>
-                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
-                            </div> -->
+                            
+                            <!-- Name input-->
+                            <div class="form-floating mb-3">
+                            	<!-- 관리자 이메일 -->
+                             	<input type="hidden" name="auth" value="seoulmate01@naver.com"/> 
+                                
+                                <!-- 사용자 이메일 -->
+                                <input class="form-control" id="name" type="text" name="subject" placeholder="Enter a title..." data-sb-validations="required" />
+                                <label for="name">Title</label>
+                                <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
+                            </div>
+                            
                             <!-- Message input-->
                             <div class="form-floating mb-3">
                                 <textarea class="form-control" name="content" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
