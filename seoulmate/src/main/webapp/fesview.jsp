@@ -291,28 +291,28 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 		<div>
 			<table class="header-table" border="0" width="100%" height="100px"
 				align="center">
-				<tr class="masthead bg-secondary text-white">
+				<!-- <tr class="masthead bg-secondary text-white">
 					<td colspan="2" align="center">
 						<h1>${ dto.title }</h1>
 					</td>
+				</tr> -->
+				<tr class="masthead bg-secondary text-white">
+					<td align="center"><br>
+						<h1 class="masthead-heading">${ dto.fesname }</h1></td>
 				</tr>
-
-				<td align="center"><br>
-					<h1 class="masthead-heading text-uppercase mb-0">${ dto.fesname }</h1></td>
-
 				<tr>
 					<td colspan="2" align="right">
-						<h4 style="margin-right: 500px;">작성자 : ${ dto.name}</h4>
+						<h4 style="margin-right: 400px;">작성자 : ${ dto.name}</h4>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
-						<h4 style="margin-right: 500px;">조회수 : ${ dto.visitcount }</h4>
+						<h4 style="margin-right: 400px;">조회수 : ${ dto.visitcount }</h4>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
-						<h4 style="margin-right: 500px;">추천수 : ${ dto.likecount }</h4>
+						<h4 style="margin-right: 400px;">추천수 : ${ dto.likecount }</h4>
 					</td>
 				</tr>
 
@@ -364,17 +364,17 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 				<td>
 					<!-- <h4>디버깅용 임시 텍스트 dto.writernum = ${ dto.writernum }</h4>
 					<h4>디버깅용 임시 텍스트 dto.idx = ${ dto.idx }</h4> -->
-					<h4 style="margin-left: 500px;">행사명 : ${ dto.fesname }</h4>
-					<h4 style="margin-left: 500px;">행사종류 : ${ dto.fescate }</h4>
-					<h4 style="margin-left: 500px;">주소 : ${ dto.feslocation }</h4>
-					<h4 style="margin-left: 500px;">기간 : ${ dto.fesstart } ~ ${ dto.fesend }</h4>
-					
+					<h4 style="margin-left: 400px;">행사명 : ${ dto.fesname }</h4>
+					<h4 style="margin-left: 400px;">행사종류 : ${ dto.fescate }</h4>
+					<h4 style="margin-left: 400px;">주소 : ${ dto.feslocation }</h4>
+					<h4 style="margin-left: 400px;">기간 : ${ dto.fesstart } ~ ${ dto.fesend }</h4>
+
 				</td>
 			</tr>
 
 			<tr>
 				<td><br>
-					<h4 style="margin-left: 500px; margin-right: 500px;">
+					<h4 style="margin-left: 400px; margin-right: 400px;">
 						내용 :
 						<%=dto.getContent().replace("\n", "<br>")%></h4></td>
 			</tr>
@@ -480,7 +480,7 @@ seoulmate.board.BoardDTO dto = (seoulmate.board.BoardDTO) request.getAttribute("
 											// 지도의 중심을 검색한 위치로 이동시킵니다
 											map.setCenter(coords);
 										} else {
-											alert('디버깅 얼럿 - 주소로 좌표를 검색하는데 실패했습니다: '
+											alert('(kakao map) - 주소로 좌표를 검색하는데 실패했습니다: '
 													+ status
 													+ " "
 													+ '${dto.fesname}');

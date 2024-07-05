@@ -170,51 +170,49 @@
 	});
 
 	function renderComments(commentList) {
-		var commentContainer = $("#commentList");
-		commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
+	    var commentContainer = $("#commentList");
+	    commentContainer.empty(); // 기존의 댓글 목록을 모두 제거
 
-		if (commentList.length > 0) {
-			// 댓글이 있는 경우 HTML을 생성하여 추가
-			var html = "";
-			for (var i = 0; i < commentList.length; i++) {
-				var comment = commentList[i];
-				html += '<div class="card mb-2">';
-				html += '<div class="card-body">';
-				html += '<h5 class="card-title">' + comment.writer + '</h5>';
-				html += '<p class="card-text">' + comment.content + '</p>';
-				html += '<p class="card-text">';
-				html += '<small class="text-muted">' + comment.createdat
-						+ '</small>';
-				html += '</p>';
-				html += '<button class="btn btn-primary btn-sm edit-btn" data-id="' + comment.id + '">수정</button>';
-				html += '<button class="btn btn-danger btn-sm delete-btn" data-id="' + comment.id + '">삭제</button>';
-				html += '</div>';
-				html += '</div>';
-			}
-			commentContainer.html(html); // 댓글 목록을 HTML에 추가
-		} else {
-			commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
-		}
+	    if (commentList.length > 0) {
+	        var html = "";
+	        for (var i = 0; i < commentList.length; i++) {
+	            var comment = commentList[i];
+	            html += '<div class="card mb-2">';
+	            html += '<div class="card-body">';
+	            html += '<h5 class="card-title">' + comment.writer + '</h5>';
+	            html += '<p class="card-text">' + comment.content + '</p>';
+	            html += '<p class="card-text">';
+	            html += '<small class="text-muted">' + comment.createdat + '</small>';
+	            html += '</p>';
+	            html += '<button class="btn btn-primary btn-sm edit-btn" data-id="' + comment.id + '">수정</button>';
+	            html += '<button class="btn btn-danger btn-sm delete-btn" data-id="' + comment.id + '">삭제</button>';
+	            html += '</div>';
+	            html += '</div>';
+	        }
+	        commentContainer.html(html); // 댓글 목록을 HTML에 추가
+	    } else {
+	        commentContainer.html('<p>No comments found.</p>'); // 댓글이 없는 경우 메시지 표시
+	    }
 	}
+
 	// 서버에서 댓글 목록을 가져오는 함수
 	function loadComments() {
-		var idx = "${dto.idx}"; // 게시글의 idx 값을 가져옴 (서버에서 JSP로 데이터 전달 방식에 따라 다를 수 있음)
+	    var idx = "${dto.idx}"; // 게시글의 idx 값을 가져옴 (서버에서 JSP로 데이터 전달 방식에 따라 다를 수 있음)
 
-		$.ajax({
-			url : 'commentlist.do',
-			type : 'GET',
-			dataType : 'json', // 서버에서 전송하는 데이터 형식이 JSON임을 명시
-			data : {
-				idx : idx
-			},
-			success : function(response) {
-				renderComments(response); // 받아온 데이터를 처리하는 함수 호출
-			},
-			error : function(xhr, status, error) {
-				console.error('AJAX 요청 실패: ', status, error);
-			}
-		});
-
+	    $.ajax({
+	        url: 'commentlist.do',
+	        type: 'GET',
+	        dataType: 'json', // 서버에서 전송하는 데이터 형식이 JSON임을 명시
+	        data: {
+	            idx: idx
+	        },
+	        success: function(response) {
+	            renderComments(response); // 받아온 데이터를 처리하는 함수 호출
+	        },
+	        error: function(xhr, status, error) {
+	            console.error('AJAX 요청 실패: ', status, error);
+	        }
+	    });
 	}
 </script>
 

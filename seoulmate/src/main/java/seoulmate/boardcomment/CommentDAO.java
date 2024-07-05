@@ -34,66 +34,60 @@ public class CommentDAO extends DBConnPool {
 	}
 
 	public List<CommentDTO> getCommentsByBoardIdx(int idx) {
-		List<CommentDTO> comments = new ArrayList<>();
-		String sql = "SELECT commentid, writer, content, createdat, writernum FROM comments WHERE idx = ?";
+	    List<CommentDTO> comments = new ArrayList<>();
+	    String sql = "SELECT commentid, writer, content, createdat, writernum FROM comments WHERE idx = ? ORDER BY createdat DESC"; // 최신순 정렬
 
-		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	    try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setInt(1, idx);
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            while (rs.next()) {
+	                int commentId = rs.getInt("commentid");
+	                String writer = rs.getString("writer");
+	                String content = rs.getString("content");
+	                Timestamp createdAt = rs.getTimestamp("createdat");
+	                int writernum = rs.getInt("writernum");
+	                CommentDTO comment = new CommentDTO(commentId, idx, writer, content, createdAt, writernum);
+	                comments.add(comment);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Failed to fetch comments for idx: " + idx, e);
+	    } finally {
+	        close(); // 작업 종료 후 자원 반납
+	    }
 
-			pstmt.setInt(1, idx);
-
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					int commentId = rs.getInt("commentid");
-					String writer = rs.getString("writer");
-					String content = rs.getString("content");
-					Timestamp createdAt = rs.getTimestamp("createdat");
-					int writernum = rs.getInt("writernum");
-					CommentDTO comment = new CommentDTO(commentId, idx, writer, content, createdAt, writernum);
-					comments.add(comment);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to fetch comments for idx: " + idx, e);
-		} finally {
-			close(); // 작업 종료 후 자원 반납
-		}
-
-		return comments;
+	    return comments;
 	}
 
-	// 게시글 번호에 해당하는 모든 댓글 조회 메서드
-
-	// 특정 게시글 번호에 해당하는 모든 댓글 조회
 	public List<CommentDTO> getAllCommentsByPostId(int postId) {
-		List<CommentDTO> comments = new ArrayList<>();
-		String sql = "SELECT commentid, writer, content, createdat, writernum FROM comments WHERE idx = ?";
+	    List<CommentDTO> comments = new ArrayList<>();
+	    String sql = "SELECT commentid, writer, content, createdat, writernum FROM comments WHERE idx = ? ORDER BY createdat DESC"; // 최신순 정렬
 
-		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	    try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+	        pstmt.setInt(1, postId);
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            while (rs.next()) {
+	                int commentId = rs.getInt("commentid");
+	                String writer = rs.getString("writer");
+	                String content = rs.getString("content");
+	                Timestamp createdAt = rs.getTimestamp("createdat");
+	                int writernum = rs.getInt("writernum");
 
-			pstmt.setInt(1, postId);
+	                CommentDTO comment = new CommentDTO(commentId, postId, writer, content, createdAt, writernum);
+	                comments.add(comment);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw new RuntimeException("Failed to fetch comments for postId: " + postId, e);
+	    } finally {
+	        close(); // 작업 종료 후 자원 반납
+	    }
 
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-					int commentId = rs.getInt("commentid");
-					String writer = rs.getString("writer");
-					String content = rs.getString("content");
-					Timestamp createdAt = rs.getTimestamp("createdat");
-					int writernum = rs.getInt("writernum");
-
-					CommentDTO comment = new CommentDTO(commentId, postId, writer, content, createdAt, writernum);
-					comments.add(comment);
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to fetch comments for postId: " + postId, e);
-		} finally {
-			close(); // 작업 종료 후 자원 반납
-		}
-
-		return comments;
+	    return comments;
 	}
+
 
 	// 댓글 삭제 메서드
 	public boolean deleteComment(int commentId ,int num) {

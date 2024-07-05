@@ -42,32 +42,32 @@
 
 
 <script>
-$(document).ready(function() {
-	$("#likeButton").click(function() {
-		var idx = "${dto.idx}"; // 클릭한 버튼에 대한 DTO 객체의 idx 값 사용
+	$(document).ready(function() {
+		$("#likeButton").click(function() {
+			var idx = "${dto.idx}"; // 클릭한 버튼에 대한 DTO 객체의 idx 값 사용
 
-		$.ajax({
-			type : "POST", // POST 메소드 사용
-			url : "userlike.do",
-			data : {
-				idx : idx
-			},
-			success : function(response) {
-				// 서버에서 'success'를 반환하면 실행됩니다.
-				if (response.trim() === 'success') {
-					alert('추천되었습니다.');
-					location.reload(); // 페이지 새로고침 혹은 적절한 방식으로 UI 업데이트
-				} else {
-					alert('이미 추천한 게시글 입니다.');
+			$.ajax({
+				type : "POST", // POST 메소드 사용
+				url : "userlike.do",
+				data : {
+					idx : idx
+				},
+				success : function(response) {
+					// 서버에서 'success'를 반환하면 실행됩니다.
+					if (response.trim() === 'success') {
+						alert('추천되었습니다.');
+						location.reload(); // 페이지 새로고침 혹은 적절한 방식으로 UI 업데이트
+					} else {
+						alert('이미 추천한 게시글 입니다.');
+					}
+				},
+				error : function(xhr, status, error) {
+					alert('회원만 추천가능합니다');
+					console.error(xhr);
 				}
-			},
-			error : function(xhr, status, error) {
-				alert('회원만 추천가능합니다');
-				console.error(xhr);
-			}
+			});
 		});
 	});
-});
 </script>
 
 
@@ -127,17 +127,17 @@ seoulmate.board.UserBoardDTO dto = (seoulmate.board.UserBoardDTO) request.getAtt
 				</td>
 				<tr>
 					<td colspan="2" align="right">
-						<h4 style="margin-right: 500px;">작성자 : ${ dto.name}</h4>
+						<h4 style="margin-right: 400px;">작성자 : ${ dto.name}</h4>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
-						<h4 style="margin-right: 500px;">조회수 : ${ dto.visitcount }</h4>
+						<h4 style="margin-right: 400px;">조회수 : ${ dto.visitcount }</h4>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2" align="right">
-						<h4 style="margin-right: 500px;">추천수 : ${ dto.likecount }</h4>
+						<h4 style="margin-right: 400px;">추천수 : ${ dto.likecount }</h4>
 					</td>
 				</tr>
 			</table>
@@ -187,16 +187,16 @@ seoulmate.board.UserBoardDTO dto = (seoulmate.board.UserBoardDTO) request.getAtt
 				<td>
 					<!-- <h4>디버깅용 임시 텍스트 dto.writernum = ${ dto.writernum }</h4>
 					<h4>디버깅용 임시 텍스트 dto.idx = ${ dto.idx }</h4> -->
-					<h4 style="margin-left: 500px;">행사명 : ${ dto.fesname }</h4>
-					<h4 style="margin-left: 500px;">행사종류 : ${ dto.fescate }</h4>
-					<h4 style="margin-left: 500px;">주소 : ${ dto.feslocation }</h4>
-					<h4 style="margin-left: 500px;">기간 : ${ dto.fesstart } ~ ${ dto.fesend }</h4>
-					
+					<h4 style="margin-left: 400px;">행사명 : ${ dto.fesname }</h4>
+					<h4 style="margin-left: 400px;">행사종류 : ${ dto.fescate }</h4>
+					<h4 style="margin-left: 400px;">주소 : ${ dto.feslocation }</h4>
+					<h4 style="margin-left: 400px;">기간 : ${ dto.fesstart } ~ ${ dto.fesend }</h4>
+
 				</td>
 			</tr>
 			<tr>
 				<td><br>
-					<h4 style="margin-left: 500px; margin-right: 500px;">
+					<h4 style="margin-left: 400px; margin-right: 400px;">
 						내용 :
 						<%=dto.getContent().replace("\n", "<br>")%></h4></td>
 			</tr>
