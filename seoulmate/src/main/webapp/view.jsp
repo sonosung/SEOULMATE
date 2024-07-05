@@ -274,7 +274,7 @@ seoulmate.board.UserBoardDTO dto = (seoulmate.board.UserBoardDTO) request.getAtt
 											// 지도의 중심을 검색한 위치로 이동시킵니다
 											map.setCenter(coords);
 										} else {
-											alert('주소로 좌표를 검색하는데 실패했습니다: '
+											alert('(kakao map) - 주소로 좌표를 검색하는데 실패했습니다: '
 													+ status);
 										}
 									});
