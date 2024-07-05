@@ -10,7 +10,7 @@
 <h2>이메일 전송하기</h2>
 <form method="post" action="EmailSendProcess.jsp">
 <table border=1>
-    <tr>    
+   <tr>    
         <td>
             보내는 사람 : <input type="text" name="from" value="" />
         </td>
@@ -25,7 +25,7 @@
             제목 : <input type="text" name="subject" size="50" value="" />
         </td>
     </tr>
-    <tr>    
+   <tr>    
         <td>
             형식 :
             <input type="radio" name="format" value="text" checked />Text

@@ -18,9 +18,7 @@
 
     <!-- Custom fonts for this template-->
     <link href="./vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="./css/sb-admin-2.min.css" rel="stylesheet">
@@ -383,7 +381,7 @@
                     <div class="bg-light rounded-4 py-5 px-4 px-md-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-3 mb-3"><i class="bi bi-envelope"></i></div>
-                            <h1 class="fw-bolder">회원가입 인증메일 보내기</h1>
+                            <h1 class="fw-bolder">유저에게 이메일 보내기</h1>
                             
                         </div>
                         <div class="row gx-5 justify-content-center">
@@ -395,13 +393,16 @@
                                 <!-- To make this form functional, sign up at-->
                                 <!-- https://startbootstrap.com/solution/contact-forms-->
                                 <!-- to get an API token!-->
-                                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                                <!-- <form id="contactForm" data-sb-form-api-token="API_TOKEN"> -->
+                                <!-- <form method="post" action="EmailSendProcess.jsp" data-sb-form-api-token="API_TOKEN"> -->
                                 
                                 	<!-- Sender Email address input-->
                                     <div class="form-floating mb-3">
                                         <!-- <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
                                        -->  
-                                        <input class="form-control" type="text" name="from" value="" data-sb-validations="required,email" />
+                                        <!-- <input class="form-control" type="text" name="from" value="" data-sb-validations="required,email" /> -->
+                                        
+                                        <input class="form-control" type="text" name="auth" value="seoulmate01@naver.com" readonly  />
                                         <label for="email" >보내는 사람</label>
                                         <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                         <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
@@ -409,8 +410,10 @@
                                     
                                     <!-- Sender Email address input-->
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="email" type="text" placeholder="name@example.com" data-sb-validations="required,email"
-                                         name="to" value="" />
+                                        <!-- <input class="form-control" id="email" type="text" placeholder="name@example.com" data-sb-validations="required,email"
+                                         name="to" value="" /> -->
+                                         
+                                         <input class="form-control" placeholder="name@example.com" type="text" name="user" value="" />
                                         <label for="email">받는 사람</label>
                                         <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                         <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
@@ -418,8 +421,8 @@
                                     
                                     <!-- Title input-->
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="name" type="text" placeholder="title" data-sb-validations="required"
-                                         name="subject" value="" />
+                                        <!-- <input class="form-control" id="name" type="text" placeholder="title" data-sb-validations="required" name="subject" value="" /> -->
+                                        <input class="form-control" type="text" name="title" size="50" value="" />
                                         <label for="title">이메일 제목</label>
                                         <div class="invalid-feedback" data-sb-feedback="title:required">A title is required.</div>
                                     </div>
@@ -433,9 +436,9 @@
                                     
                                     <!-- Message input-->
                                     <div class="form-floating mb-3">
-                                        <textarea class="form-control" id="message" placeholder="인증번호 4자리를 입력해주세요..." style="height: 10rem" data-sb-validations="required"
-                                         name="content"></textarea>
-                                        <label for="message">이메일 인증 번호</label>
+                                        <!-- <textarea class="form-control" id="message" placeholder="내용을 입력해주세요..." style="height: 10rem" data-sb-validations="required" name="content"></textarea> -->
+                                        <textarea class="form-control" placeholder="내용을 입력해주세요..." name="content" style="height: 10rem"></textarea>
+                                        <label for="message">이메일 내용</label>
                                         <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
                                     </div>
                                     
@@ -519,10 +522,14 @@
 
     <!-- Core plugin JavaScript-->
     <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Contact Form Core theme JS-->
+    <script src="../resources/js/scripts.js"></script>
+    <!-- <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> -->
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
 </body>
-
 </html>

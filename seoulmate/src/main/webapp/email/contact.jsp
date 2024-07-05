@@ -119,11 +119,12 @@
                         <!-- To make this form functional, sign up at-->
                         <!-- https://startbootstrap.com/solution/contact-forms-->
                         <!-- to get an API token!-->
-                        <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN" action="EmailSendProcess.jsp">
+                        <!-- <form id="contactForm" data-sb-form-api-token="API_TOKEN" method="post" action="./EmailSendProcess.jsp"> -->
+                        <form method="post" action="EmailSendProcess.jsp" data-sb-form-api-token="API_TOKEN">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
                             	<!-- 관리자 이메일 -->
-                             	<input type="hidden" name="to" value="seoulmate01@naver.com"/> 
+                             	<input type="text" name="to" value="seoulmate01@naver.com"/> 
                                 
                                 <!-- 사용자 이메일 -->
                                 <input class="form-control" id="name" type="text" name="subject" placeholder="Enter a title..." data-sb-validations="required" />
