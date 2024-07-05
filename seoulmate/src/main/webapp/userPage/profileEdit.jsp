@@ -188,21 +188,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 								<button type="button" class="btn btn-primary btn-user-An-search btn-block" id="postcodify_search_button">검색</button>
 								</div>
 							</div>
-					<!-- 	<div class="row mb-3">
-								<div class="col-sm-3">
-									<h6 class="mb-0">변경할 비밀번호</h6>
-								</div>
-									<div class="col-sm-4 text-secondary">
-										<input type="password" class="form-control" id="pass1"
-										 name="USER_PASSWORD" placeholder="비밀번호 / Password"
-										  required onkeyup="checkPasswordMatch();">
-									</div>
-									<div class="col-sm-5 text-secondary">
-										<input type="password" class="form-control" id="pass2" 
-										name="USER_PASSWORD2" placeholder="비밀번호 확인 / Confirm Password "
-										 required onkeyup="checkPasswordMatch();">
-									</div>
-							</div> -->
 							<div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">현재 비밀번호</h6>
@@ -213,16 +198,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 							</div>
 							<div class="row mb-3">
 								<div class="col-sm-3">
-								<!-- 비밀번호 바꾸는 기능 중지상태 -->
-<!-- 							<h6 class="mb-0">새 비밀번호</h6>
-								</div>
-								<div class="col-sm-4 text-secondary">
-									<input type="password" class="form-control" name="NEW_USER_PASS" id="NewPass" placeholder="비밀번호 / Password" required onkeyup="checkPasswordMatch();">
-								</div>
-								<div class="col-sm-4 text-secondary">
-									<input type="password" class="form-control" name="NEW_USER_PASS2" id="NewPass2" placeholder="재확인 비밀번호 / Password" required onkeyup="checkPasswordMatch();">
-								</div>
-							</div> -->
+
 							</div>
 							<br>
 							<div class="row mb-3">

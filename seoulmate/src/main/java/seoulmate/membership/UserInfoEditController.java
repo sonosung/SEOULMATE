@@ -32,9 +32,12 @@ public class UserInfoEditController extends HttpServlet{
 	        String USER_STREET = req.getParameter("USER_STREET");
 	        String zip = req.getParameter("USER_ZIP");
 	        String InputPass = req.getParameter("USER_PASS");
-	        String NewPass = req.getParameter("NEW_USER_PASS");
+//	        String NewPass = req.getParameter("NEW_USER_PASS");
 	        String pass = member.getUSER_PASSWORD();
 	        Part mainimagePart = req.getPart("ofile");
+
+	        System.out.println("세션 비번" + member.getUSER_PASSWORD());
+	        
 	        
 	        
 	        if (mainimagePart != null && mainimagePart.getSize() > 0) {
@@ -50,13 +53,10 @@ public class UserInfoEditController extends HttpServlet{
 		    String dbId = "C##KEAM"; // DB 사용자 아이디
 		    String dbPw = "1234"; // DB 사용자 비밀번호
 		   
-	            
-	        // 비밀번호는 session에서 가져옴
 	        HttpSession session = req.getSession();
-//	        String pass = (String)session.getAttribute("pass");
 	        
 	        //새 비밀번호 설정 안 함
-	        if(pass.equals(InputPass) && NewPass == null) {
+			if (pass.equals(InputPass)) {
 		        MemberDAO dao = new MemberDAO(jdbcDriver, dbUrl, dbId, dbPw);
 		        member = dao.getMemberDTO_UPDATE(idx,email, name, user_id,PHONENUM,USER_STREET,zip, mainimagePart);
 		        
@@ -69,21 +69,7 @@ public class UserInfoEditController extends HttpServlet{
 		   	     }else if(member.getUD() == null){
 		   	    	 alertAndGo(resp, "회원정보 수정에 실패하였습니다." , "profileEdit.jsp?error=1");
 		   	     }
-		    //새 비밀번호 설정 함
-	        }else if(pass.equals(InputPass) && NewPass != null) {
-	        	MemberDAO dao = new MemberDAO(jdbcDriver, dbUrl, dbId, dbPw);
-		        member = dao.getMemberDTO_UPDATE(idx,email, name, user_id,PHONENUM,USER_STREET,zip, mainimagePart, NewPass);
-		        
-		        dao.close();
-
-		            if(member.getUD() != null ) {
-		   	    	 alertAndGo(resp, "회원 정보 수정이 완료되었습니다." , "myPage.jsp");
-			         session.removeAttribute("user");
-			         session.setAttribute("user", member);
-		   	     }else if(member.getUD() == null){
-		   	    	 alertAndGo(resp, "회원정보 수정에 실패하였습니다." , "profileEdit.jsp?error=1");
-		   	     }
-	        }else {
+			}else {
 	        	alertAndGo(resp, "현재 사용 중인 비밀번호가 틀렸습니다." , "profileEdit.jsp?error=1");
 	        }
 

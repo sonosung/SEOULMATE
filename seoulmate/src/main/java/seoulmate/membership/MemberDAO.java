@@ -40,10 +40,10 @@ public class MemberDAO extends JDBConnect {
                 dto.setUSER_STREET(rs.getString("USER_STREET"));
                 dto.setUSER_ZIP(rs.getString("USER_ZIP"));
                 dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO"));
-                dto.setUSER_POST(rs.getString("USER_POST"));
-                dto.setUSER_COMMENT(rs.getString("USER_COMMENT"));
                 dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
+    
             }
+ 
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -222,8 +222,6 @@ public class MemberDAO extends JDBConnect {
                 dto.setUSER_STREET(rs.getString("USER_STREET"));
                 dto.setUSER_ZIP(rs.getString("USER_ZIP"));
                 dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
-                dto.setUSER_POST(rs.getString("USER_POST"));
-                dto.setUSER_COMMENT(rs.getString("USER_COMMENT"));
                 dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
             }
             
@@ -291,8 +289,6 @@ public class MemberDAO extends JDBConnect {
                 dto.setUSER_STREET(rs.getString("USER_STREET"));
                 dto.setUSER_ZIP(rs.getString("USER_ZIP"));
                 dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
-                dto.setUSER_POST(rs.getString("USER_POST"));
-                dto.setUSER_COMMENT(rs.getString("USER_COMMENT"));
                 dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
             }
             
