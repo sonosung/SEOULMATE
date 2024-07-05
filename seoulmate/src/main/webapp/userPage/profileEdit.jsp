@@ -16,6 +16,8 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+<link href="css/sb-admin-2.min.css" rel="stylesheet">
+<script src="js/sb-admin-2.min.js"></script>
 <style type="text/css">
 body {
 	margin-top: 20px;
@@ -68,8 +70,8 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 
 </head>
 <body style="background-color:#D4F1F4;">
-<!-- <form name="user" method="post" enctype="multipart/form-data" action="./membership/profileEdit.do" onsubmit="return validateForm(this);"> -->
-<form name="user" method="post" enctype="multipart/form-data" action="../membership/profileEdit.do" onsubmit="return validateForm(this);">
+
+<form name="user" method="post" enctype="multipart/form-data" action="profileEdit.do" onsubmit="return validateForm(this);">
     <input type="hidden" name="email" value="<% out.println(user.getEMAIL()); %>">
     <!-- 나머지 폼 필드들 -->
 
@@ -95,14 +97,17 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 
 			<!-- <div class="row">
 				<div class="col-lg-4"> -->
-		<div style="height: 443px; width: 1260px;"> 
+		<div style="height: 600px; width: 1260px;"> 
 			<div class="row gutters-sm">
 				<div class="col-md-4 mb-3">
-					<div class="card" style="height: 400px;">
+					<div class="card" style="height: 485px;">
 						<div class="card-body">
 							<div class="d-flex flex-column align-items-center text-center">
-								<img src="../resources/assets/img/blankProfile.png" alt="Admin"
-									class="rounded-circle" width="200" height="200">
+																<% if (user.getBase64UserPhoto() == null || user.getBase64UserPhoto().isEmpty()) { %>
+ 									   <img src="../resources/assets/img/blankProfile.png" class="rounded-circle" width="200" height="200">
+																										<% } else { %>
+										<img src="data:image/jpeg;base64, <%= user.getBase64UserPhoto() %>"  class="rounded-circle" width="200" height="200">
+																	<% } %>	
 								<div class="mt-3">
 									<br>
 								<h4><% out.println(user.getUSER_ID()); %></h4>
@@ -112,6 +117,8 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<!-- <button class="btn btn-primary"></button> -->
 									
 										<input type="file" name="ofile" class="btn btn-primary form-control-file">
+										<div style="margin-bottom: 10px;"></div>
+                                                <div id="PassHelp"> 사진을 선택하지 않으면 기본이미지로 돌아갑니다.</div>
 									
 									<!-- <button class="btn btn-outline-primary">Message</button> 메시지 버튼 사용은 보류. -->
 								</div>
@@ -125,16 +132,15 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 	
 				<div class="col-md-8">
 					<div class="card mb-3">
-						<div class="card-body" style="height: 396px;">
-						<!-- <form method="post" action="../membership/profileEdit.do"
-							onsubmit="return checkEditForm(this)"> -->
+						<div class="card-body" style="height: 400px;">
+
 						<br>
 							<div class="row mb-3">
 								<div class="col-sm-3">
 									<h6 class="mb-0">Email</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="EMAIL"
+									<input type="text" class="form-control" name="EMAIL" id="exampleInputEmail" required
 									value="<% out.println(user.getEMAIL()); %>">
 								</div>
 							</div>
@@ -143,7 +149,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">이름</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="USERNAME"
+									<input type="text" class="form-control" name="USERNAME" id="exampleInputName"  required
 									value="<% out.println(user.getUSERNAME()); %>">
 								</div>
 							</div>
@@ -152,7 +158,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">닉네임</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="USER_ID"
+									<input type="text" class="form-control" name="USER_ID" id="exampleID" required
 									value="<% out.println(user.getUSER_ID()); %>">
 								</div>
 							</div>
@@ -161,7 +167,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">핸드폰</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="PHONENUM"
+									<input type="text" class="form-control" name="PHONENUM" id="exampleInputPhone" required
 									value="<% out.println(user.getPHONENUM()); %>">
 									
 								</div>
@@ -171,7 +177,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<h6 class="mb-0">주소</h6>
 								</div>
 								<div class="col-sm-5 text-secondary">
-									<input type="text" class="form-control postcodify_address" name="USER_STREET"
+									<input type="text" class="form-control postcodify_address" name="USER_STREET" 
 									value="<% out.println(user.getUSER_STREET()); %>" readonly>
 								</div>
 								<div class="col-sm-2">
@@ -182,34 +188,107 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 								<button type="button" class="btn btn-primary btn-user-An-search btn-block" id="postcodify_search_button">검색</button>
 								</div>
 							</div>
+					<!-- 	<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">변경할 비밀번호</h6>
+								</div>
+									<div class="col-sm-4 text-secondary">
+										<input type="password" class="form-control" id="pass1"
+										 name="USER_PASSWORD" placeholder="비밀번호 / Password"
+										  required onkeyup="checkPasswordMatch();">
+									</div>
+									<div class="col-sm-5 text-secondary">
+										<input type="password" class="form-control" id="pass2" 
+										name="USER_PASSWORD2" placeholder="비밀번호 확인 / Confirm Password "
+										 required onkeyup="checkPasswordMatch();">
+									</div>
+							</div> -->
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">현재 비밀번호</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="password" class="form-control" name="USER_PASS" id="examplePass" required>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<div class="col-sm-3">
+								<!-- 비밀번호 바꾸는 기능 중지상태 -->
+<!-- 							<h6 class="mb-0">새 비밀번호</h6>
+								</div>
+								<div class="col-sm-4 text-secondary">
+									<input type="password" class="form-control" name="NEW_USER_PASS" id="NewPass" placeholder="비밀번호 / Password" required onkeyup="checkPasswordMatch();">
+								</div>
+								<div class="col-sm-4 text-secondary">
+									<input type="password" class="form-control" name="NEW_USER_PASS2" id="NewPass2" placeholder="재확인 비밀번호 / Password" required onkeyup="checkPasswordMatch();">
+								</div>
+							</div> -->
+							</div>
 							<br>
 							<div class="row mb-3">
 								<div class="col-sm-3"></div>
-								<div class="col-sm-9 text-secondary">
-								
-									
+								<div class="col-sm-5 text-secondary">
+																	<div class="col-sm-12">
+      								  <div id="passwordMatchMessage"></div>
+ 									</div>
 									<input type="submit" class="btn btn-primary px-4" 
 										value="Save Changes"
-										onclick="location.href='../membership/profileEdit.do';">
-									
-									<input type="submit" class="btn btn-primary px-4"
-										value="비밀번호 변경">
+										onclick="location.href='profileEdit.do';">
 								</div>
 							</div>
-							<!-- </form>	 -->	
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
 
 
 <% 
 }
 %>
+	<script>
+    function validateAndSubmit(event) {
+        event.preventDefault(); // 폼의 기본 제출 동작 방지
+
+        var password = document.getElementById("NewPass").value;
+        var repeatPassword = document.getElementById("NewPass2").value;
+        var uname = document.getElementById("exampleInputName").value.trim();
+		var inputEmail = document.getElementById("exampleInputEmail").value.trim();
+        var message = document.getElementById("passwordMatchMessage");
+        var inputPHONE = document.getElementById("exampleInputPhone").value.trim();
+        
+        var nameRegex = /^([a-zA-Z가-힣]+( [a-zA-Z가-힣]+)*)$/;
+        var nameKor = /^[가-힣]+$/;
+        var nameEng = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+        var Email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        var USER_PHONE = /^[0-9]*$/;
 	
+	
+	</script>
+
+	<script>
+        function checkPasswordMatch() {
+            var password = document.getElementById("NewPass").value;
+            var repeatPassword = document.getElementById("NewPass2").value;
+            var message = document.getElementById("passwordMatchMessage");
+            
+            if(password.length >= 6){
+                if (password === repeatPassword) {
+                    message.innerHTML = "비밀번호가 일치합니다.";
+                    message.style.color = "green";
+                } else {
+                    message.innerHTML = "비밀번호가 일치하지 않습니다.";
+                    message.style.color = "red";
+                }
+            	
+            } else {
+            	 message.innerHTML = "비밀번호는 6글자 이상이어야합니다.";
+                 message.style.color = "red";
+            }
+        }
+	</script>
 	<!-- Footer -->
 	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>
 	

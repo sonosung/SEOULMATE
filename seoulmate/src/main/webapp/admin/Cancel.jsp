@@ -56,7 +56,7 @@
                                         <div class="form-group">
                                      	   <%
                                             if (user != null) {
-            								    out.println(user.getUSER_ID()+"님 회원탈퇴하신다.");
+            								    out.println(user.getUSER_ID()+"님 회원 탈퇴시 글,댓글 전부 삭제됩니다.");
          								   }
                                             %>  
                                             <input type="hidden" name="EMAIL" value="<%= user != null ? user.getEMAIL() : "" %>">
@@ -70,7 +70,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="../index.jsp">계삭 안하기</a>
+                                        <a class="small" href="../index.jsp">회원탈퇴 취소</a>
                                     </div>
                                 </div>
                             </div>

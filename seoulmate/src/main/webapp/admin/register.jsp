@@ -108,11 +108,11 @@
                                 <div class="form-group row">			
 								<div class="col-sm-2-An mb-3 mb-sm-0">
 									<input type="text" class="form-control form-control-user postcodify_postcode5" name="USER_ZIP" 
-										placeholder="Zip" required readonly>
+										placeholder="Zip" readonly value=03048>
 								</div>
 								<div class="col-sm-8 mb-3 mb-sm-0">
 									<input type="text"  class="form-control form-control-user postcodify_address" name="USER_STREET" 
-										placeholder="도로명 주소 / Street" required readonly>
+										placeholder="도로명 주소 / Street" readonly value="서울특별시 종로구 청와대로 1">
 								</div>
 								<button type="button" class="btn btn-primary btn-user-An-search btn-block" id="postcodify_search_button" onclick="enableAddressFields()">검색</button>
                                 </div>

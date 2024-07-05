@@ -18,6 +18,8 @@ public class CancelController  extends HttpServlet {
 	            throws ServletException, IOException {
 		 String USER_PASSWORD = request.getParameter("USER_PASSWORD");
 		 String EMAIL = request.getParameter("EMAIL");
+		 MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
+			int idx = member.getUSER_NUM();
 		 
 	     String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
 	     String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
@@ -25,7 +27,7 @@ public class CancelController  extends HttpServlet {
 	     String dbPw = "1234"; // DB 사용자 비밀번호
 	     
 	     MemberDAO dao = new MemberDAO(jdbcDriver, dbUrl, dbId, dbPw);
-	     MemberDTO member = dao.getMemberDTO_Cancel(USER_PASSWORD,EMAIL);
+	     member = dao.getMemberDTO_Cancel(USER_PASSWORD,EMAIL,idx);
 		 if(member.getCANCEL() != null) {
 			System.out.println("계삭완료");
 			alertAndGo2(response, "회원탈퇴가 진행되었습니다.");
