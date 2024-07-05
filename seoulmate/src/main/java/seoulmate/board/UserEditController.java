@@ -2,6 +2,7 @@ package seoulmate.board;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
@@ -55,10 +56,21 @@ public class UserEditController extends HttpServlet {
         request.getRequestDispatcher("/Edit.jsp").forward(request, response);
     }
 
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
+
+        MemberDTO member = (MemberDTO) request.getSession().getAttribute("user");
+        if (member == null) {
+            response.sendRedirect("login.jsp");
+            return;
+        }
+
+        if (member.getUSER_NUM() > 4) {
+            JSFunction.alertBack(response, "게시글 수정 권한이 없습니다.");
+            return;
+        }
+
         String idx = request.getParameter("idx");
         String title = request.getParameter("title");
         String content = request.getParameter("content");
@@ -68,12 +80,18 @@ public class UserEditController extends HttpServlet {
         String fesstart = request.getParameter("fesstart");
         String fesend = request.getParameter("fesend");
 
+        String existingMainImage = request.getParameter("existingMainImage");
+        String existingSecImage = request.getParameter("existingSecImage");
+        String existingThiImage = request.getParameter("existingThiImage");
+
         Part mainimagePart = request.getPart("mainimage");
         byte[] mainimage = null;
         if (mainimagePart != null && mainimagePart.getSize() > 0) {
             try (InputStream mainimageInputStream = mainimagePart.getInputStream()) {
                 mainimage = mainimageInputStream.readAllBytes();
             }
+        } else if (existingMainImage != null && !existingMainImage.isEmpty()) {
+            mainimage = Base64.getDecoder().decode(existingMainImage);
         }
 
         Part secimagePart = request.getPart("secimage");
@@ -82,6 +100,8 @@ public class UserEditController extends HttpServlet {
             try (InputStream secimageInputStream = secimagePart.getInputStream()) {
                 secimage = secimageInputStream.readAllBytes();
             }
+        } else if (existingSecImage != null && !existingSecImage.isEmpty()) {
+            secimage = Base64.getDecoder().decode(existingSecImage);
         }
 
         Part thiimagePart = request.getPart("thiimage");
@@ -90,9 +110,12 @@ public class UserEditController extends HttpServlet {
             try (InputStream thiimageInputStream = thiimagePart.getInputStream()) {
                 thiimage = thiimageInputStream.readAllBytes();
             }
+        } else if (existingThiImage != null && !existingThiImage.isEmpty()) {
+            thiimage = Base64.getDecoder().decode(existingThiImage);
         }
 
         UserBoardDTO dto = new UserBoardDTO();
+        dto.setIdx(idx);
         dto.setTitle(title);
         dto.setContent(content);
         dto.setFescate(fescate);
@@ -103,17 +126,15 @@ public class UserEditController extends HttpServlet {
         dto.setMainimage(mainimage);
         dto.setSecimage(secimage);
         dto.setThiimage(thiimage);
-        dto.setIdx(idx);
 
         UserBoardDAO dao = new UserBoardDAO();
         int result = dao.updatePost(dto);
         dao.close();
 
         if (result == 1) {
-            response.sendRedirect("userlist.do"); // Redirect to view post page
             JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "userlist.do");
         } else {
-            JSFunction.alertLocation(response, "게시글 수정에 실패했습니다.", "Edit.jsp?idx=" + idx);
+            JSFunction.alertLocation(response, "게시글 수정에 실패했습니다.", "view.jsp?idx=" + idx);
         }
     }
 }

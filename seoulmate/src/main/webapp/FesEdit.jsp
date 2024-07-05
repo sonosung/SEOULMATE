@@ -99,7 +99,7 @@ th {
 					</select></td>
 				</tr>
 				<tr>
-					<h1>(디버깅용 임시 텍스트)dto.idx - ${ dto.idx }</h1>
+					<!-- <h1>(디버깅용 임시 텍스트)dto.idx - ${ dto.idx }</h1> -->
 					<td class="bg-secondary text-white">제목</td>
 					<td><input type="text" name="title" class="form-control"
 						value="${dto.title}"></td>
@@ -110,24 +110,39 @@ th {
 						value="${dto.fesname}"></td>
 				</tr>
 				<tr>
-					<td class="bg-secondary text-white">메인 이미지</td>
-					<td><input type="file" name="mainimage"
-						class="form-control-file"></td>
-				</tr>
+                    <td class="bg-secondary text-white">메인 이미지</td>
+                    <td>
+                        <c:if test="${not empty dto.base64MainImage}">
+                            <img src="data:image/jpeg;base64,${dto.base64MainImage}" alt="Main Image" style="width: 100px; height: auto;">
+                            <input type="hidden" name="existingMainImage" value="${dto.base64MainImage}">
+                        </c:if>
+                        <input type="file" name="mainimage" class="form-control-file">
+                    </td>
+                </tr>
 				<tr>
 					<td class="bg-secondary text-white">행사 내용</td>
 					<td><textarea name="content" class="form-control" rows="5">${dto.content}</textarea></td>
 				</tr>
 				<tr>
-					<td class="bg-secondary text-white">이미지 1</td>
-					<td><input type="file" name="secimage"
-						class="form-control-file"></td>
-				</tr>
-				<tr>
-					<td class="bg-secondary text-white">이미지 2</td>
-					<td><input type="file" name="thiimage"
-						class="form-control-file"></td>
-				</tr>
+                    <td class="bg-secondary text-white">이미지 1</td>
+                    <td>
+                        <c:if test="${not empty dto.base64SecImage}">
+                            <img src="data:image/jpeg;base64,${dto.base64SecImage}" alt="Secondary Image" style="width: 100px; height: auto;">
+                            <input type="hidden" name="existingSecImage" value="${dto.base64SecImage}">
+                        </c:if>
+                        <input type="file" name="secimage" class="form-control-file">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="bg-secondary text-white">이미지 2</td>
+                    <td>
+                        <c:if test="${not empty dto.base64ThiImage}">
+                            <img src="data:image/jpeg;base64,${dto.base64ThiImage}" alt="Tertiary Image" style="width: 100px; height: auto;">
+                            <input type="hidden" name="existingThiImage" value="${dto.base64ThiImage}">
+                        </c:if>
+                        <input type="file" name="thiimage" class="form-control-file">
+                    </td>
+                </tr>
 				<tr>
 					<td class="bg-secondary text-white">행사 주소</td>
 					<td><input type="text" name="feslocation" class="form-control"
