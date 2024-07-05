@@ -43,7 +43,7 @@
          <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/logout.jsp" id="Logout">Logout</a>
       </li>
       					<li class="nav-item mx-0 mx-lg-1">
-					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../membership/userinfo.do" type="submit"
+					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../userPage/myPage.jsp" type="submit"
 					onclick="document.getElementById('user').sumbit();">MyPage</a>
 					</li>
 <%

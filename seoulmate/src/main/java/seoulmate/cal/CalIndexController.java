@@ -42,14 +42,14 @@ public class CalIndexController  extends HttpServlet {
 //		     if (calData != null) {
 //		    	    request.setAttribute("calData", calData);
 //		    	    request.getRequestDispatcher("calIndex.jsp").forward(request, response);
-//		     }
+//		     } 이 코드 쓰면 페이지가 calIndex로 새로고침 돼서 index에서 열면 바로 calIndex 만 나옴
 		     
-		     for(int i = 0; i < calData.length; i++) {
-		    	 System.out.println(calData[i][0]);
-		    	 System.out.println(calData[i][1]);
-		    	 System.out.println(calData[i][2]);
-		    	 System.out.println(calData[i][3]);
-		     }
+//		     for(int i = 0; i < calData.length; i++) {
+//		    	 System.out.println(calData[i][0]);
+//		    	 System.out.println(calData[i][1]);
+//		    	 System.out.println(calData[i][2]);
+//		    	 System.out.println(calData[i][3]);
+//		     } 제대로 된 값을 가져왔는지 콘솔창에서 확인
 		     
 		        Gson gson = new Gson();
 		        String jsonData = gson.toJson(calData);

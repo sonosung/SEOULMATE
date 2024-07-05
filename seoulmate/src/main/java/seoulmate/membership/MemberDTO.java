@@ -1,5 +1,7 @@
 package seoulmate.membership;
 
+import java.util.Base64;
+
 public class MemberDTO {
 
 	private int USER_NUM;
@@ -10,13 +12,45 @@ public class MemberDTO {
 	private String USER_PASSWORD;
 	private String USER_POST;
 	private String USER_COMMENT;
-	private String USER_PHOTO;
-	private String base64uSER_PHOTO;
+	private String base64USER_PHOTO;
 	private String USER_STREET;
 	private String USER_ZIP;
 	private String USER_EMAIL_ERROR;
 	private String USER_ID_ERROR;
 	private String CANCEL;
+	private String UD;
+	private byte[] USER_PHOTO; 
+	private String base64UserPhoto;  // Base64 문자열로 인코딩된 사진 데이터를 저장할 필드 추가
+
+    public byte[] getUSER_PHOTO() {
+        return USER_PHOTO;
+    }
+
+    public void setUSER_PHOTO(byte[] userPhoto) {
+    	USER_PHOTO = userPhoto;
+        if (userPhoto != null) {
+            this.base64UserPhoto = Base64.getEncoder().encodeToString(userPhoto);
+        } else {
+            this.base64UserPhoto = null;
+        }
+    }
+
+    public String getBase64UserPhoto() {
+        return base64UserPhoto;
+    }
+
+    public void setBase64UserPhoto(String base64UserPhoto) {
+        this.base64UserPhoto = base64UserPhoto;
+    }
+
+
+	public String getUD() {
+		return UD;
+	}
+
+	public void setUD(String uD) {
+		UD = uD;
+	}
 
 	public String getCANCEL() {
 		return CANCEL;
@@ -90,20 +124,12 @@ public class MemberDTO {
 		USER_COMMENT = uSER_COMMENT;
 	}
 
-	public String getUSER_PHOTO() {
-		return USER_PHOTO;
+	public String getBase64USER_PHOTO() {
+		return base64USER_PHOTO;
 	}
 
-	public void setUSER_PHOTO(String uSER_PHOTO) {
-		USER_PHOTO = uSER_PHOTO;
-	}
-
-	public String getBase64uSER_PHOTO() {
-		return base64uSER_PHOTO;
-	}
-
-	public void setBase64uSER_PHOTO(String base64uSER_PHOTO) {
-	this.base64uSER_PHOTO = base64uSER_PHOTO; }
+	public void setBase64USER_PHOTO(String base64USER_PHOTO) {
+	this.base64USER_PHOTO = base64USER_PHOTO; }
 	
 	public String getUSER_STREET() {
 		return USER_STREET;

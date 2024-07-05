@@ -40,19 +40,24 @@ public class LoginController extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("user", member);
             System.out.println("prevPage: " + prevPage);
-
-            if (prevPage == null || prevPage.equals("null") || prevPage.trim().isEmpty()) {
-                System.out.println("prevPage is null or empty");
-                response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
-            } else if (prevPage.contains(".do")) {
-                response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
-            } else {
-                System.out.println("prevPage is not empty: " + prevPage);
-                response.sendRedirect(prevPage);
+            
+            if(member.getUSER_NUM() <= 4) {
+            	response.sendRedirect(request.getContextPath() + "/admin/adminIndex.jsp");
+            }else {
+                if (prevPage == null || prevPage.equals("null") || prevPage.trim().isEmpty()) {
+                    System.out.println("prevPage is null or empty");
+                    response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
+                } else if (prevPage.contains(".do")) {
+                    response.sendRedirect(request.getContextPath() + "/MainContent/index.jsp");
+                } else {
+                    System.out.println("prevPage is not empty: " + prevPage);
+                    response.sendRedirect(prevPage);
+                }
             }
         } else {
             alertAndGo(response, "로그인 정보가 일치하지 않습니다.", "login.jsp?error=");
         }
+        
     }
     
     public static void alertAndGo(HttpServletResponse response, String message, String url) {
