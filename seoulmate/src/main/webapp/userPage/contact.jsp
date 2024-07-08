@@ -13,7 +13,7 @@
         <title>문의 페이지</title>
         
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="../resources/assets/img/user/seungho.jpg"" />
+        <link rel="icon" type="image/x-icon" href="../resources/assets/img/user/seungho.jpg" />
         
         <!-- 인덱스 페이지 폰트 Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
@@ -45,31 +45,27 @@
                             <h1 class="fw-bolder">Get in touch</h1>
                             <p class="lead fw-normal text-muted mb-0">무엇이든 물어보세요!</p>
                         </div>
-                        <%-- <div class="row gx-5 justify-content-center">
+                        <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
-                                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
-                                <!-- <form method="post" id="contactForm" action="EmailSendProcess.jsp" data-sb-form-api-token="API_TOKEN"> -->
+                              <!--   <form id="contactForm" data-sb-form-api-token="API_TOKEN"> -->
+                                <form method="post" id="contactForm" action="../email/EmailReceiveProcess.jsp" data-sb-form-api-token="API_TOKEN">
                                 <input type="hidden" name="to" value="seoulmate01@naver.com"/>
-                                    <!-- Name input-->
-                                    <div class="form-floating mb-3">
-                                        <input class="form-control" name="subject" id="subject" type="text" placeholder="Enter the title..." data-sb-validations="required" />
-                                        <label for="name">Title</label>
-                                        <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
-                                    </div>
-                                    
+                                    <%
+									   MemberDTO user = (MemberDTO) session.getAttribute("user");
+									   if (user != null) {}
+									%>
                                     <!-- Email address input-->
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" name="from" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                        <input class="form-control" name="from" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" readonly value="<%= user.getEMAIL() %>"/>
                                         <label for="email">Email address</label>
                                         <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
                                         <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
                                     </div>
                                     
-                                    <!-- Phone number input-->
-                                    <div class="form-floating mb-3">
-                                        <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
-                                        <label for="phone">Phone number</label>
-                                        <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                                                                        <div class="form-floating mb-3">
+                                        <input class="form-control" name="subject" id="subject" type="text" placeholder="Enter the title..." data-sb-validations="required" />
+                                        <label for="name">Title</label>
+                                        <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
                                     </div>
                                     
                                     <!-- Message input-->
@@ -78,100 +74,14 @@
                                         <label for="message">Message</label>
                                         <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
                                     </div>
-                                    
-                                    <!-- Submit success message-->
-                                    <!-- This is what your users will see when the form has successfully submitted -->
-                                    <div class="d-none" id="submitSuccessMessage">
-                                        <div class="text-center mb-3">
-                                            <div class="fw-bolder">메시지가 성공적으로 전달되었습니다!</div>
-                                            <br />
-                                            <a href="list.do">서울에서 열리는 행사가 궁금하다면?</a>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- Submit error message-->
-                                    <!-- This is what your users will see when there is an error submitting the form-->
-                                    <div class="d-none" id="submitErrorMessage">
-                                    	<div class="text-center text-danger mb-3">
-                                    		Error sending message!
-                                    	</div>
-                                    </div>
-<%
-   MemberDTO user = (MemberDTO) session.getAttribute("user");
-   if (user != null) {
-	   out.println("유저이름 " + user.getUSERNAME() +"유저 메일 " + user.getEMAIL()  +  "님!");};
-%>
-                                    <!-- Submit Button-->
                                     <div class="d-grid">
-                                    	<button class="btn btn-primary btn-lg disabled" id="submitButton" type="submit">
-                                    		Submit
+                                    	<button class="btn btn-primary btn-lg" id="submitButton" type="submit">
+                                    		Send
                                     	</button>
                                     </div>
                                 </form>
                             </div>
-                        </div> --%>
-                        
-                        <!-- Contact Section Form-->
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 col-xl-7">
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- * * SB Forms Contact Form * *-->
-                        <!-- * * * * * * * * * * * * * * *-->
-                        <!-- This form is pre-integrated with SB Forms.-->
-                        <!-- To make this form functional, sign up at-->
-                        <!-- https://startbootstrap.com/solution/contact-forms-->
-                        <!-- to get an API token!-->
-                        <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN" action="../email/EmailReceiveProcess.jsp">
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                            <% MemberDTO user = (MemberDTO) session.getAttribute("user");
-                            if (user != null) {}%>
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" readonly value="<%= user.getEMAIL() %>"/>
-                                <label for="email">Email address</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid. </div>
-                            </div>                            
-                            <!-- Name input-->
-                            <div class="form-floating mb-3">
-                            	<!-- 관리자 이메일 -->
-                             	<input type="hidden" name="auth" value="seoulmate01@naver.com"/> 
-                                
-                                <!-- 사용자 이메일 -->
-                                <input class="form-control" id="name" type="text" name="subject" placeholder="Enter a title..." data-sb-validations="required" />
-                                <label for="name">Title</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
-                            </div>
-                            
-                            <!-- Message input-->
-                            <div class="form-floating mb-3">
-                                <textarea class="form-control" name="content" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
-                                <label for="message">Message</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A message is required.</div>
-                            </div>
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
-                                </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                            <!-- Submit Button-->
-                            <button class="btn btn-primary btn-xl disabled" id="submitButton" type="submit">Send</button>
-                        </form>
-                    </div>
-                </div>
-                
-                
+                        </div>
                     </div>
                 </div>
             </section>

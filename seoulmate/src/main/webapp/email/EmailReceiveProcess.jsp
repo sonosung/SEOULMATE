@@ -45,8 +45,11 @@
 
         // 이메일 전송
         Transport.send(message);
-
-        out.println("이메일 전송 성공");
+ 		 
+        %> <script>alert("이메일 전송 성공");
+        location.href="../MainContent/index.jsp";</script>
+      
+      	<%
 
     } catch (MessagingException e) {
         throw new RuntimeException(e);
