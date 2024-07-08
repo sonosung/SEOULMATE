@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.Calendar;
 import common.DBConnPool;
 
 
@@ -394,5 +395,86 @@ public class BoardDAO extends DBConnPool {
         }
         return festivals;
     }
+	
+	// 1. 현재 월을 기준으로 2개월 이전부터 2개월 이후까지 각 월별 축제 수를 가져오는 메서드
+	public Map<String, Integer> getFestivalCountByMonth() {
+	    Map<String, Integer> festivalCount = new HashMap<>();
+	    String query = "SELECT TO_CHAR(TO_DATE(fesstart, 'YYYY-MM-DD'), 'YYYY-MM') AS month, COUNT(*) AS count " +
+	                   "FROM board " +
+	                   "WHERE TO_DATE(fesstart, 'YYYY-MM-DD') BETWEEN ADD_MONTHS(TRUNC(SYSDATE, 'MM'), -2) " +
+	                   "AND ADD_MONTHS(TRUNC(SYSDATE, 'MM'), 2) " +
+	                   "GROUP BY TO_CHAR(TO_DATE(fesstart, 'YYYY-MM-DD'), 'YYYY-MM') " +
+	                   "ORDER BY month";
 
+	    try {
+	        psmt = con.prepareStatement(query);
+	        rs = psmt.executeQuery();
+	        while (rs.next()) {
+	            festivalCount.put(rs.getString("month"), rs.getInt("count"));
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        closeResources(rs, psmt);
+	    }
+
+	    return festivalCount;
+	}
+    // 2. 현재 날짜에 포함되는 행사 중 각 추천수를 가져오는 메서드
+    public List<BoardDTO> getCurrentRecommendedFestivals() {
+        List<BoardDTO> boardList = new Vector<>();
+        Date currentDate = new Date(System.currentTimeMillis());
+
+        String query = "SELECT * FROM board WHERE fesstart <= ? AND fesend >= ? ORDER BY likecount DESC";
+
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setDate(1, currentDate);
+            psmt.setDate(2, currentDate);
+            rs = psmt.executeQuery();
+
+            while (rs.next()) {
+                BoardDTO dto = new BoardDTO();
+                dto.setIdx(rs.getString("idx"));
+                dto.setTitle(rs.getString("title"));
+                dto.setLikecount(rs.getInt("likecount"));
+                boardList.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(rs, psmt);
+        }
+
+        return boardList;
+    }
+
+    // 3. 현재 날짜에 포함되는 행사 중 각 조회수를 가져오는 메서드
+    public List<BoardDTO> getCurrentVisitedFestivals() {
+        List<BoardDTO> boardList = new Vector<>();
+        Date currentDate = new Date(System.currentTimeMillis());
+
+        String query = "SELECT * FROM board WHERE fesstart <= ? AND fesend >= ? ORDER BY visitcount DESC";
+
+        try {
+            psmt = con.prepareStatement(query);
+            psmt.setDate(1, currentDate);
+            psmt.setDate(2, currentDate);
+            rs = psmt.executeQuery();
+
+            while (rs.next()) {
+                BoardDTO dto = new BoardDTO();
+                dto.setIdx(rs.getString("idx"));
+                dto.setTitle(rs.getString("title"));
+                dto.setVisitcount(rs.getInt("visitcount"));
+                boardList.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(rs, psmt);
+        }
+
+        return boardList;
+    }
 }
