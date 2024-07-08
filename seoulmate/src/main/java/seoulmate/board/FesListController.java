@@ -7,14 +7,13 @@ import java.util.Map;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import utils.BoardPage;
 
-/**
- * Servlet implementation class ListController
- */
+@WebServlet("/feslist.do")
 public class FesListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
+<%@ page import="java.util.List"%>
+<%@ page import="seoulmate.board.UserBoardDAO"%>
+<%@ page import="seoulmate.board.UserBoardDTO"%>
 <%-- 유저정보게시판 리스트 입니다.. --%>
 <!DOCTYPE html>
 <html lang="en">
@@ -122,11 +127,19 @@ a:hover {
 	<jsp:include page="./MainLayoutElements/boardheader.jsp"></jsp:include>
 	<jsp:include page="./MainLayoutElements/boardseoulmate.jsp"></jsp:include>
 
+	<%
+		// DAO를 통해 게시물 목록을 가져옵니다.
+		UserBoardDAO dao = new UserBoardDAO();
+		Map<String, Object> map = new HashMap<>();
+		// 페이징 처리를 위해 기본값 설정
+		map.put("start", 1);
+		map.put("end", 10);
+		List<UserBoardDTO> boardLists = dao.selectListPage(map);
+	%>
+
 	<section class="page-section" id="portfolio">
 		<div class="container">
-			<h1
-				class="text-center text-uppercase text-secondary mb-0 section-space">[유저]
-				축제 공유 게시글 리스트</h1>
+			<h1 class="text-center text-uppercase text-secondary mb-0 section-space">[유저] 축제 공유 게시글 리스트</h1>
 			<div class="row justify-content-center search-bar-container">
 				<div class="col-md-3 filter-select">
 					<form method="get" action="userlist.do">
@@ -138,9 +151,7 @@ a:hover {
 				</div>
 				<div class="col-md-6 filter-search-bar">
 					<div class="input-group">
-						<input type="text" class="form-control" name="searchWord"
-							placeholder="검색어를 입력하세요" aria-label="검색어를 입력하세요"
-							aria-describedby="button-addon2">
+						<input type="text" class="form-control" name="searchWord" placeholder="검색어를 입력하세요" aria-label="검색어를 입력하세요" aria-describedby="button-addon2">
 						<button class="btn btn-primary" type="submit" id="button-addon2">검색하기</button>
 					</div>
 					</form>
@@ -170,11 +181,9 @@ a:hover {
 								<tr>
 									<td class="text-center">${fn:length(boardLists) - loop.index}</td>
 									<td class="text-center">${row.fescate}</td>
-									<td align="left"><a href="view.do?idx=${row.idx}"
-										class="title-link"> <c:if
-												test="${not empty row.base64MainImage}">
-												<img src="data:image/jpeg;base64,${row.base64MainImage}"
-													alt="메인 이미지" />
+									<td align="left"><a href="view.do?idx=${row.idx}" class="title-link">
+											<c:if test="${not empty row.base64MainImage}">
+												<img src="data:image/jpeg;base64,${row.base64MainImage}" alt="메인 이미지" />
 											</c:if> ${row.title}
 									</a></td>
 									<td class="text-center">${row.name}</td>
@@ -197,11 +206,11 @@ a:hover {
 					<tr align="center">
 						<td>${map.pagingImg}</td>
 						<c:set var="user" value="${sessionScope.user}" />
-
-						<td width="100" align="right"><c:if test="${not empty user}">
-								<button type="button" class="btn btn-secondary"
-									onclick="location.href='write.jsp';">글쓰기</button>
-							</c:if></td>
+						<td width="100" align="right">
+							<c:if test="${not empty user}">
+								<button type="button" class="btn btn-secondary" onclick="location.href='write.jsp';">글쓰기</button>
+							</c:if>
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -211,8 +220,9 @@ a:hover {
 	<div class="button-container" id="festival">
 		<a class="btn btn-primary small-button" href="./MainContent/index.jsp">
 			<i class="fas fa-download me-2"></i>메인페이지
-		</a> <a class="btn btn-primary small-button" href="feslist.do"> <i
-			class="fas fa-download me-2"></i>축제 정보 게시판
+		</a>
+		<a class="btn btn-primary small-button" href="feslist.do">
+			<i class="fas fa-download me-2"></i>축제 정보 게시판
 		</a>
 	</div>
 
@@ -224,34 +234,35 @@ a:hover {
 					<h4 class="text-uppercase mb-4">who made it?</h4>
 					<br>
 					<p class="lead mb-0">
-						문승호, 김별, 이진규, 안상환 <br /> <br /> Started from 2024.06.12 <br>
-						to 2024.07.11
+						문승호, 김별, 이진규, 안상환 <br>
+						<br>
+						Started from 2024.06.12 <br> to 2024.07.11
 					</p>
 				</div>
 				<!-- Footer Social Icons-->
 				<div class="col-lg-4 mb-5 mb-lg-0">
 					<h4 class="text-uppercase mb-4">visit our github</h4>
-					<br> <a class="btn btn-outline-light btn-social mx-1"
-						href="https://github.com/byeol1286"> <i
-						class="fab fa-fw fa-facebook-f"></i>
-					</a> <a class="btn btn-outline-light btn-social mx-1"
-						href="https://github.com/GOTERCODE"> <i
-						class="fab fa-fw fa-twitter"></i>
-					</a> <a class="btn btn-outline-light btn-social mx-1"
-						href="https://github.com/poong1125"> <i
-						class="fab fa-fw fa-linkedin-in"></i>
-					</a> <a class="btn btn-outline-light btn-social mx-1"
-						href="https://github.com/sonosung"> <i
-						class="fab fa-fw fa-dribbble"></i>
+					<br>
+					<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/byeol1286">
+						<i class="fab fa-fw fa-facebook-f"></i>
+					</a>
+					<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/GOTERCODE">
+						<i class="fab fa-fw fa-twitter"></i>
+					</a>
+					<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/poong1125">
+						<i class="fab fa-fw fa-linkedin-in"></i>
+					</a>
+					<a class="btn btn-outline-light btn-social mx-1" href="https://github.com/sonosung">
+						<i class="fab fa-fw fa-dribbble"></i>
 					</a>
 				</div>
 				<!-- Footer About Text--->
 				<div class="col-lg-4">
 					<h4 class="text-uppercase mb-4">About Us</h4>
 					<p class="lead mb-0">
-						SEUOLMATE는<br>JSP & OracleDB 기반 팀 프로젝트입니다.<br> <br>
-						MIT licensed Bootstrap theme<br>created by <a
-							href="http://startbootstrap.com">Start Bootstrap</a> .
+						SEUOLMATE는<br>JSP & OracleDB 기반 팀 프로젝트입니다.<br>
+						<br>
+						MIT licensed Bootstrap theme<br>created by <a href="http://startbootstrap.com">Start Bootstrap</a>.
 					</p>
 				</div>
 			</div>
@@ -262,8 +273,7 @@ a:hover {
 			<small>&copy; Your Website 2023</small>
 		</div>
 	</div>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="./resources/js/scripts.js"></script>
 </body>
 </html>

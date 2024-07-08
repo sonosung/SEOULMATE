@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import common.DBConnPool;
 
 public class UserBoardDAO extends DBConnPool {
@@ -62,8 +61,12 @@ public class UserBoardDAO extends DBConnPool {
             if (map.get("searchWord") != null) {
                 psmt.setString(paramIndex++, "%" + map.get("searchWord") + "%");
             }
-            psmt.setInt(paramIndex++, (int) map.get("start"));
-            psmt.setInt(paramIndex, (int) map.get("end"));
+            // 기본값 설정
+            int start = (map.get("start") != null) ? (int) map.get("start") : 1;
+            int end = (map.get("end") != null) ? (int) map.get("end") : 10;
+
+            psmt.setInt(paramIndex++, start);
+            psmt.setInt(paramIndex, end);
             
             try (ResultSet rs = psmt.executeQuery()) {
                 while (rs.next()) {
@@ -210,7 +213,7 @@ public class UserBoardDAO extends DBConnPool {
         }
     }
 
- // 추천수 증가
+    // 추천수 증가
     public boolean hasUserLiked(int boardIdx, int likeUserNum) {
         String query = "SELECT COUNT(*) FROM USERLIKECHECK WHERE boardidx = ? AND likeusernum = ?";
         try {
@@ -256,16 +259,16 @@ public class UserBoardDAO extends DBConnPool {
         } finally {
             closeResources(null, psmt);
         }
- 	}
- 	
- 	 private void closeResources(ResultSet rs, PreparedStatement psmt) {
- 	        try {
- 	            if (rs != null) rs.close();
- 	            if (psmt != null) psmt.close();
- 	        } catch (Exception e) {
- 	            e.printStackTrace();
- 	        }
- 	    }
+    }
+
+    private void closeResources(ResultSet rs, PreparedStatement psmt) {
+        try {
+            if (rs != null) rs.close();
+            if (psmt != null) psmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public String getPostAuthor(String idx) {
         String query = "SELECT writernum FROM userboard WHERE idx = ?";
@@ -281,6 +284,4 @@ public class UserBoardDAO extends DBConnPool {
         }
         return null;
     }
-    
-    
 }

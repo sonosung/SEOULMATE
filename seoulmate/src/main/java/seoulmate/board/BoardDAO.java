@@ -1,15 +1,16 @@
-
 //관리자 게시판
 package seoulmate.board;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
-
 import common.DBConnPool;
+
 
 public class BoardDAO extends DBConnPool {
 
@@ -366,4 +367,32 @@ public class BoardDAO extends DBConnPool {
 
 		return board; // 추천 축제 정보를 반환합니다.
 	}
+	
+	public List<BoardDTO> getFestivalList() {
+        List<BoardDTO> festivals = new Vector<BoardDTO>();
+        String query = "SELECT IDX, TITLE, FESCATE, FESNAME, FESLOCATION, FESSTART, FESEND, MAINIMAGE FROM BOARD WHERE MAINIMAGE IS NOT NULL";
+        try {
+            psmt = con.prepareStatement(query);
+            rs = psmt.executeQuery();
+
+            while (rs.next()) {
+                BoardDTO dto = new BoardDTO();
+                dto.setIdx(rs.getString("IDX"));
+                dto.setTitle(rs.getString("TITLE"));
+                dto.setFescate(rs.getString("FESCATE"));
+                dto.setFesname(rs.getString("FESNAME"));
+                dto.setFeslocation(rs.getString("FESLOCATION"));
+                dto.setFesstart(rs.getString("FESSTART"));
+                dto.setFesend(rs.getString("FESEND"));
+                dto.setMainimage(rs.getBytes("MAINIMAGE"));
+                festivals.add(dto);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closeResources(rs, psmt);
+        }
+        return festivals;
+    }
+
 }

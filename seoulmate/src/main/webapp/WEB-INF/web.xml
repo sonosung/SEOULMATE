@@ -90,14 +90,14 @@
     <servlet-name>ProfileEditController</servlet-name>
     <url-pattern>/ProfileEditController</url-pattern>
   </servlet-mapping>
-  <servlet>
+  <!-- <servlet>
     <servlet-name>BoardList</servlet-name>
     <servlet-class>seoulmate.board.UserListController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>BoardList</servlet-name>
     <url-pattern>/userlist.do</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   <servlet>
     <servlet-name>BoardWrite</servlet-name>
     <servlet-class>seoulmate.board.WriteController</servlet-class>
@@ -110,14 +110,14 @@
     <servlet-name>BoardWrite</servlet-name>
     <url-pattern>/write.do</url-pattern>
   </servlet-mapping>
-  <servlet>
+<!--   <servlet>
     <servlet-name>FesBoardList</servlet-name>
     <servlet-class>seoulmate.board.FesListController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>FesBoardList</servlet-name>
     <url-pattern>/feslist.do</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
   <servlet>
     <servlet-name>FesBoardWrite</servlet-name>
     <servlet-class>seoulmate.board.FesWriteController</servlet-class>
