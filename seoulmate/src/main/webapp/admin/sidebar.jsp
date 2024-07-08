@@ -46,8 +46,8 @@
 		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
 				<h6 class="collapse-header">Custom Components:</h6>
-				<a class="collapse-item" href="./buttons.jsp">Buttons</a> 
-				<a class="collapse-item" href="./cards.jsp">Cards</a>
+				<a class="collapse-item" href="./adminFesList.jsp">축제정보게시판</a> 
+				<a class="collapse-item" href="./adminUserFesList.jsp">유저공유게시판</a>
 		</div>
 	</div></li>
 
