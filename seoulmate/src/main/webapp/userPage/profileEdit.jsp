@@ -62,7 +62,6 @@ body {
 <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
 
 <link href="../resources/css/styles.css" rel="stylesheet" />
-
 <%
 MemberDTO user = (MemberDTO) session.getAttribute("user");
 		  if (user != null) {		  
@@ -82,14 +81,12 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 <div class="divider-custom"></div>
 <div class="divider-custom"></div>
 <div class="divider-custom"></div>
-
 	<!---------------------------------------- 전체 컨테이너 ---------------------------------------->
 
 	<div class="container">
 		<div class="main-body">
 
 	<!---------------------------------------- 헤드 네비게이터 ---------------------------------------->
-
 	<jsp:include page="../MainLayoutElements/header.jsp"></jsp:include>
 
 	<!---------------------------------------- 헤드 네비게이터 끝 ---------------------------------------->
@@ -127,7 +124,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 						</div>
 					</div>
 				</div>
-
 				<!---------------------------------------- 회원 정보 칸 시작 ---------------------------------------->
 	
 				<div class="col-md-8">
@@ -222,8 +218,9 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 			</div>
 		</div>
 	</div>
-
-
+	</div>
+	</div>
+	</form>
 
 <% 
 }
@@ -267,7 +264,8 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
             }
         }
 	</script>
-	<!-- Footer -->
+
+	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>
 	
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -280,7 +278,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 	
 	<!-- "검색" 단추를 누르면 팝업 레이어가 열리도록 설정한다 -->
 	<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
-	</form>
-	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>
+	
 </body>
 </html>

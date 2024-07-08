@@ -70,7 +70,7 @@
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="../index.jsp">회원탈퇴 취소</a>
+                                        <a class="small" href="../MainContent/index.jsp">회원탈퇴 취소</a>
                                     </div>
                                 </div>
                             </div>
