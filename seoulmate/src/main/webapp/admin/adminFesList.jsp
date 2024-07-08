@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
-<%@ page import="java.util.*, seoulmate.board.UserBoardDAO, seoulmate.board.UserBoardDTO"%>
+<%@ page import="java.util.*, seoulmate.board.BoardDAO, seoulmate.board.BoardDTO"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%-- 유저정보게시판 리스트 입니다.. --%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,7 +73,7 @@ a:hover {
 }
 
 .card-large {
-    width: 100%; /* 카드의 너비를 100%로 설정 */
+    width: 90%; /* 카드의 너비를 90%로 설정 */
     height: auto; /* 높이를 자동으로 설정 */
 }
 
@@ -257,59 +256,49 @@ a:hover {
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Buttons</h1>
+                    <h1 class="h3 mb-4 text-gray-800">축제정보게시판 현황</h1>
 
                     <div class="row">
 
-                        <div class="col-lg-6">
+                        <div class="col-lg-12">
 
                             <!-- Circle Buttons -->
                             <div class="card shadow mb-4 card-large"> <!-- 카드 크기를 키우기 위해 card-large 클래스 추가 -->
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">축제정보게시판</h6> <!-- 카드 제목 -->
+                                    <h5 class="m-0 font-weight-bold text-primary">축제정보게시판</h5> <!-- 카드 제목 -->
                                 </div>
                                 <div class="card-body card-body-large"> <!-- 카드 본문의 크기를 키우기 위해 card-body-large 클래스 추가 -->
-                                <table class="table table-bordered table-striped mt-4">
+                                <table class="table table-bordered table-hover mt-4">
                                 <%
             // DAO를 호출하여 게시글 목록을 가져오는 부분
-            UserBoardDAO dao = new UserBoardDAO();
+            BoardDAO dao = new BoardDAO();
             Map<String, Object> paramMap = new HashMap<>();
             paramMap.put("start", 1);
             paramMap.put("end", 10);
-            List<UserBoardDTO> boardLists = dao.selectListPage(paramMap);
+            List<BoardDTO> boardLists = dao.selectListPage(paramMap);
             request.setAttribute("boardLists", boardLists);
         %>
-				<thead>
+				<thead class="thead-light">
 					<tr>
-						<th class="text-center" width="5%">번호</th>
-						<th class="text-center" width="10%">카테고리</th>
+						<th class="text-center" width="10%">번호</th>
 						<th class="text-center" width="*">제목</th>
-						<th class="text-center" width="10%">작성자</th>
 						<th class="text-center" width="10%">조회수</th>
 						<th class="text-center" width="10%">추천수</th>
-						<th class="text-center" width="10%">작성일</th>
+						<th class="text-center" width="15%">작성일</th>
 					</tr>
 				</thead>
 				<tbody>
 					<c:choose>
 						<c:when test="${empty boardLists}">
 							<tr>
-								<td colspan="7" align="center">등록된 게시물이 없습니다.</td>
+								<td colspan="5" align="center">등록된 게시물이 없습니다.</td>
 							</tr>
 						</c:when>
 						<c:otherwise>
 							<c:forEach items="${boardLists}" var="row" varStatus="loop">
 								<tr>
 									<td class="text-center">${fn:length(boardLists) - loop.index}</td>
-									<td class="text-center">${row.fescate}</td>
-									<td align="left"><a href="view.do?idx=${row.idx}"
-										class="title-link"> <c:if
-												test="${not empty row.base64MainImage}">
-												<img src="data:image/jpeg;base64,${row.base64MainImage}"
-													alt="메인 이미지" />
-											</c:if> ${row.title}
-									</a></td>
-									<td class="text-center">${row.name}</td>
+									<td><a href="../fesview.do?idx=${row.idx}" class="title-link">${row.fesname}</a></td>
 									<td class="text-center">${row.visitcount}</td>
 									<td class="text-center">${row.likecount}</td>
 									<td class="text-center">${row.postdate}</td>
@@ -321,15 +310,9 @@ a:hover {
 			</table>
                                 </div>
                             </div>
-			                <div class="col-lg-6">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">안녕</h6> <!-- 카드 제목 -->
-                                </div>
-                                </div>
-                                </div>
-                                </div>
-                                </div>
+			                </div>
+			                </div>
+			                </div>
                 <!-- /.container-fluid -->
 
             </div>
