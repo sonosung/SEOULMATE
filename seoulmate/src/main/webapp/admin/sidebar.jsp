@@ -51,22 +51,6 @@
 		</div>
 	</div></li>
 
-<!-- Nav Item - Utilities Collapse Menu --->
-<li class="nav-item"><a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-	aria-expanded="true" aria-controls="collapseUtilities">
-	<i class="fas fa-fw fa-wrench"></i> 
-	<span>Utilities</span>
-</a>
-	<div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
-		<div class="bg-white py-2 collapse-inner rounded">
-			<h6 class="collapse-header">Custom Utilities:</h6>
-			<a class="collapse-item" href="./utilities-color.jsp">Colors</a>
-			<a class="collapse-item" href="./utilities-border.jsp">Borders</a>
-			<a class="collapse-item" href="./utilities-animation.jsp">Animations</a>
-			<a class="collapse-item" href="./utilities-other.jsp">Other</a>
-		</div>
-	</div></li>
-
 <!-- 회원관리 메뉴 --->
 <li class="nav-item"><a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUserpage" aria-expanded="true" aria-controls="collapseUserpage">
 	<i class="fas fa-fw fa-wrench"></i> <span>회원관리</span>
@@ -75,8 +59,8 @@
 		<div class="bg-white py-2 collapse-inner rounded">
 			<h6 class="collapse-header">Custom Utilities:</h6>
 			<a class="collapse-item" href="./emailAuth.jsp">메일 보내기</a>
-			<a class="collapse-item" href="./userList.do">회원리스트</a>
-			<a class="collapse-item" href="./utilities-animation.jsp">Animations</a>
+			<a class="collapse-item" href="./emailList.jsp">메일 리스트</a>
+			<a class="collapse-item" href="./userList.do">회원 리스트</a>
 			<a class="collapse-item" href="./utilities-other.jsp">Other</a>
 		</div>
 	</div></li>

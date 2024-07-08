@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="seoulmate.membership.MemberDTO" %>
 <!DOCTYPE html>
@@ -43,7 +43,7 @@
                             <h1 class="fw-bolder">Get in touch</h1>
                             <p class="lead fw-normal text-muted mb-0">무엇이든 물어보세요!</p>
                         </div>
-                        <%-- <div class="row gx-5 justify-content-center">
+                        <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
                                 <form id="contactForm" data-sb-form-api-token="API_TOKEN">
                                 <!-- <form method="post" id="contactForm" action="EmailSendProcess.jsp" data-sb-form-api-token="API_TOKEN"> -->
@@ -107,7 +107,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div> --%>
+                        </div>
                         
                         <!-- Contact Section Form-->
                 <div class="row justify-content-center">
@@ -207,4 +207,28 @@
        <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
+</html> --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 페이지</title>
+    <!-- 필요한 CSS 및 JS 파일 포함 -->
+</head>
+<body>
+    <form action="EmailReceiveProcess.jsp" method="post">
+        <label for="from">이메일 주소:</label>
+        <input type="email" id="from" name="from" required><br>
+
+        <label for="subject">제목:</label>
+        <input type="text" id="subject" name="subject" required><br>
+
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" required></textarea><br>
+
+        <button type="submit">전송</button>
+    </form>
+</body>
 </html>

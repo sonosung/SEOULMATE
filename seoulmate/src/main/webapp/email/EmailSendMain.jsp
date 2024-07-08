@@ -33,21 +33,16 @@
 
 <jsp:include page="../MainLayoutElements/header.jsp"></jsp:include>
 
-<form method="post" action="EmailSendProcess.jsp">
+<form method="post" action="EmailReceiveProcess.jsp">
 <table border=1>
-   <tr>    
+    <tr>    
         <td>
-            받는 사람 : <input type="text" name="auth" value="seoulmate01@naver.com" readonly  />
+            보내는 사람 : <input type="text" name="from" value="" />
         </td>
     </tr>
     <tr>    
         <td>
-            보내는 사람 : <input type="text" name="user" value="" />
-        </td>
-    </tr>
-    <tr>    
-        <td>
-            제목 : <input type="text" name="title" size="50" value="" />
+            제목 : <input type="text" name="subject" size="50" value="" />
         </td>
     </tr>
     <tr>

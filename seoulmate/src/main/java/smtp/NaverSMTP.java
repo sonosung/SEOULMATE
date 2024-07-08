@@ -16,11 +16,14 @@ import javax.mail.internet.MimeMessage;
 public class NaverSMTP {
     private final Properties serverInfo; // 서버 정보
     private final Authenticator auth;    // 인증 정보
+    final String adminEmail = "seoulmate01@naver.com"; // 관리자 이메일 주소
+    final String adminPassword = "seoulmate0!"; // 관리자 이메일 비밀번호
+    private String host = "smtp.naver.com";
 
     public NaverSMTP() {
         // 네이버 SMTP 서버 접속 정보
         serverInfo = new Properties();
-        serverInfo.put("mail.smtp.host", "smtp.naver.com");
+        serverInfo.put("mail.smtp.host", host);
         serverInfo.put("mail.smtp.port", "465");
         serverInfo.put("mail.smtp.starttls.enable", "true");
         serverInfo.put("mail.smtp.auth", "true");
@@ -47,8 +50,8 @@ public class NaverSMTP {
 
         // 2. 메시지 작성
         MimeMessage msg = new MimeMessage(session);
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("auth")));  // 받는 사람. 관리자로 고정.
-        msg.setFrom(new InternetAddress(mailInfo.get("user")));     // 보내는 사람
+        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("user")));  // 받는 사람. 관리자로 고정.
+        msg.setFrom(new InternetAddress(mailInfo.get("admin")));     // 보내는 사람
         msg.setSubject(mailInfo.get("title"));                    // 제목
         msg.setContent(mailInfo.get("content"), mailInfo.get("format"));  // 내용
 
@@ -56,20 +59,4 @@ public class NaverSMTP {
         Transport.send(msg);
     }
     
- // 주어진 메일 내용을 네이버 SMTP 서버를 통해 전송합니다.
-    public void emailReceiving(Map<String, String> mailInfo) throws MessagingException {
-        // 1. 세션 생성
-        Session session = Session.getInstance(serverInfo, auth);
-        session.setDebug(true);
-
-        // 2. 메시지 작성
-        MimeMessage msg = new MimeMessage(session);
-        msg.addRecipient(Message.RecipientType.TO, new InternetAddress(mailInfo.get("user")));  // 받는 사람. 관리자로 고정.
-        msg.setFrom(new InternetAddress(mailInfo.get("auth")));     // 보내는 사람
-        msg.setSubject(mailInfo.get("title"));                    // 제목
-        msg.setContent(mailInfo.get("content"), mailInfo.get("format"));  // 내용
-
-        // 3. 전송
-        Transport.send(msg);
-    }
 }

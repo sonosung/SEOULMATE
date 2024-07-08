@@ -8,7 +8,8 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/ojdbc/ojdbc11.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v10.1 (2)"/>
+	<classpathentry exported="true" kind="lib" path="D:/Gieun/oracle-workspace/dbhomeXE/jdbc/lib/ojdbc11.jar"/>
+	<classpathentry exported="true" kind="lib" path="E:/gson-2.8.8.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

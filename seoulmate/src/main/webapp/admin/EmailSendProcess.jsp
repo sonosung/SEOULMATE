@@ -63,7 +63,7 @@ catch (Exception e) {
 // 폼값(이메일 내용) 저장
 Map<String, String> emailInfo = new HashMap<String, String>();
 emailInfo.put("user", request.getParameter("user"));  // 보내는 사람
-emailInfo.put("auth", request.getParameter("auth"));      // 받는 사람
+emailInfo.put("admin", request.getParameter("admin"));      // 받는 사람
 emailInfo.put("title", request.getParameter("title"));  // 제목
 
 String content = request.getParameter("content");  // 내용
