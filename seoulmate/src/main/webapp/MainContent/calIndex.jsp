@@ -81,9 +81,5 @@
     </script>
 		
 
-    
-
-<!-- 		<form id="myForm" action="calIndex.do" method="post">
-    </form>  -->
 </body>
 </html>

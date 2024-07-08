@@ -1,3 +1,5 @@
+<%@ page import="seoulmate.membership.MemberDTO" %>
+<%@ page import="seoulmate.membership.MemberDAO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="seoulmate.membership.MemberDTO" %>
@@ -119,15 +121,16 @@
                         <!-- To make this form functional, sign up at-->
                         <!-- https://startbootstrap.com/solution/contact-forms-->
                         <!-- to get an API token!-->
-                        <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN" action="EmailSendProcess.jsp">
+                        <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN" action="../email/EmailReceiveProcess.jsp">
                             <!-- Email address input-->
                             <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                            <% MemberDTO user = (MemberDTO) session.getAttribute("user");
+                            if (user != null) {}%>
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" readonly value="<%= user.getEMAIL() %>"/>
                                 <label for="email">Email address</label>
                                 <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid. </div>
+                            </div>                            
                             <!-- Name input-->
                             <div class="form-floating mb-3">
                             	<!-- 관리자 이메일 -->
