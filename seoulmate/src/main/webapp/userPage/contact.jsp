@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="seoulmate.membership.MemberDTO" %>
 <!DOCTYPE html>
@@ -43,7 +43,7 @@
                             <h1 class="fw-bolder">Get in touch</h1>
                             <p class="lead fw-normal text-muted mb-0">무엇이든 물어보세요!</p>
                         </div>
-                        <%-- <div class="row gx-5 justify-content-center">
+                        <div class="row gx-5 justify-content-center">
                             <div class="col-lg-8 col-xl-6">
                                 <form id="contactForm" data-sb-form-api-token="API_TOKEN">
                                 <!-- <form method="post" id="contactForm" action="EmailSendProcess.jsp" data-sb-form-api-token="API_TOKEN"> -->
@@ -107,7 +107,7 @@
                                     </div>
                                 </form>
                             </div>
-                        </div> --%>
+                        </div>
                         
                         <!-- Contact Section Form-->
                 <div class="row justify-content-center">
@@ -119,19 +119,12 @@
                         <!-- To make this form functional, sign up at-->
                         <!-- https://startbootstrap.com/solution/contact-forms-->
                         <!-- to get an API token!-->
-                        <form method="post" id="contactForm" data-sb-form-api-token="API_TOKEN" action="EmailSendProcess.jsp">
-                            <!-- Email address input-->
-                            <div class="form-floating mb-3">
-                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
-                                <label for="email">Email address</label>
-                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
-                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
-                            </div>
-                            
+                        <!-- <form id="contactForm" data-sb-form-api-token="API_TOKEN" method="post" action="./EmailSendProcess.jsp"> -->
+                        <form method="post" action="EmailSendProcess.jsp" data-sb-form-api-token="API_TOKEN">
                             <!-- Name input-->
                             <div class="form-floating mb-3">
                             	<!-- 관리자 이메일 -->
-                             	<input type="hidden" name="auth" value="seoulmate01@naver.com"/> 
+                             	<input type="text" name="to" value="seoulmate01@naver.com"/> 
                                 
                                 <!-- 사용자 이메일 -->
                                 <input class="form-control" id="name" type="text" name="subject" placeholder="Enter a title..." data-sb-validations="required" />
@@ -139,6 +132,19 @@
                                 <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
                             </div>
                             
+                            <!-- Email address input-->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" data-sb-validations="required,email" />
+                                <label for="email">Email address</label>
+                                <div class="invalid-feedback" data-sb-feedback="email:required">An email is required.</div>
+                                <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
+                            </div>
+                            <!-- Phone number input-->
+                            <!-- <div class="form-floating mb-3">
+                                <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                <label for="phone">Phone number</label>
+                                <div class="invalid-feedback" data-sb-feedback="phone:required">A phone number is required.</div>
+                            </div> -->
                             <!-- Message input-->
                             <div class="form-floating mb-3">
                                 <textarea class="form-control" name="content" id="message" type="text" placeholder="Enter your message here..." style="height: 10rem" data-sb-validations="required"></textarea>
@@ -201,4 +207,28 @@
        <script src="../resources/js/scripts.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
+</html> --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+   pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 페이지</title>
+    <!-- 필요한 CSS 및 JS 파일 포함 -->
+</head>
+<body>
+    <form action="EmailReceiveProcess.jsp" method="post">
+        <label for="from">이메일 주소:</label>
+        <input type="email" id="from" name="from" required><br>
+
+        <label for="subject">제목:</label>
+        <input type="text" id="subject" name="subject" required><br>
+
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" required></textarea><br>
+
+        <button type="submit">전송</button>
+    </form>
+</body>
 </html>

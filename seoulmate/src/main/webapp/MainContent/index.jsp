@@ -189,14 +189,6 @@
 	<jsp:include page="calIndex.jsp"></jsp:include>
 
 	<!---------------------------------------------------- Footer ------------------------------------------------>
-	
-	<!-- Scroll to Top Button-->
-    <!-- <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a> -->
-	<a class="scroll-to-top rounded" href="#page-top" style="display: inline; outline: rgb(255, 0, 0) dashed 1px;"> 
-		<i class="fas fa-angle-up" style> ::before </i>
-	</a>
 
 	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>
 

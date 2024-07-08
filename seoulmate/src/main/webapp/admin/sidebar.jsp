@@ -59,7 +59,7 @@
 		<div class="bg-white py-2 collapse-inner rounded">
 			<h6 class="collapse-header">Custom Utilities:</h6>
 			<a class="collapse-item" href="./emailAuth.jsp">메일 보내기</a>
-			<a class="collapse-item" href="./emailList.jsp">메일 리스트</a>
+			<a class="collapse-item" href="./emailList.do">메일 리스트</a>
 			<a class="collapse-item" href="./userList.do">회원 리스트</a>
 			<a class="collapse-item" href="./utilities-other.jsp">Other</a>
 		</div>
