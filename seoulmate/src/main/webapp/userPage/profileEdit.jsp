@@ -137,15 +137,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 						<br>
 							<div class="row mb-3">
 								<div class="col-sm-3">
-									<h6 class="mb-0">Email</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="text" class="form-control" name="EMAIL" id="exampleInputEmail" required
-									value="<% out.println(user.getEMAIL()); %>">
-								</div>
-							</div>
-							<div class="row mb-3">
-								<div class="col-sm-3">
 									<h6 class="mb-0">이름</h6>
 								</div>
 								<div class="col-sm-9 text-secondary">
@@ -196,6 +187,19 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<input type="password" class="form-control" name="USER_PASS" id="examplePass" required>
 								</div>
 							</div>
+							<!--  비밀번호 변경 --><!-- 
+							<div class="row mb-3">
+								<div class="col-sm-3">
+									<h6 class="mb-0">변경하실 비밀번호(미입력 시 비밀번호는 변경되지 않습니다.)</h6>
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="password" class="form-control" name="CHANGE_PASS" id="password_1" onkeyup="checkPasswordMatch();">
+								</div>
+								<div class="col-sm-9 text-secondary">
+									<input type="password" class="form-control" name="CHANGE_PASS2" id="repeatPassword_2" onkeyup="checkPasswordMatch();">
+								</div>
+							</div> -->
+							<!--  비밀번호 변경 -->
 							<div class="row mb-3">
 								<div class="col-sm-3">
 
@@ -231,14 +235,12 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
         var password = document.getElementById("NewPass").value;
         var repeatPassword = document.getElementById("NewPass2").value;
         var uname = document.getElementById("exampleInputName").value.trim();
-		var inputEmail = document.getElementById("exampleInputEmail").value.trim();
         var message = document.getElementById("passwordMatchMessage");
         var inputPHONE = document.getElementById("exampleInputPhone").value.trim();
         
         var nameRegex = /^([a-zA-Z가-힣]+( [a-zA-Z가-힣]+)*)$/;
         var nameKor = /^[가-힣]+$/;
         var nameEng = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
-        var Email = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         var USER_PHONE = /^[0-9]*$/;
 	
 	
@@ -266,7 +268,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
         }
 	</script>
 	<!-- Footer -->
-	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>
 	
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script> -->
@@ -280,5 +281,6 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 	<!-- "검색" 단추를 누르면 팝업 레이어가 열리도록 설정한다 -->
 	<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
 	</form>
+	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -19,12 +19,12 @@ public class PasswordSearchController extends HttpServlet {
         String NAME = request.getParameter("NAME");
         String PHONENUM = request.getParameter("PHONENUM");
 
-	     String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
-	     String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
-	     String dbId = "C##KEAM"; // DB 사용자 아이디
-	     String dbPw = "1234"; // DB 사용자 비밀번호
+//	     String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
+//	     String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
+//	     String dbId = "C##KEAM"; // DB 사용자 아이디
+//	     String dbPw = "1234"; // DB 사용자 비밀번호
 	     
-	     MemberDAO dao = new MemberDAO(jdbcDriver, dbUrl, dbId, dbPw);
+	     MemberDAO dao = new MemberDAO();
 	     MemberDTO member = dao.getMemberDTO(EMAIL , NAME , PHONENUM);
 	     
 	     if (member.getUSER_PASSWORD() != null) {

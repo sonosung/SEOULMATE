@@ -30,13 +30,13 @@ public class CalIndexController  extends HttpServlet {
 		        String formattedFirstDay = firstDayOfMonth.format(formatter);
 		        String formattedLastDay = lastDayOfMonth.format(formatter);
 
-		     String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
-		     String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
-		     String dbId = "C##KEAM"; // DB 사용자 아이디
-		     String dbPw = "1234"; // DB 사용자 비밀번호
+//		     String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
+//		     String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
+//		     String dbId = "C##KEAM"; // DB 사용자 아이디
+//		     String dbPw = "1234"; // DB 사용자 비밀번호
 		     
 		     
-		     CalDAO dao = new CalDAO(jdbcDriver, dbUrl, dbId, dbPw);
+				CalDAO dao = new CalDAO(/* jdbcDriver, dbUrl, dbId, dbPw */);
 		     String[][] calData = dao.getCalDTO(formattedFirstDay,formattedLastDay);
 		     
 //		     if (calData != null) {

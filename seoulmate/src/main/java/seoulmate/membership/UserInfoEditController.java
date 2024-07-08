@@ -25,7 +25,6 @@ public class UserInfoEditController extends HttpServlet{
 			MemberDTO member = (MemberDTO) req.getSession().getAttribute("user");
 			int idx = member.getUSER_NUM();
 	    
-	        String email = req.getParameter("EMAIL");
 	        String name = req.getParameter("USERNAME");
 	        String user_id = req.getParameter("USER_ID");
 	        String PHONENUM = req.getParameter("PHONENUM");
@@ -48,17 +47,17 @@ public class UserInfoEditController extends HttpServlet{
 	        
 	        
 	        
-	        String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
-		    String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
-		    String dbId = "C##KEAM"; // DB 사용자 아이디
-		    String dbPw = "1234"; // DB 사용자 비밀번호
+//	        String jdbcDriver = "oracle.jdbc.driver.OracleDriver"; // JDBC 드라이버 클래스
+//		    String dbUrl = "jdbc:oracle:thin:@14.42.124.21:1521:xe"; // DB URL
+//		    String dbId = "C##KEAM"; // DB 사용자 아이디
+//		    String dbPw = "1234"; // DB 사용자 비밀번호
 		   
 	        HttpSession session = req.getSession();
 	        
 	        //새 비밀번호 설정 안 함
 			if (pass.equals(InputPass)) {
-		        MemberDAO dao = new MemberDAO(jdbcDriver, dbUrl, dbId, dbPw);
-		        member = dao.getMemberDTO_UPDATE(idx,email, name, user_id,PHONENUM,USER_STREET,zip, mainimagePart);
+		        MemberDAO dao = new MemberDAO();
+		        member = dao.getMemberDTO_UPDATE(idx, name, user_id,PHONENUM,USER_STREET,zip, mainimagePart);
 		        
 		        dao.close();
 

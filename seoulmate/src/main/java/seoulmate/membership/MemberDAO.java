@@ -6,10 +6,11 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Base64;
 
+import common.DBConnPool;
 import common.JDBConnect;
 import jakarta.servlet.http.Part;
 
-public class MemberDAO extends JDBConnect {
+/*public class MemberDAO extends JDBConnect {
     // 명시한 데이터베이스로의 연결이 완료된 MemberDAO 객체를 생성합니다.
     public MemberDAO(String drv, String url, String id, String pw) {
         try {
@@ -18,7 +19,13 @@ public class MemberDAO extends JDBConnect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
+     public class MemberDAO extends DBConnPool {
+
+    	public MemberDAO() {
+    		super();
+    	}
+
 
     // 명시한 아이디/패스워드와 일치하는 회원정보 반환
     public MemberDTO getMemberDTO(String uid, String upass) {
@@ -175,11 +182,11 @@ public class MemberDAO extends JDBConnect {
         return dto;
     }
     
-    public MemberDTO getMemberDTO_UPDATE(int idx, String E, String N, String Id, String P, String St, String zip, Part mainimagePart) {
+    //비밀번호 미 변경
+    public MemberDTO getMemberDTO_UPDATE(int idx, String N, String Id, String P, String St, String zip, Part mainimagePart) {
         MemberDTO dto = new MemberDTO(); // 회원 정보 DTO 객체 생성
-        String query = "UPDATE users SET EMAIL = ?, USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?, USER_PHOTO = ? WHERE USER_NUM = ?";
-        String query2 = "SELECT * FROM users WHERE EMAIL = ? AND USER_NUM = ?";
-        System.out.println("업데이트 DAO 값 들어오는지 확인 " + E + " " + N + " " + Id + " " + P + " " + St + " " + zip + " " + mainimagePart);
+        String query = "UPDATE users SET  USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?, USER_PHOTO = ? WHERE USER_NUM = ?";
+        String query2 = "SELECT * FROM users WHERE USER_NUM = ?";
 
         try {
             // 사진 업로드 처리
@@ -191,26 +198,24 @@ public class MemberDAO extends JDBConnect {
             }
 
             psmt = con.prepareStatement(query);
-            psmt.setString(1, E);
-            psmt.setString(2, N);
-            psmt.setString(3, Id);
-            psmt.setString(4, P);
-            psmt.setString(5, St);
-            psmt.setString(6, zip);
+            psmt.setString(1, N);
+            psmt.setString(2, Id);
+            psmt.setString(3, P);
+            psmt.setString(4, St);
+            psmt.setString(5, zip);
             // 사진 데이터를 byte 배열로 업데이트
             if (mainimagePart != null && mainimagePart.getSize() > 0) {
-                psmt.setBytes(7, dto.getUSER_PHOTO());
+                psmt.setBytes(6, dto.getUSER_PHOTO());
             } else {
-                psmt.setNull(7, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
+                psmt.setNull(6, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
             }
-            psmt.setInt(8, idx);
+            psmt.setInt(7, idx);
             psmt.executeUpdate();         
             
             dto.setUD("UD");
           		       
             psmt = con.prepareStatement(query2);
-            psmt.setString(1, E);
-            psmt.setInt(2, idx);
+            psmt.setInt(1, idx);
             rs = psmt.executeQuery();
 
             if (rs.next()) {
@@ -241,11 +246,11 @@ public class MemberDAO extends JDBConnect {
         return dto;
     }
     
-    public MemberDTO getMemberDTO_UPDATE(int idx, String E, String N, String Id, String P, String St, String zip, Part mainimagePart ,String Pa) {
+    //비밀번호 변경 시 
+    public MemberDTO getMemberDTO_UPDATE(int idx, String N, String Id, String P, String St, String zip, Part mainimagePart ,String Pa) {
         MemberDTO dto = new MemberDTO(); // 회원 정보 DTO 객체 생성
-        String query = "UPDATE users SET EMAIL = ?, USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?, USER_PHOTO = ?, USER_PASSWORD = ? WHERE USER_NUM = ?";
-        String query2 = "SELECT * FROM users WHERE EMAIL = ? AND USER_NUM = ?";
-        System.out.println("업데이트 DAO 값 들어오는지 확인 " + E + " " + N + " " + Id + " " + P + " " + St + " " + zip + " " + mainimagePart);
+        String query = "UPDATE users SET USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?, USER_PHOTO = ?, USER_PASSWORD = ? WHERE USER_NUM = ?";
+        String query2 = "SELECT * FROM users WHERE AND USER_NUM = ?";
 
         try {
             // 사진 업로드 처리
@@ -257,27 +262,26 @@ public class MemberDAO extends JDBConnect {
             }
 
             psmt = con.prepareStatement(query);
-            psmt.setString(1, E);
-            psmt.setString(2, N);
-            psmt.setString(3, Id);
-            psmt.setString(4, P);
-            psmt.setString(5, St);
-            psmt.setString(6, zip);
+
+            psmt.setString(1, N);
+            psmt.setString(2, Id);
+            psmt.setString(3, P);
+            psmt.setString(4, St);
+            psmt.setString(5, zip);
             // 사진 데이터를 byte 배열로 업데이트
             if (mainimagePart != null && mainimagePart.getSize() > 0) {
-                psmt.setBytes(7, dto.getUSER_PHOTO());
+                psmt.setBytes(6, dto.getUSER_PHOTO());
             } else {
-                psmt.setNull(7, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
+                psmt.setNull(6, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
             }
-            psmt.setString(8, Pa);
-            psmt.setInt(9, idx);
+            psmt.setString(7, Pa);
+            psmt.setInt(8, idx);
             psmt.executeUpdate();         
             
             dto.setUD("UD");
           		       
             psmt = con.prepareStatement(query2);
-            psmt.setString(1, E);
-            psmt.setInt(2, idx);
+            psmt.setInt(1, idx);
             rs = psmt.executeQuery();
 
             if (rs.next()) {

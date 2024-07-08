@@ -3,9 +3,10 @@ package seoulmate.cal;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import common.DBConnPool;
 import common.JDBConnect;
 
-public class CalDAO extends JDBConnect {
+/*public class CalDAO extends JDBConnect {
 
     public CalDAO(String drv, String url, String id, String pw) {
         try {
@@ -14,7 +15,13 @@ public class CalDAO extends JDBConnect {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
+    
+    public class CalDAO extends DBConnPool {
+
+   	public CalDAO() {
+   		super();
+   	}
     
     public String[][] getCalDTO(String a , String b) {
         String[][] siuuu = null;
