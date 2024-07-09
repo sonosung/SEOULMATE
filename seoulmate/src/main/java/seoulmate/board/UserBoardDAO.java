@@ -1,4 +1,4 @@
-package seoulmate.board;
+/*package seoulmate.board;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,6 +69,102 @@ public class UserBoardDAO extends DBConnPool {
 
             psmt.setInt(paramIndex++, start);
             psmt.setInt(paramIndex, end);
+            
+            try (ResultSet rs = psmt.executeQuery()) {
+                while (rs.next()) {
+                    UserBoardDTO dto = new UserBoardDTO();
+                    dto.setIdx(rs.getString("idx"));
+                    dto.setName(rs.getString("name"));
+                    dto.setTitle(rs.getString("title"));
+                    dto.setContent(rs.getString("content"));
+                    dto.setFescate(rs.getString("fescate"));
+                    dto.setFeslocation(rs.getString("feslocation"));
+                    dto.setFesname(rs.getString("fesname"));
+                    dto.setFesstart(rs.getString("fesstart"));
+                    dto.setFesend(rs.getString("fesend"));
+                    dto.setMainimage(rs.getBytes("mainimage"));
+                    dto.setSecimage(rs.getBytes("secimage"));
+                    dto.setThiimage(rs.getBytes("thiimage"));
+                    dto.setVisitcount(rs.getInt("visitcount"));
+                    dto.setLikecount(rs.getInt("likecount"));
+                    dto.setPostdate(rs.getDate("postdate"));
+                    board.add(dto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return board;
+    }*/
+
+package seoulmate.board;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import common.DBConnPool;
+
+public class UserBoardDAO extends DBConnPool {
+
+    public UserBoardDAO() {
+        super();
+    }
+
+ // 게시물 개수 조회
+    public int selectCount(Map<String, Object> map) {
+        int totalCount = 0;
+        String query = "SELECT COUNT(*) FROM userboard";
+        
+        if (map.get("searchWord") != null) {
+            query += " WHERE " + map.get("searchField") + " LIKE ?";
+        }
+
+        try (PreparedStatement psmt = con.prepareStatement(query)) {
+            if (map.get("searchWord") != null) {
+                psmt.setString(1, "%" + map.get("searchWord") + "%");
+            }
+            try (ResultSet rs = psmt.executeQuery()) {
+                if (rs.next()) {
+                    totalCount = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return totalCount;
+    }
+
+    // 게시물 리스트 조회
+    public List<UserBoardDTO> selectListPage(Map<String, Object> map) {
+        List<UserBoardDTO> board = new ArrayList<>();
+        String query = "SELECT * FROM ("
+                     + " SELECT tb.*, ROWNUM rNum FROM ("
+                     + " SELECT * FROM userboard";
+        
+        if (map.get("searchWord") != null) {
+            query += " WHERE " + map.get("searchField")
+                  + " LIKE ?";
+        }
+
+        query += " ORDER BY idx DESC"
+               + ") tb"
+               + ")"
+               + " WHERE rNum BETWEEN ? AND ?";
+
+        try (PreparedStatement psmt = con.prepareStatement(query)) {
+            int paramIndex = 1;
+            if (map.get("searchWord") != null) {
+                psmt.setString(paramIndex++, "%" + map.get("searchWord") + "%");
+            }
+            psmt.setInt(paramIndex++, (int) map.get("start"));
+            psmt.setInt(paramIndex, (int) map.get("end"));
             
             try (ResultSet rs = psmt.executeQuery()) {
                 while (rs.next()) {
