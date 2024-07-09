@@ -12,22 +12,31 @@ import common.DBConnPool;
 
 public class CommentDAO extends DBConnPool {
 
-	public void admindeleteCommentById(int commentId) {
-		String sql = "DELETE FROM comments WHERE commentid = ?";
+	public boolean deleteCommentById(int commentId) {
+	    String sql = "DELETE FROM comments WHERE comment_id = ?";
+	    boolean success = false;
 
-		try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
-			if (conn == null) {
-				throw new SQLException("Failed to establish a database connection.");
-			}
-			pstmt.setInt(1, commentId);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Failed to delete comment", e);
-		} finally {
-			close(); // 작업 종료 후 자원 반납
-		}
+	    try (
+	        Connection conn = getDBConnection();
+	        PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+	        pstmt.setInt(1, commentId);
+	        int rowsAffected = pstmt.executeUpdate();
+
+	        if (rowsAffected > 0) {
+	            System.out.println("댓글 삭제 성공");
+	            success = true;
+	        } else {
+	            System.out.println("해당 댓글이 존재하지 않습니다.");
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return success;
 	}
+
+
 
 	public List<CommentDTO> getAllComments() {
 		List<CommentDTO> comments = new ArrayList<>();
