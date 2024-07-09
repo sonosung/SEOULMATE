@@ -1,11 +1,14 @@
 <%@ page import="seoulmate.membership.MemberDTO" %>
 <%@ page import="seoulmate.membership.MemberDAO" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page import="seoulmate.board.BoardDAO, seoulmate.board.BoardDTO" %>
+<%@ page import="seoulmate.board.UserBoardDAO, seoulmate.board.UserBoardDTO" %>
+<%@ page import="java.util.List, java.util.Map" %>
+<%@ page import="com.google.gson.Gson" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -17,28 +20,72 @@
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    
+
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="./resources/assets/img/user/seungho.jpg"" />
-    
+    <link rel="icon" type="image/x-icon" href="./resources/assets/img/user/seungho.jpg" />
+
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <style>
+        .chart-area canvas {
+            -webkit-box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+
+        .card-large,
+        .twocard-large {
+            width: 48%;
+            height: auto;
+            display: inline-block;
+            margin-bottom: 1rem;
+            vertical-align: top;
+        }
+    </style>
 </head>
 
 <body id="page-top">
-<% MemberDTO user = (MemberDTO) session.getAttribute("user"); %>
+    <% 
+        // 현재 세션에서 사용자 정보를 가져옴
+        MemberDTO user = (MemberDTO) session.getAttribute("user"); 
+        
+        // 데이터 접근 객체 생성
+        BoardDAO dao = new BoardDAO();
+        UserBoardDAO userBoardDao = new UserBoardDAO();
+        Gson gson = new Gson();
+        
+        // 월별 축제 수 데이터를 가져와서 JSON 형식으로 변환
+        Map<String, Integer> festivalCount = dao.getFestivalCountByMonth();
+        String festivalCountJson = gson.toJson(festivalCount);
+        
+        // 추천된 축제 목록 데이터를 가져와서 JSON 형식으로 변환
+        List<BoardDTO> recommendedFestivals = dao.getCurrentRecommendedFestivals();
+        String recommendedFestivalsJson = gson.toJson(recommendedFestivals);
+        
+        // 방문한 축제 목록 데이터를 가져와서 JSON 형식으로 변환
+        List<BoardDTO> visitedFestivals = dao.getCurrentVisitedFestivals();
+        String visitedFestivalsJson = gson.toJson(visitedFestivals);
+
+        // 유저 게시글 수 데이터
+        Map<String, Integer> userBoardCount = userBoardDao.getUserBoardCountByMonth();
+        String userBoardCountJson = gson.toJson(userBoardCount);
+
+        // 조회수 상위 3개의 글
+        List<UserBoardDTO> topVisitedPosts = userBoardDao.getTopVisitedPosts();
+        
+        // 추천수 상위 3개의 글
+        List<UserBoardDTO> topLikedPosts = userBoardDao.getTopLikedPosts();
+    %>
+
     <!-- Page Wrapper -->
     <div id="wrapper">
 
         <!-- Sidebar -->
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-        
             <jsp:include page="sidebar.jsp"></jsp:include>
-            
         </ul>
         <!-- End of Sidebar -->
-
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -47,9 +94,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-    
-    			<jsp:include page="topBar.jsp"></jsp:include>
-    
+                <jsp:include page="topBar.jsp"></jsp:include>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -57,393 +102,367 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-                    </div>
-					
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                        
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Earnings (Monthly)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Earnings (Annual)</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Earnings (Monthly) Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                            </div>
-                                            <div class="row no-gutters align-items-center">
-                                                <div class="col-auto">
-                                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress progress-sm mr-2">
-                                                        <div class="progress-bar bg-info" role="progressbar"
-                                                            style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                            aria-valuemax="100"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pending Requests Card Example -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Requests</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-
-                        <!-- Area Chart -->
-                        <div class="col-xl-8 col-lg-7">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-area">
-                                        <canvas id="myAreaChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Pie Chart -->
-                        <div class="col-xl-4 col-lg-5">
-                            <div class="card shadow mb-4">
-                                <!-- Card Header - Dropdown -->
-                                <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                            aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">Dropdown Header:</div>
-                                            <a class="dropdown-item" href="#">Action</a>
-                                            <a class="dropdown-item" href="#">Another action</a>
-                                            <div class="dropdown-divider"></div>
-                                            <a class="dropdown-item" href="#">Something else here</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Card Body -->
-                                <div class="card-body">
-                                    <div class="chart-pie pt-4 pb-2">
-                                        <canvas id="myPieChart"></canvas>
-                                    </div>
-                                    <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- Content Row -->
                     <div class="row">
+                        <!-- Area Chart 1 -->
+                        <div class="card shadow mb-4 card-large">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">축제게시물 현황</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">                                            
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <!-- 드롭다운 항목 - 월별 행사 수 차트를 표시 -->
+                                        <a class="dropdown-item" href="#" onclick="showChart(1)">월별 행사 수</a>
+                                        <!-- 드롭다운 항목 - 추천 수 차트를 표시 -->
+                                        <a class="dropdown-item" href="#" onclick="showChart(2)">추천 수</a>
+                                        <!-- 드롭다운 항목 - 조회 수 차트를 표시 -->
+                                        <a class="dropdown-item" href="#" onclick="showChart(3)">조회 수</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- 차트를 그릴 영역 -->
+                                <div id="chart-title" class="text-center font-weight-bold mb-2"></div> <!-- 차트 제목 표시할 영역 -->
+                                <div class="chart-area" style="height: 400px; width: 100%;">
+                                    <canvas id="myAreaChart"></canvas>
+                                </div>
+                                <%-- Chart.js 플러그인 로드 --%>
+                                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+                                <script>
+                                    var festivalCountData = <%= festivalCountJson %>;
+                                    var recommendedFestivalsData = <%= recommendedFestivalsJson %>;
+                                    var visitedFestivalsData = <%= visitedFestivalsJson %>;
+                                    var userBoardCountData = <%= userBoardCountJson %>;
+                                    var myChart; // 차트 객체를 전역 변수로 선언
 
-                        <!-- Content Column -->
+                                    function showChart(type) {
+                                        let chartData;
+                                        let labels = [];
+                                        let values = [];
+                                        let chartTitle = '';
+
+                                        if (type === 1) {
+                                            chartTitle = '월별 행사 수';
+                                            chartData = festivalCountData;
+                                            for (let month in chartData) {
+                                                labels.push(month);
+                                                values.push(chartData[month]);
+                                            }
+                                        } else if (type === 2) {
+                                            chartTitle = '추천 수';
+                                            chartData = recommendedFestivalsData;
+                                            chartData.forEach(item => {
+                                                labels.push(item.fesname);
+                                                values.push(item.likecount);
+                                            });
+                                        } else if (type === 3) {
+                                            chartTitle = '조회 수';
+                                            chartData = visitedFestivalsData;
+                                            chartData.forEach(item => {
+                                                labels.push(item.fesname);
+                                                values.push(item.visitcount);
+                                            });
+                                        }
+
+                                        if (myChart) {
+                                            myChart.destroy(); // 기존 차트를 파괴
+                                        }
+
+                                        document.getElementById('chart-title').innerText = chartTitle; // 차트 제목 업데이트
+
+                                        let ctx = document.getElementById("myAreaChart").getContext('2d');
+                                        myChart = new Chart(ctx, {
+                                            type: 'bar', // 막대 차트 유형
+                                            data: {
+                                                labels: labels,
+                                                datasets: [{
+                                                    label: chartTitle,
+                                                    data: values,
+                                                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
+                                                    borderColor: 'rgba(78, 115, 223, 1)',
+                                                    borderWidth: 1,
+                                                    barThickness: 30, // 막대의 두께를 지정
+                                                    maxBarThickness: 35, // 막대의 최대 두께를 지정
+                                                    minBarLength: 10 // 막대의 최소 길이를 지정
+                                                }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false, // 차트의 종횡비를 유지하지 않음
+                                                scales: {
+                                                    xAxes: [{
+                                                        barPercentage: 0.5, // 막대 폭 조정
+                                                        categoryPercentage: 0.5 // 카테고리 폭 조정
+                                                    }],
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }]
+                                                },
+                                                legend: {
+                                                    display: false
+                                                },
+                                                tooltips: {
+                                                    backgroundColor: "rgb(255,255,255)",
+                                                    bodyFontColor: "#858796",
+                                                    titleMarginBottom: 10,
+                                                    titleFontColor: '#6e707e',
+                                                    titleFontSize: 14,
+                                                    borderColor: '#dddfeb',
+                                                    borderWidth: 1,
+                                                    xPadding: 15,
+                                                    yPadding: 15,
+                                                    displayColors: false,
+                                                    caretPadding: 10,
+                                                },
+                                                plugins: {
+                                                    datalabels: {
+                                                        color: '#fff',
+                                                        anchor: 'end',
+                                                        align: 'end',
+                                                        formatter: function(value, context) {
+                                                            return value;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+
+                                    document.addEventListener('DOMContentLoaded', function() {
+                                        showChart(1); // 페이지 로드 시 1번 차트를 기본으로 표시
+                                    });
+                                </script>
+                            </div>
+                        </div>
+
+                        <!-- Area Chart 2 -->
+                        <div class="card shadow mb-4 twocard-large">
+                            <!-- Card Header - Dropdown -->
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">유저게시물 현황</h6>
+                                <div class="dropdown no-arrow">
+                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                        aria-labelledby="dropdownMenuLink">                                            
+                                        <div class="dropdown-header">Dropdown Header:</div>
+                                        <!-- 드롭다운 항목 - 유저게시물 수 차트를 표시 -->
+                                        <a class="dropdown-item" href="#" onclick="showUserBoardChart()">유저게시물 수</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!-- 차트를 그릴 영역 -->
+                                <div id="user-chart-title" class="text-center font-weight-bold mb-2"></div> <!-- 차트 제목 표시할 영역 -->
+                                <div class="chart-area" style="height: 400px; width: 100%;">
+                                    <canvas id="userBoardChart"></canvas>
+                                </div>
+                                <%-- Chart.js 플러그인 로드 --%>
+                                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+                                <script>
+                                    var userBoardChart; // 유저 게시물 차트 객체 전역 변수로 선언
+
+                                    function showUserBoardChart() {
+                                        let chartData = userBoardCountData;
+                                        let labels = [];
+                                        let values = [];
+                                        let chartTitle = '유저게시물 수';
+
+                                        for (let month in chartData) {
+                                            labels.push(month);
+                                            values.push(chartData[month]);
+                                        }
+
+                                        if (userBoardChart) {
+                                            userBoardChart.destroy(); // 기존 차트를 파괴
+                                        }
+
+                                        document.getElementById('user-chart-title').innerText = chartTitle; // 차트 제목 업데이트
+
+                                        let ctx = document.getElementById("userBoardChart").getContext('2d');
+                                        userBoardChart = new Chart(ctx, {
+                                            type: 'bar', // 막대 차트 유형
+                                            data: {
+                                                labels: labels,
+                                                datasets: [{
+                                                    label: chartTitle,
+                                                    data: values,
+                                                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
+                                                    borderColor: 'rgba(78, 115, 223, 1)',
+                                                    borderWidth: 1,
+                                                    barThickness: 30, // 막대의 두께를 지정
+                                                    maxBarThickness: 35, // 막대의 최대 두께를 지정
+                                                    minBarLength: 10 // 막대의 최소 길이를 지정
+                                                }]
+                                            },
+                                            options: {
+                                                responsive: true,
+                                                maintainAspectRatio: false, // 차트의 종횡비를 유지하지 않음
+                                                scales: {
+                                                    xAxes: [{
+                                                        barPercentage: 0.5, // 막대 폭 조정
+                                                        categoryPercentage: 0.5 // 카테고리 폭 조정
+                                                    }],
+                                                    yAxes: [{
+                                                        ticks: {
+                                                            beginAtZero: true
+                                                        }
+                                                    }]
+                                                },
+                                                legend: {
+                                                    display: false
+                                                },
+                                                tooltips: {
+                                                    backgroundColor: "rgb(255,255,255)",
+                                                    bodyFontColor: "#858796",
+                                                    titleMarginBottom: 10,
+                                                    titleFontColor: '#6e707e',
+                                                    titleFontSize: 14,
+                                                    borderColor: '#dddfeb',
+                                                    borderWidth: 1,
+                                                    xPadding: 15,
+                                                    yPadding: 15,
+                                                    displayColors: false,
+                                                    caretPadding: 10,
+                                                },
+                                                plugins: {
+                                                    datalabels: {
+                                                        color: '#fff',
+                                                        anchor: 'end',
+                                                        align: 'end',
+                                                        formatter: function(value, context) {
+                                                            return value;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Visited Posts -->
+                    <div class="row">
                         <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">조회수 상위 게시물</h6>
                                 </div>
                                 <div class="card-body">
-                                    <h4 class="small font-weight-bold">Server Migration <span
-                                            class="float-right">20%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                            aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Sales Tracking <span
-                                            class="float-right">40%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                            aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Customer Database <span
-                                            class="float-right">60%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar" role="progressbar" style="width: 60%"
-                                            aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Payout Details <span
-                                            class="float-right">80%</span></h4>
-                                    <div class="progress mb-4">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                    <h4 class="small font-weight-bold">Account Setup <span
-                                            class="float-right">Complete!</span></h4>
-                                    <div class="progress">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
+                                    <%
+                                        for (UserBoardDTO post : topVisitedPosts) {
+                                            String image = post.getBase64MainImage();
+                                    %>
+                                        <div class="post-item">
+                                            <h5 class="font-weight-bold"><%= post.getTitle() %></h5>
+                                            <img src="data:image/png;base64,<%= image %>" style="max-width: 100%; height: auto;">
+                                            <p><%= post.getContent() %></p>
+                                        </div>
+                                        <hr>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
-
-                            <!-- Color System -->
-                            <div class="row">
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-primary text-white shadow">
-                                        <div class="card-body">
-                                            Primary
-                                            <div class="text-white-50 small">#4e73df</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-success text-white shadow">
-                                        <div class="card-body">
-                                            Success
-                                            <div class="text-white-50 small">#1cc88a</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-info text-white shadow">
-                                        <div class="card-body">
-                                            Info
-                                            <div class="text-white-50 small">#36b9cc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-warning text-white shadow">
-                                        <div class="card-body">
-                                            Warning
-                                            <div class="text-white-50 small">#f6c23e</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-danger text-white shadow">
-                                        <div class="card-body">
-                                            Danger
-                                            <div class="text-white-50 small">#e74a3b</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-secondary text-white shadow">
-                                        <div class="card-body">
-                                            Secondary
-                                            <div class="text-white-50 small">#858796</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-light text-black shadow">
-                                        <div class="card-body">
-                                            Light
-                                            <div class="text-black-50 small">#f8f9fc</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-4">
-                                    <div class="card bg-dark text-white shadow">
-                                        <div class="card-body">
-                                            Dark
-                                            <div class="text-white-50 small">#5a5c69</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
 
+                        <!-- Top Liked Posts -->
                         <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">추천수 상위 게시물</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-center">
-                                        <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                            src="img/undraw_posting_photo.svg" alt="...">
-                                    </div>
-                                    <p>Add some quality, svg illustrations to your project courtesy of <a
-                                            target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                        constantly updated collection of beautiful svg images that you can use
-                                        completely free and without attribution!</p>
-                                    <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                        unDraw &rarr;</a>
+                                    <%
+                                        for (UserBoardDTO post : topLikedPosts) {
+                                            String image = post.getBase64MainImage();
+                                    %>
+                                        <div class="post-item">
+                                            <h5 class="font-weight-bold"><%= post.getTitle() %></h5>
+                                            <img src="data:image/png;base64,<%= image %>" style="max-width: 100%; height: auto;">
+                                            <p><%= post.getContent() %></p>
+                                        </div>
+                                        <hr>
+                                    <%
+                                        }
+                                    %>
                                 </div>
                             </div>
-
-                            <!-- Approach -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                        CSS bloat and poor page performance. Custom CSS classes are used to create
-                                        custom components and custom utility classes.</p>
-                                    <p class="mb-0">Before working with this theme, you should become familiar with the
-                                        Bootstrap framework, especially the utility classes.</p>
-                                </div>
-                            </div>
-
                         </div>
                     </div>
 
                 </div>
-                <!-- /.container-fluid -->
+                <!-- End of Main Content -->
+
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; TEAM_KEAM 2024</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; TEAM_KEAM 2024</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <!-- End of Content Wrapper -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Page Wrapper -->
 
-    </div>
-    <!-- End of Page Wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-	
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./logout.jsp">Logout</a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="./logout.jsp">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
+
+        <!-- Page level plugins -->
+        <script src="vendor/chart.js/Chart.min.js"></script>
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-    <script src="js/sb-admin-2.min.js"></script>
-
-    <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
-
 </body>
 
 </html>
