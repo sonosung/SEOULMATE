@@ -41,7 +41,7 @@
 <li class="nav-item">
 	<a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
 		<i class="fas fa-fw fa-cog"></i>
-		<span>행사 이미지</span>
+		<span>행사 게시판 관리</span>
 	</a>
 		<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
@@ -61,9 +61,9 @@
 		<div class="bg-white py-2 collapse-inner rounded">
 			<h6 class="collapse-header">Custom Utilities:</h6>
 			<a class="collapse-item" href="./emailAuth.jsp">메일 보내기</a>
-			<a class="collapse-item" href="./emailList.jsp">메일 리스트</a>
+			<!-- <a class="collapse-item" href="./emailList.do">메일 리스트</a> -->
 			<a class="collapse-item" href="./userList.do">회원 리스트</a>
-			<a class="collapse-item" href="./utilities-other.jsp">Other</a>
+			<!-- <a class="collapse-item" href="./utilities-other.jsp">Other</a> -->
 		</div>
 	</div></li>
 
@@ -71,9 +71,9 @@
 <hr class="sidebar-divider">
 
 <!-- Heading -->
-<div class="sidebar-heading">Addons</div>
+<!-- <div class="sidebar-heading">Addons</div>
 
-<!-- Nav Item - Pages Collapse Menu -->
+Nav Item - Pages Collapse Menu
 <li class="nav-item">
 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
 <i class="fas fa-fw fa-folder"></i>
@@ -93,7 +93,7 @@
 	</div>
 </li>
 
-<!-- Nav Item - Charts -->
+Nav Item - Charts
 <li class="nav-item">
 	<a class="nav-link" href="./charts.jsp">
 		<i class="fas fa-fw fa-chart-area"></i> 
@@ -101,16 +101,16 @@
 	</a>
 </li>
 
-<!-- Nav Item - Tables -->
+Nav Item - Tables
 <li class="nav-item">
 	<a class="nav-link" href="./tables.jsp">
 		<i class="fas fa-fw fa-table"></i>
 		<span>여기에 관리자 글쓰기 페이지 추가</span>
 	</a>
-</li>
+</li> -->
 
 <!-- Divider -->
-<hr class="sidebar-divider d-none d-md-block">
+<!-- <hr class="sidebar-divider d-none d-md-block"> -->
 
 <!-- Sidebar Toggler (Sidebar) -->
 <div class="text-center d-none d-md-inline">

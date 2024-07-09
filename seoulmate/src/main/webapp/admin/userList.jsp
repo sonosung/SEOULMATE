@@ -1,101 +1,3 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>회원 목록 게시판</title>
-<style>a{text-decoration:none;}</style>
-</head>
-<body>
-	<h2>회원 목록 보기(List)</h2>
-	
-	<!-- 검색 폼 -->
-	<form method="get">
-	<table border="1" width="90%">
-	<tr>
-		<td align="center">
-			<select name="searchField">
-				<option value="title">제목</option>
-				<option value="content">내용</option>
-			</select>
-			<input type="text" name="searchWord" />
-			<input type="submit" value="검색하기" />
-		</td>
-		</tr>
-	</table>
-	</form>
-	
-	<!-- 목록 테이블 -->
-	<table border="1" width="90%">
-		<tr>
-			<th width="10%">번호</th>
-			<th width="*">제목</th>
-			<th width="15%">작성자</th>
-			<th width="10%">조회수</th>
-			<th width="15%">작성일</th>
-			<th width="8%">첨부</th>
-		</tr>
-<c:choose>
-	<c:when test="${ empty boardLists }"> <!-- 게시물이 없을 때 -->
-	<tr>
-		<td colspan="6" align="center">
-			등록된 게시물이 없습니다.
-		</td>
-	</tr>		
-	</c:when>
-	<c:otherwise> <!-- 게시물이 있을 때 -->
-		<c:forEach items="${ boardLists }" var="row" varStatus="loop">
-		<tr align="center">
-			<td> <!-- 번호 -->
-				${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index) }
-			</td>
-			<td align="left"> <!-- 제목(링크) -->
-				<a href="../mvcboard/view.do?idx=${ row.idx }">${ row.title }</a>
-			</td>
-			<td>${ row.name }</td>
-			<td>${ row.visitcount }</td>
-			<td>${ row.postdate }</td>
-			<td> <!-- 첨부 파일 -->
-			<c:if test="${ not empty row.ofile }">
-				<a href="../mvcboard/download.do?ofile=${ row.ofile }&sfile=${ row.sfile }&idx=${ row.idx }">[Down]</a>
-				</c:if>
-			</td>
-			</tr>
-		</c:forEach>
-	</c:otherwise>
-</c:choose>
-	</table>
-	
-	<!-- 하단 메뉴(바로가기, 글쓰기) -->
-	<table border="1" width="90%">
-		<tr align="center">
-		<td>
-			${ map.pagingImg }
-		</td>
-			<td width="100">
-				<button type="button" onclick="location.href='../mvcboard/write.do';">글쓰기</button>
-			</td>
-		</tr>
-	</table>
-</body>
-</html>
-
-
-
-
-
- --%>
-<%--     
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>회원 목록 게시판</title>
-<style>a{text-decoration:none;}</style>
-</head>
-<body> --%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
@@ -109,6 +11,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+
+<style type="text/css">    
+    html, body {
+    height: 100%
+}
+
+#wrapper {
+    height: auto;
+	min-height: 100%;
+}
+
+footer {
+	/* position : relative;
+  	transform : translateY(-100%); */
+  	position : fixed;
+	bottom : 0;
+}
+</style>
 
     <title>SB Admin 2 - Border Utilities</title>
 
@@ -149,7 +69,7 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <div class="container-fluid" align="center">
                 
                 
 <h2>회원 목록 보기(List)</h2>
@@ -160,10 +80,12 @@
 	<tr>
 		<td align="center">
 			<select name="searchField">
-				<option value="USER_ID">아이디</option>
+				<option value="">필드선택</option>
+				<option value="USER_ID">닉네임</option>
 				<option value="USERNAME">이름</option>
 				<option value="EMAIL">이메일</option>
 				<option value="PHONENUM">전화번호</option>
+				<option value="USER_STREET">주소</option>
 			</select>
 			<input type="text" name="searchWord" />
 			<input type="submit" value="검색하기" />
@@ -174,13 +96,15 @@
 	
 	<!-- 목록 테이블 -->
 	<table border="1" width="90%">
-		<tr>
-			<th width="10%">번호</th>
-			<th width="15%">아이디</th>
-			<th width="20%">이름</th>
-			<th width="25%">이메일</th>
-			<th width="15%">전화번호</th>
-			<th width="15%">주소</th>
+		<tr align="center">
+			<th width="5%">번호</th>
+			<th width="10%">닉네임</th>
+			<th width="10%">이름</th>
+			<th width="20%">이메일</th>
+			<th width="10%">전화번호</th>
+			<th width="25%">주소</th>
+			<th width="5%">우편번호</th>
+			<th width="15%">비밀번호</th>
 		</tr>
 <c:choose>
 	<c:when test="${ empty boardLists }"> <!-- 게시물이 없을 때 -->
@@ -209,7 +133,13 @@
 				${ row.PHONENUM }
 			</td>
 			<td> <!-- 주소 -->
-				${ row.USER_STREET }, ${ row.USER_ZIP }
+				${ row.USER_STREET }
+			</td>
+			<td>
+				${ row.USER_ZIP } 
+			</td>
+			<td> <!-- 비밀번호 -->
+				${ row.USER_PASSWORD }
 			</td>
 		</tr>
 		</c:forEach>
@@ -234,15 +164,15 @@
             </div>
             <!-- End of Main Content -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+	<!-- Footer -->
+	<footer class="bg-white">
+		<div class="container my-auto">
+			<div class="copyright text-center my-auto">
+				<span>Copyright &copy; SEOULMATE 2024</span>
+			</div>
+		</div>
+	</footer>
+	<!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->

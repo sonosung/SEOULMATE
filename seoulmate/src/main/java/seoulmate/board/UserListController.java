@@ -47,7 +47,7 @@ public class UserListController extends HttpServlet {
         map.put("end", end);
         
         List<UserBoardDTO> boardLists = dao.selectListPage(map);
-        dao.close(); 
+//        dao.close(); 
         
         String pagingImg = BoardPage.pagingStr(totalCount, pageSize, blockPage, pageNum, "userlist.do");
         map.put("pagingImg", pagingImg);

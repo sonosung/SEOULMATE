@@ -54,7 +54,9 @@ public class NaverSMTP {
         msg.setFrom(new InternetAddress(mailInfo.get("admin")));     // 보내는 사람
         msg.setSubject(mailInfo.get("title"));                    // 제목
         msg.setContent(mailInfo.get("content"), mailInfo.get("format"));  // 내용
-
+        
+        
+        
         // 3. 전송
         Transport.send(msg);
     }

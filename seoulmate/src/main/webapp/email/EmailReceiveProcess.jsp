@@ -34,7 +34,14 @@
             return new PasswordAuthentication(adminEmail, adminPassword);
         }
     });
-
+    
+    if(userEmail == null && subject == null && content == null ) {
+    	%>
+        <script>alert("이메일 전송 실패");
+       location.href="../email/contact.jsp";</script>
+     	<%
+    }else {
+    
     try {
         // 이메일 메시지 설정
         Message message = new MimeMessage(mailSession);
@@ -42,16 +49,19 @@
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
         message.setSubject("문의: " + subject);
         message.setText("문의자 이메일: " + userEmail + "\n\n내용:\n" + content);
-
+	
         // 이메일 전송
         Transport.send(message);
- 		 
-        %> <script>alert("이메일 전송 성공");
+        
+        %>
+         <script>alert("이메일 전송 선공");
         location.href="../MainContent/index.jsp";</script>
-      
       	<%
-
+   
     } catch (MessagingException e) {
         throw new RuntimeException(e);
+	 
+    	
     }
+ }     
 %>

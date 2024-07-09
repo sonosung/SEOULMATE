@@ -39,7 +39,6 @@
 <%
    MemberDTO user = (MemberDTO) session.getAttribute("user");
    if (user != null) {
-	   out.println("안녕하세요, " + user.getUSER_NUM() +"번 " + user.getUSER_ID()  +  "님!");
 %>
       <li class="nav-item mx-0 mx-lg-1">
          <a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/logout.jsp" id="Logout">Logout</a>
@@ -48,6 +47,33 @@
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="./userPage/myPage.jsp" type="submit"
 					onclick="document.getElementById('user').sumbit();">MyPage</a>
 					</li>
+<%  
+					if (user.getUSER_NUM() <= 4) { 
+						
+					%>
+					<li class="nav-item mx-0 mx-lg-1">
+					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/adminIndex.jsp" type="submit"
+					onclick="document.getElementById('user').sumbit();">관리자 페이지</a>
+					</li>
+					
+					 <li class="nav-item mx-0 mx-lg-1">
+       				<a class="nav-link py-3 px-0 px-lg-3 rounded" style="color: white;" id="User_Info">
+    <% 
+        if (user.getBase64UserPhoto() != null) {
+    %>
+        <img src="data:image/jpeg;base64, <%= user.getBase64UserPhoto() %>" class="rounded-circle" width="30" height="30" alt="User Photo">
+        <%= user.getUSER_ID() + "님! 환영합니다" %>
+    <% 
+        } else {
+            out.println(user.getUSER_ID() + "님! 환영합니다");
+        }
+    %>
+</a>
+      				</li>
+      				
+					<%
+					}
+%>
 <%
    } else {
 %>
