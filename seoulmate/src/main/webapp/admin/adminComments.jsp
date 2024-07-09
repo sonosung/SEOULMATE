@@ -331,7 +331,9 @@ th, td {
 							%>
 							<tr>
 								<td><%=comment.getCommentId()%></td>
-								<td><%=comment.getIdx()%></td>
+								<td><a href="../fesview.do?idx=<%=comment.getIdx()%>"><%=comment.getIdx()%></a></td>
+
+
 								<td><%=comment.getWriter()%></td>
 								<td><%=comment.getContent()%></td>
 								<td><%=comment.getCreatedAt()%></td>
