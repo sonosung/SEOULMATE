@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -13,6 +14,8 @@ import seoulmate.membership.MemberDTO;
 import utils.JSFunction;
 
 @MultipartConfig(maxFileSize = 1024 * 1024 * 1, maxRequestSize = 1024 * 1024 * 10)
+
+@WebServlet("/write.do")
 public class WriteController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 

@@ -98,7 +98,7 @@
     <servlet-name>BoardList</servlet-name>
     <url-pattern>/userlist.do</url-pattern>
   </servlet-mapping> -->
-  <servlet>
+  <!--  <servlet>
     <servlet-name>BoardWrite</servlet-name>
     <servlet-class>seoulmate.board.WriteController</servlet-class>
     <multipart-config>
@@ -109,7 +109,7 @@
   <servlet-mapping>
     <servlet-name>BoardWrite</servlet-name>
     <url-pattern>/write.do</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping>-->
 <!--   <servlet>
     <servlet-name>FesBoardList</servlet-name>
     <servlet-class>seoulmate.board.FesListController</servlet-class>
@@ -118,7 +118,7 @@
     <servlet-name>FesBoardList</servlet-name>
     <url-pattern>/feslist.do</url-pattern>
   </servlet-mapping> -->
-  <servlet>
+  <!-- <servlet>
     <servlet-name>FesBoardWrite</servlet-name>
     <servlet-class>seoulmate.board.FesWriteController</servlet-class>
     <multipart-config>
@@ -129,5 +129,5 @@
   <servlet-mapping>
     <servlet-name>FesBoardWrite</servlet-name>
     <url-pattern>/feswrite.do</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
 </web-app>

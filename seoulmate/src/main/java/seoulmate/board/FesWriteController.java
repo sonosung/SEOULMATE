@@ -1,9 +1,12 @@
 package seoulmate.board;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -11,9 +14,11 @@ import jakarta.servlet.http.Part;
 import seoulmate.membership.MemberDTO;
 import utils.JSFunction;
 
+@MultipartConfig(maxFileSize = 1024 * 1024 * 1, maxRequestSize = 1024 * 1024 * 10)
 /**
  * Servlet implementation class WriteController
  */
+@WebServlet("/feswrite.do")
 public class FesWriteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
