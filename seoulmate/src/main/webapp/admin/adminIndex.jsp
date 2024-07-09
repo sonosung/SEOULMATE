@@ -2,6 +2,7 @@
 <%@ page import="seoulmate.membership.MemberDAO" %>
 <%@ page import="seoulmate.board.BoardDAO, seoulmate.board.BoardDTO" %>
 <%@ page import="seoulmate.board.UserBoardDAO, seoulmate.board.UserBoardDTO" %>
+<%@ page import="seoulmate.boardcomment.CommentDAO, seoulmate.boardcomment.CommentDTO" %>
 <%@ page import="java.util.List, java.util.Map" %>
 <%@ page import="com.google.gson.Gson" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -42,6 +43,15 @@
             margin-bottom: 1rem;
             vertical-align: top;
         }
+
+        .card-large + .twocard-large {
+            margin-left: 0.5cm;
+        }
+
+        .comments {
+            height: 400px;
+            overflow-y: scroll;
+        }
     </style>
 </head>
 
@@ -53,6 +63,7 @@
         // 데이터 접근 객체 생성
         BoardDAO dao = new BoardDAO();
         UserBoardDAO userBoardDao = new UserBoardDAO();
+        CommentDAO commentDao = new CommentDAO();
         Gson gson = new Gson();
         
         // 월별 축제 수 데이터를 가져와서 JSON 형식으로 변환
@@ -76,6 +87,9 @@
         
         // 추천수 상위 3개의 글
         List<UserBoardDTO> topLikedPosts = userBoardDao.getTopLikedPosts();
+
+        // 실시간 댓글 데이터
+        List<CommentDTO> recentComments = commentDao.getAllComments();
     %>
 
     <!-- Page Wrapper -->
@@ -245,112 +259,103 @@
                                 </script>
                             </div>
                         </div>
-
-                        <!-- Area Chart 2 -->
-                        <div class="card shadow mb-4 twocard-large">
-                            <!-- Card Header - Dropdown -->
-                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">유저게시물 현황</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                        aria-labelledby="dropdownMenuLink">                                            
-                                        <div class="dropdown-header">Dropdown Header:</div>
-                                        <!-- 드롭다운 항목 - 유저게시물 수 차트를 표시 -->
-                                        <a class="dropdown-item" href="#" onclick="showUserBoardChart()">유저게시물 수</a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <!-- 차트를 그릴 영역 -->
-                                <div id="user-chart-title" class="text-center font-weight-bold mb-2"></div> <!-- 차트 제목 표시할 영역 -->
-                                <div class="chart-area" style="height: 400px; width: 100%;">
-                                    <canvas id="userBoardChart"></canvas>
-                                </div>
-                                <%-- Chart.js 플러그인 로드 --%>
-                                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
-                                <script>
-                                    var userBoardChart; // 유저 게시물 차트 객체 전역 변수로 선언
-
-                                    function showUserBoardChart() {
-                                        let chartData = userBoardCountData;
-                                        let labels = [];
-                                        let values = [];
-                                        let chartTitle = '유저게시물 수';
-
-                                        for (let month in chartData) {
-                                            labels.push(month);
-                                            values.push(chartData[month]);
-                                        }
-
-                                        if (userBoardChart) {
-                                            userBoardChart.destroy(); // 기존 차트를 파괴
-                                        }
-
-                                        document.getElementById('user-chart-title').innerText = chartTitle; // 차트 제목 업데이트
-
-                                        let ctx = document.getElementById("userBoardChart").getContext('2d');
-                                        userBoardChart = new Chart(ctx, {
-                                            type: 'bar', // 막대 차트 유형
-                                            data: {
-                                                labels: labels,
-                                                datasets: [{
-                                                    label: chartTitle,
-                                                    data: values,
-                                                    backgroundColor: 'rgba(78, 115, 223, 0.5)',
-                                                    borderColor: 'rgba(78, 115, 223, 1)',
-                                                    borderWidth: 1,
-                                                    barThickness: 30, // 막대의 두께를 지정
-                                                    maxBarThickness: 35, // 막대의 최대 두께를 지정
-                                                    minBarLength: 10 // 막대의 최소 길이를 지정
-                                                }]
-                                            },
-                                            options: {
-                                                responsive: true,
-                                                maintainAspectRatio: false, // 차트의 종횡비를 유지하지 않음
-                                                scales: {
-                                                    xAxes: [{
-                                                        barPercentage: 0.5, // 막대 폭 조정
-                                                        categoryPercentage: 0.5 // 카테고리 폭 조정
-                                                    }],
-                                                    yAxes: [{
-                                                        ticks: {
-                                                            beginAtZero: true
-                                                        }
-                                                    }]
-                                                },
-                                                legend: {
-                                                    display: false
-                                                },
-                                                tooltips: {
-                                                    backgroundColor: "rgb(255,255,255)",
-                                                    bodyFontColor: "#858796",
-                                                    titleMarginBottom: 10,
-                                                    titleFontColor: '#6e707e',
-                                                    titleFontSize: 14,
-                                                    borderColor: '#dddfeb',
-                                                    borderWidth: 1,
-                                                    xPadding: 15,
-                                                    yPadding: 15,
-                                                    displayColors: false,
-                                                    caretPadding: 10,
-                                                },
-                                                plugins: {
-                                                    datalabels: {
-                                                        color: '#fff',
-                                                        anchor: 'end',
-                                                        align: 'end',
-                                                        formatter: function(value, context) {
-                                                            return value;
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        });
-                                    }
+                               <!-- 유저게시물 현황 -->
+							<div class="card shadow mb-4 twocard-large">
+							    <!-- Card Header -->
+							    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+							        <h6 class="m-0 font-weight-bold text-primary">유저게시물 현황</h6>
+							    </div>
+							    <div class="card-body">
+							        <!-- 차트를 그릴 영역 -->
+							        <div id="user-chart-title" class="text-center font-weight-bold mb-2">유저게시물 수</div>
+							        <div class="chart-area" style="height: 400px; width: 100%;">
+							            <canvas id="userBoardChart"></canvas>
+							        </div>
+							        <%-- Chart.js 플러그인 로드 --%>
+							        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
+							        <script>
+							            var userBoardChart; // 유저 게시물 차트 객체 전역 변수로 선언
+							
+							            function showUserBoardChart() {
+							                let chartData = <%= userBoardCountJson %>;
+							                let labels = [];
+							                let values = [];
+							                let chartTitle = '유저게시물 수';
+							
+							                for (let month in chartData) {
+							                    labels.push(month);
+							                    values.push(chartData[month]);
+							                }
+							
+							                if (userBoardChart) {
+							                    userBoardChart.destroy(); // 기존 차트를 파괴
+							                }
+							
+							                document.getElementById('user-chart-title').innerText = chartTitle; // 차트 제목 업데이트
+							
+							                let ctx = document.getElementById("userBoardChart").getContext('2d');
+							                userBoardChart = new Chart(ctx, {
+							                    type: 'bar', // 막대 차트 유형
+							                    data: {
+							                        labels: labels,
+							                        datasets: [{
+							                            label: chartTitle,
+							                            data: values,
+							                            backgroundColor: 'rgba(78, 115, 223, 0.5)',
+							                            borderColor: 'rgba(78, 115, 223, 1)',
+							                            borderWidth: 1,
+							                            barThickness: 30, // 막대의 두께를 지정
+							                            maxBarThickness: 35, // 막대의 최대 두께를 지정
+							                            minBarLength: 10 // 막대의 최소 길이를 지정
+							                        }]
+							                    },
+							                    options: {
+							                        responsive: true,
+							                        maintainAspectRatio: false, // 차트의 종횡비를 유지하지 않음
+							                        scales: {
+							                            xAxes: [{
+							                                barPercentage: 0.5, // 막대 폭 조정
+							                                categoryPercentage: 0.5 // 카테고리 폭 조정
+							                            }],
+							                            yAxes: [{
+							                                ticks: {
+							                                    beginAtZero: true
+							                                }
+							                            }]
+							                        },
+							                        legend: {
+							                            display: false
+							                        },
+							                        tooltips: {
+							                            backgroundColor: "rgb(255,255,255)",
+							                            bodyFontColor: "#858796",
+							                            titleMarginBottom: 10,
+							                            titleFontColor: '#6e707e',
+							                            titleFontSize: 14,
+							                            borderColor: '#dddfeb',
+							                            borderWidth: 1,
+							                            xPadding: 15,
+							                            yPadding: 15,
+							                            displayColors: false,
+							                            caretPadding: 10,
+							                        },
+							                        plugins: {
+							                            datalabels: {
+							                                color: '#fff',
+							                                anchor: 'end',
+							                                align: 'end',
+							                                formatter: function(value, context) {
+							                                    return value;
+							                                }
+							                            }
+							                        }
+							                    }
+							                });
+							            }
+							
+							            document.addEventListener('DOMContentLoaded', function() {
+							                showUserBoardChart(); // 페이지 로드 시 차트를 표시
+							            });
                                 </script>
                             </div>
                         </div>
@@ -361,16 +366,14 @@
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">조회수 상위 게시물</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">조회수 top3 유저게시물</h6>
                                 </div>
                                 <div class="card-body">
                                     <%
                                         for (UserBoardDTO post : topVisitedPosts) {
-                                            String image = post.getBase64MainImage();
                                     %>
                                         <div class="post-item">
                                             <h5 class="font-weight-bold"><%= post.getTitle() %></h5>
-                                            <img src="data:image/png;base64,<%= image %>" style="max-width: 100%; height: auto;">
                                             <p><%= post.getContent() %></p>
                                         </div>
                                         <hr>
@@ -385,17 +388,40 @@
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">추천수 상위 게시물</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">추천수 top3 유저게시물</h6>
                                 </div>
                                 <div class="card-body">
                                     <%
-                                        for (UserBoardDTO post : topLikedPosts) {
-                                            String image = post.getBase64MainImage();
+                                        for (UserBoardDTO post : topLikedPosts) {                                  
                                     %>
                                         <div class="post-item">
                                             <h5 class="font-weight-bold"><%= post.getTitle() %></h5>
-                                            <img src="data:image/png;base64,<%= image %>" style="max-width: 100%; height: auto;">
                                             <p><%= post.getContent() %></p>
+                                        </div>
+                                        <hr>
+                                    <%
+                                        }
+                                    %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 최근 댓글 표시 -->
+                    <div class="row">
+                        <div class="col-lg-12 mb-4">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">유저 댓글 실시간</h6>
+                                </div>
+                                <div class="card-body comments">
+                                    <%
+                                        for (CommentDTO comment : recentComments) {
+                                    %>
+                                        <div class="comment-item">
+                                            <h5 class="font-weight-bold"><%= comment.getWriter() %></h5>
+                                            <p><%= comment.getContent() %></p>
+                                            <small class="text-muted"><%= comment.getCreatedAt() %></small>
                                         </div>
                                         <hr>
                                     <%
