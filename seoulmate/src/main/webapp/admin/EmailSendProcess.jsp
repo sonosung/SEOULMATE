@@ -74,7 +74,9 @@ emailInfo.put("format", "text/plain;charset=UTF-8");
 try {
 	NaverSMTP smtpServer = new NaverSMTP();  // 메일 전송 클래스 생성
     smtpServer.emailSending(emailInfo);      // 전송
-    out.print("이메일 전송 성공");
+    %> <script>alert("이메일 전송 성공");</script>
+    herf="login.jsp";
+  	<%
 }
 catch (Exception e) {
     out.print("이메일 전송 실패");

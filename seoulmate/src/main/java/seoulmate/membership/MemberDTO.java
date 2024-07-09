@@ -21,8 +21,17 @@ public class MemberDTO {
 	private String UD;
 	private byte[] USER_PHOTO; 
 	private String base64UserPhoto;  // Base64 문자열로 인코딩된 사진 데이터를 저장할 필드 추가
+	private String UD_NICK;
 
-    public byte[] getUSER_PHOTO() {
+    public String getUD_NICK() {
+		return UD_NICK;
+	}
+
+	public void setUD_NICK(String uD_NICK) {
+		UD_NICK = uD_NICK;
+	}
+
+	public byte[] getUSER_PHOTO() {
         return USER_PHOTO;
     }
 

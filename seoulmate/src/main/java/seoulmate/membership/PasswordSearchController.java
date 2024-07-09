@@ -40,7 +40,7 @@ public class PasswordSearchController extends HttpServlet {
         try {
             response.setContentType("text/html; charset=utf-8");
             PrintWriter w = response.getWriter();
-            w.write("<script>alert('"+message+"');location.href='"+url+"';</script>");
+            w.write("<script>alert('귀하의 비밀 번호는 "+message+" 입니다.');location.href='"+url+"';</script>");
             w.flush();
             w.close();
         } catch(Exception e) {

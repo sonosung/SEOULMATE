@@ -107,12 +107,12 @@
  								 </div>
                                 <div class="form-group row">			
 								<div class="col-sm-2-An mb-3 mb-sm-0">
-									<input type="text" class="form-control form-control-user postcodify_postcode5" name="USER_ZIP" 
-										placeholder="Zip" readonly value=03048>
+									<input type="text" class="form-control form-control-user postcodify_postcode5" name="USER_ZIP" id="ZIP"
+										placeholder="Zip" readonly> <!-- value=03048 -->
 								</div>
 								<div class="col-sm-8 mb-3 mb-sm-0">
-									<input type="text"  class="form-control form-control-user postcodify_address" name="USER_STREET" 
-										placeholder="도로명 주소 / Street" readonly value="서울특별시 종로구 청와대로 1">
+									<input type="text"  class="form-control form-control-user postcodify_address" name="USER_STREET" id="ST"
+										placeholder="도로명 주소 / Street" readonly> <!-- value="서울특별시 종로구 청와대로 1" -->
 								</div>
 								<button type="button" class="btn btn-primary btn-user-An-search btn-block" id="postcodify_search_button" onclick="enableAddressFields()">검색</button>
                                 </div>
@@ -148,7 +148,7 @@
 	<!-- "검색" 단추를 누르면 팝업 레이어가 열리도록 설정한다 -->
 	<script> $(function() { $("#postcodify_search_button").postcodifyPopUp(); }); </script>
 	
-	<script>
+<!-- 	<script>
 		function checkEmail(){
 			var InputEmail = document.getElementById("exampleInputEmail").value;
 			var messagEmail = document.getElementById("EmailMessage");
@@ -156,7 +156,7 @@
 			messagEmail.innerHTML = "이메일 인증해주세요.";
 			messagEmail.style.color = "red";
 		}
-	</script>
+	</script> -->
 	
 	<script>
         function checkPasswordMatch() {
@@ -188,6 +188,8 @@
 			var inputEmail = document.getElementById("exampleInputEmail").value.trim();
             var message = document.getElementById("passwordMatchMessage");
             var inputPHONE = document.getElementById("exampleInputPhone").value.trim();
+            var inputST = document.getElementById("ST").value.trim();
+            var inputZIP = document.getElementById("ZIP").value.trim();
             
             var nameRegex = /^([a-zA-Z가-힣]+( [a-zA-Z가-힣]+)*)$/;
             var nameKor = /^[가-힣]+$/;
@@ -201,7 +203,13 @@
             		if(Email.test(inputEmail)){
             			if(USER_PHONE.test(inputPHONE) && inputPHONE.length == 11){
                 			if (password === repeatPassword && password.length >= 6) {
-                                document.getElementById("registrationForm").submit();
+                				if (inputST !== "" && inputZIP !== "") {
+                                    document.getElementById("registrationForm").submit();
+                				}else {
+                		            
+                		            message.innerHTML = "주소를 입력하여 주십시오";
+                                    message.style.color = "red";
+                		        }
                             } else {
                                 message.innerHTML = "비밀번호가 일치하지 않거나 6글자 이상이 아닙니다.";
                                 message.style.color = "red";
@@ -218,7 +226,13 @@
             		if(Email.test(inputEmail)){
             			if(USER_PHONE.test(inputPHONE) && inputPHONE.length == 11){
                 			if (password === repeatPassword && password.length >= 6) {
-                                document.getElementById("registrationForm").submit();
+                				if (inputST !== "" && inputZIP !== "") {
+                                    document.getElementById("registrationForm").submit();
+                				}else {
+                		            
+                		            message.innerHTML = "주소를 입력하여 주십시오";
+                                    message.style.color = "red";
+                		        }
                             } else {
                                 message.innerHTML = "비밀번호가 일치하지 않거나 6글자 이상이 아닙니다.";
                                 message.style.color = "red";

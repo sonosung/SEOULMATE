@@ -65,7 +65,7 @@
                             title: eventData[0],   // 이벤트 제목
                             start: eventData[1],   // 시작 날짜
                             end: eventData[2],     // 종료 날짜
-                            url: 'http://localhost:8081/seoulmate/fesview.do?idx=' + eventData[3]  // 이벤트 클릭 시 링크
+                            url: '../fesview.do?idx=' + eventData[3]  // 이벤트 클릭 시 링크
                         };
                     })
                 });

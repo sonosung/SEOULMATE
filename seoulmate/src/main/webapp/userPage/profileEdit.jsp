@@ -70,7 +70,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 </head>
 <body style="background-color:#D4F1F4;">
 
-<form name="user" method="post" enctype="multipart/form-data" action="profileEdit.do" onsubmit="return validateForm(this);">
+<form name="user" method="post" enctype="multipart/form-data" action="profileEdit.do" onsubmit="return validateForm(this);" id="registrationForm">
     <input type="hidden" name="email" value="<% out.println(user.getEMAIL()); %>">
     <!-- 나머지 폼 필드들 -->
 
@@ -109,15 +109,20 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<br>
 								<h4><% out.println(user.getUSER_ID()); %></h4>
 									 <% out.println(user.getUSERNAME() + "님 환영합니다!"); %>
-									<!-- <p class="text-muted font-size-sm">그린컴퓨터</p> -->
+
 									<br><br>
-									<!-- <button class="btn btn-primary"></button> -->
-									
-										<input type="file" name="ofile" class="btn btn-primary form-control-file">
 										<div style="margin-bottom: 10px;"></div>
-                                                <div id="PassHelp"> 사진을 선택하지 않으면 기본이미지로 돌아갑니다.</div>
-									
-									<!-- <button class="btn btn-outline-primary">Message</button> 메시지 버튼 사용은 보류. -->
+										<input type="file" name="ofile" class="btn btn-primary form-control-file" id="photo">
+										<div style="margin-bottom: 10px;"></div>
+										<div class="custom-control custom-checkbox small">
+										         <input type="checkbox" class="custom-control-input" id="photoCheck" name="photo_check" value="Y">
+                                                <label class="custom-control-label" for="photoCheck">선택 한 사진을 프로필 사진으로 사용하기</label>
+                                        </div>
+										<div style="margin-bottom: 10px;"></div>
+                                            <div class="custom-control custom-checkbox small">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck" name="save_check" value="Y">
+                                                <label class="custom-control-label" for="customCheck">프로필 사진 기본으로 되돌리기</label>
+                                            </div>
 								</div>
 							</div>
 
@@ -128,7 +133,7 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 	
 				<div class="col-md-8">
 					<div class="card mb-3">
-						<div class="card-body" style="height: 400px;">
+						<div class="card-body" style="height: 485px;">
 
 						<br>
 							<div class="row mb-3">
@@ -183,33 +188,19 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 									<input type="password" class="form-control" name="USER_PASS" id="examplePass" required>
 								</div>
 							</div>
-							<!--  비밀번호 변경 --><!-- 
 							<div class="row mb-3">
 								<div class="col-sm-3">
-									<h6 class="mb-0">변경하실 비밀번호(미입력 시 비밀번호는 변경되지 않습니다.)</h6>
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="password" class="form-control" name="CHANGE_PASS" id="password_1" onkeyup="checkPasswordMatch();">
-								</div>
-								<div class="col-sm-9 text-secondary">
-									<input type="password" class="form-control" name="CHANGE_PASS2" id="repeatPassword_2" onkeyup="checkPasswordMatch();">
-								</div>
-							</div> -->
-							<!--  비밀번호 변경 -->
-							<div class="row mb-3">
-								<div class="col-sm-3">
-
 							</div>
-							<br>
-							<div class="row mb-3">
+							<div id="ErMessage">
+ 								</div>
+							<br><br><br><br>
+							<div class="row mb-4">
 								<div class="col-sm-3"></div>
 								<div class="col-sm-5 text-secondary">
-																	<div class="col-sm-12">
-      								  <div id="passwordMatchMessage"></div>
- 									</div>
-									<input type="submit" class="btn btn-primary px-4" 
+								<div class="col-sm-12">
+								<input type="submit" class="btn btn-primary px-4" 
 										value="Save Changes"
-										onclick="location.href='profileEdit.do';">
+										onclick="validateAndSubmit(event)"></div>
 								</div>
 							</div>
 						</div>
@@ -226,43 +217,44 @@ MemberDTO user = (MemberDTO) session.getAttribute("user");
 }
 %>
 	<script>
-    function validateAndSubmit(event) {
-        event.preventDefault(); // 폼의 기본 제출 동작 방지
+	 function validateAndSubmit(event) {
+         event.preventDefault(); // 폼의 기본 제출 동작 방지
 
-        var password = document.getElementById("NewPass").value;
-        var repeatPassword = document.getElementById("NewPass2").value;
-        var uname = document.getElementById("exampleInputName").value.trim();
-        var message = document.getElementById("passwordMatchMessage");
+        var nname = document.getElementById("exampleInputName").value.trim();
+        var message = document.getElementById("ErMessage");
         var inputPHONE = document.getElementById("exampleInputPhone").value.trim();
         
         var nameRegex = /^([a-zA-Z가-힣]+( [a-zA-Z가-힣]+)*)$/;
         var nameKor = /^[가-힣]+$/;
         var nameEng = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
         var USER_PHONE = /^[0-9]*$/;
-	
-	
-	</script>
-
-	<script>
-        function checkPasswordMatch() {
-            var password = document.getElementById("NewPass").value;
-            var repeatPassword = document.getElementById("NewPass2").value;
-            var message = document.getElementById("passwordMatchMessage");
+       
             
-            if(password.length >= 6){
-                if (password === repeatPassword) {
-                    message.innerHTML = "비밀번호가 일치합니다.";
-                    message.style.color = "green";
-                } else {
-                    message.innerHTML = "비밀번호가 일치하지 않습니다.";
+        if (nameRegex.test(nname)) {
+        	if(nameKor.test(nname)){
+        		if(USER_PHONE.test(inputPHONE) && inputPHONE.length == 11){
+    				document.getElementById("registrationForm").submit();
+        		}else{
+    				message.innerHTML = "핸드폰 번호가 부적합합니다.";
                     message.style.color = "red";
-                }
-            	
-            } else {
-            	 message.innerHTML = "비밀번호는 6글자 이상이어야합니다.";
-                 message.style.color = "red";
-            }
+    			}
+        	}else if(nameEng.test(nname)){
+        		if(USER_PHONE.test(inputPHONE) && inputPHONE.length == 11){    
+        				document.getElementById("registrationForm").submit();
+        		}else{
+    				message.innerHTML = "핸드폰 번호가 부적합합니다.";
+                    message.style.color = "red";
+    			}
+        	}else{
+        		message.innerHTML = "한글과 영문을 혼합하여 사용 할 수 없습니다.";
+                message.style.color = "red";
+        	}
+        }else{
+        	message.innerHTML = "이름은 한글이나 영문만 가능합니다.";
+            message.style.color = "red";
         }
+    }
+
 	</script>
 
 	<jsp:include page="../MainLayoutElements/footer.jsp"></jsp:include>

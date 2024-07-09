@@ -195,7 +195,7 @@ seoulmate.membership.MemberDTO dto = (seoulmate.membership.MemberDTO) request.ge
 							<div class="row">
 								<div class="col-sm-12">
 									<a class="btn btn-primary "  href="profileEdit.jsp">회원정보수정</a>
-									<a class="btn btn-primary "  href="./contact.jsp">문의하기</a>
+									<a class="btn btn-primary "  href="contact.jsp">문의하기</a>
 									<a class="btn btn-primary "  href="../admin/Cancel.jsp">회원탈퇴</a>
 								</div>
 							</div>

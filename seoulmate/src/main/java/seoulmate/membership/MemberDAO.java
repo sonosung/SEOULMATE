@@ -182,136 +182,236 @@ import jakarta.servlet.http.Part;
         return dto;
     }
     
-    //비밀번호 미 변경
-    public MemberDTO getMemberDTO_UPDATE(int idx, String N, String Id, String P, String St, String zip, Part mainimagePart) {
+    //프사 변경
+    public MemberDTO getMemberDTO_UPDATE(int idx, String N, String Id, String P, String St, String zip, Part mainimagePart,String Email) {
         MemberDTO dto = new MemberDTO(); // 회원 정보 DTO 객체 생성
         String query = "UPDATE users SET  USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?, USER_PHOTO = ? WHERE USER_NUM = ?";
         String query2 = "SELECT * FROM users WHERE USER_NUM = ?";
-
+        String query_nick_check = "SELECT EMAIL FROM users WHERE USER_ID = ? ";
+        
         try {
-            // 사진 업로드 처리
-            if (mainimagePart != null && mainimagePart.getSize() > 0) {
-                InputStream mainimageInputStream = mainimagePart.getInputStream();
-                byte[] mainimage = mainimageInputStream.readAllBytes();
-                dto.setUSER_PHOTO(mainimage); // DTO에 사진 데이터 설정
+        	psmt = con.prepareStatement(query_nick_check);
+        	psmt.setString(1, Id);
+        	rs = psmt.executeQuery();
+        	
+        	if (rs.next()) {
+        		dto.setEMAIL(rs.getString("EMAIL"));
+        	}
+        	
+        	if(dto.getEMAIL() == null || dto.getEMAIL().equals(Email)) {
+			        try {
+			            // 사진 업로드 처리
+			            if (mainimagePart != null && mainimagePart.getSize() > 0) {
+			                InputStream mainimageInputStream = mainimagePart.getInputStream();
+			                byte[] mainimage = mainimageInputStream.readAllBytes();
+			                dto.setUSER_PHOTO(mainimage); // DTO에 사진 데이터 설정
+			
+			            }
+			
+			            psmt = con.prepareStatement(query);
+			            psmt.setString(1, N);
+			            psmt.setString(2, Id);
+			            psmt.setString(3, P);
+			            psmt.setString(4, St);
+			            psmt.setString(5, zip);
+			            // 사진 데이터를 byte 배열로 업데이트
+			            if (mainimagePart != null && mainimagePart.getSize() > 0) {
+			                psmt.setBytes(6, dto.getUSER_PHOTO());
+			            } else {
+			                psmt.setNull(6, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
+			            }
+			            psmt.setInt(7, idx);
+			            psmt.executeUpdate();         
+			            
+			            dto.setUD("UD");
+			          		       
+			            psmt = con.prepareStatement(query2);
+			            psmt.setInt(1, idx);
+			            rs = psmt.executeQuery();
+			
+			            if (rs.next()) {
+			                dto.setUSER_NUM(rs.getInt("USER_NUM"));
+			                dto.setUSER_ID(rs.getString("USER_ID"));
+			                dto.setEMAIL(rs.getString("EMAIL"));
+			                dto.setPHONENUM(rs.getString("PHONENUM"));
+			                dto.setUSERNAME(rs.getString("USERNAME"));
+			                dto.setUSER_STREET(rs.getString("USER_STREET"));
+			                dto.setUSER_ZIP(rs.getString("USER_ZIP"));
+			                dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
+			                dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
+			            }
+			            
+			
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        } finally {
+			            // 리소스 해제
+			            try {
+			                if (rs != null) rs.close();
+			                if (psmt != null) psmt.close();
+			                if (con != null) con.close();
+			            } catch (SQLException e) {
+			                e.printStackTrace();
+			            }
+			        }
+			        return dto;
+			        
+        		}else {
+            		dto.setUD_NICK("닉중복");
+            	}
+            	
 
-            }
-
-            psmt = con.prepareStatement(query);
-            psmt.setString(1, N);
-            psmt.setString(2, Id);
-            psmt.setString(3, P);
-            psmt.setString(4, St);
-            psmt.setString(5, zip);
-            // 사진 데이터를 byte 배열로 업데이트
-            if (mainimagePart != null && mainimagePart.getSize() > 0) {
-                psmt.setBytes(6, dto.getUSER_PHOTO());
-            } else {
-                psmt.setNull(6, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
-            }
-            psmt.setInt(7, idx);
-            psmt.executeUpdate();         
-            
-            dto.setUD("UD");
-          		       
-            psmt = con.prepareStatement(query2);
-            psmt.setInt(1, idx);
-            rs = psmt.executeQuery();
-
-            if (rs.next()) {
-                dto.setUSER_NUM(rs.getInt("USER_NUM"));
-                dto.setUSER_ID(rs.getString("USER_ID"));
-                dto.setEMAIL(rs.getString("EMAIL"));
-                dto.setPHONENUM(rs.getString("PHONENUM"));
-                dto.setUSERNAME(rs.getString("USERNAME"));
-                dto.setUSER_STREET(rs.getString("USER_STREET"));
-                dto.setUSER_ZIP(rs.getString("USER_ZIP"));
-                dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
-                dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
-            }
-            
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // 리소스 해제
-            try {
-                if (rs != null) rs.close();
-                if (psmt != null) psmt.close();
-                if (con != null) con.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+            return dto;
         }
-        return dto;
-    }
     
-    //비밀번호 변경 시 
-    public MemberDTO getMemberDTO_UPDATE(int idx, String N, String Id, String P, String St, String zip, Part mainimagePart ,String Pa) {
+    
+    //기본이미지로 돌리기
+    public MemberDTO getMemberDTO_UPDATE_NOMAL(int idx, String N, String Id, String P, String St, String zip, String Email) {
         MemberDTO dto = new MemberDTO(); // 회원 정보 DTO 객체 생성
-        String query = "UPDATE users SET USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?, USER_PHOTO = ?, USER_PASSWORD = ? WHERE USER_NUM = ?";
-        String query2 = "SELECT * FROM users WHERE AND USER_NUM = ?";
-
+        String query = "UPDATE users SET USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ?,USER_PHOTO = NULL WHERE USER_NUM = ?";
+        String query2 = "SELECT * FROM users WHERE USER_NUM = ?";
+        String query_nick_check = "SELECT EMAIL FROM users WHERE USER_ID = ? ";
+        
         try {
-            // 사진 업로드 처리
-            if (mainimagePart != null && mainimagePart.getSize() > 0) {
-                InputStream mainimageInputStream = mainimagePart.getInputStream();
-                byte[] mainimage = mainimageInputStream.readAllBytes();
-                dto.setUSER_PHOTO(mainimage); // DTO에 사진 데이터 설정
+        	psmt = con.prepareStatement(query_nick_check);
+        	psmt.setString(1, Id);
+        	rs = psmt.executeQuery();
+        	
+        	if (rs.next()) {
+        		dto.setEMAIL(rs.getString("EMAIL"));
+        	}
+        	
+        	if(dto.getEMAIL() == null || dto.getEMAIL().equals(Email)) {
+        		 try {
+        	            psmt = con.prepareStatement(query);
 
-            }
+        	            psmt.setString(1, N);
+        	            psmt.setString(2, Id);
+        	            psmt.setString(3, P);
+        	            psmt.setString(4, St);
+        	            psmt.setString(5, zip);
+        	            psmt.setInt(6, idx);
+        	            psmt.executeUpdate();         
+        	            
+        	            dto.setUD("UD");
+        	          		       
+        	            psmt = con.prepareStatement(query2);
+        	            psmt.setInt(1, idx);
+        	            rs = psmt.executeQuery();
 
-            psmt = con.prepareStatement(query);
+        	            if (rs.next()) {
+        	                dto.setUSER_NUM(rs.getInt("USER_NUM"));
+        	                dto.setUSER_ID(rs.getString("USER_ID"));
+        	                dto.setEMAIL(rs.getString("EMAIL"));
+        	                dto.setPHONENUM(rs.getString("PHONENUM"));
+        	                dto.setUSERNAME(rs.getString("USERNAME"));
+        	                dto.setUSER_STREET(rs.getString("USER_STREET"));
+        	                dto.setUSER_ZIP(rs.getString("USER_ZIP"));
+        	                dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
+        	                dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
+        	            }
+        	            
 
-            psmt.setString(1, N);
-            psmt.setString(2, Id);
-            psmt.setString(3, P);
-            psmt.setString(4, St);
-            psmt.setString(5, zip);
-            // 사진 데이터를 byte 배열로 업데이트
-            if (mainimagePart != null && mainimagePart.getSize() > 0) {
-                psmt.setBytes(6, dto.getUSER_PHOTO());
-            } else {
-                psmt.setNull(6, Types.BLOB); // 사진이 업데이트되지 않을 경우 NULL 처리
-            }
-            psmt.setString(7, Pa);
-            psmt.setInt(8, idx);
-            psmt.executeUpdate();         
-            
-            dto.setUD("UD");
-          		       
-            psmt = con.prepareStatement(query2);
-            psmt.setInt(1, idx);
-            rs = psmt.executeQuery();
+        	        } catch (Exception e) {
+        	            e.printStackTrace();
+        	        } finally {
+        	            // 리소스 해제
+        	            try {
+        	                if (rs != null) rs.close();
+        	                if (psmt != null) psmt.close();
+        	                if (con != null) con.close();
+        	            } catch (SQLException e) {
+        	                e.printStackTrace();
+        	            }
+        	        }
+        	        return dto;
+        	}else {
+        		dto.setUD_NICK("닉중복");
+        	}
+        	
 
-            if (rs.next()) {
-                dto.setUSER_NUM(rs.getInt("USER_NUM"));
-                dto.setUSER_ID(rs.getString("USER_ID"));
-                dto.setEMAIL(rs.getString("EMAIL"));
-                dto.setPHONENUM(rs.getString("PHONENUM"));
-                dto.setUSERNAME(rs.getString("USERNAME"));
-                dto.setUSER_STREET(rs.getString("USER_STREET"));
-                dto.setUSER_ZIP(rs.getString("USER_ZIP"));
-                dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
-                dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
-            }
-            
-
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // 리소스 해제
-            try {
-                if (rs != null) rs.close();
-                if (psmt != null) psmt.close();
-                if (con != null) con.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return dto;
     }
 
-
     
+    //사진 건드리지 않기
+    public MemberDTO getMemberDTO_UPDATE_NOPHOTO(int idx, String N, String Id, String P, String St, String zip,String Email) {
+        MemberDTO dto = new MemberDTO(); // 회원 정보 DTO 객체 생성
+        String query = "UPDATE users SET USERNAME = ?, USER_ID = ?, PHONENUM = ?, USER_STREET = ?, USER_ZIP = ? WHERE USER_NUM = ?";
+        String query2 = "SELECT * FROM users WHERE USER_NUM = ?";
+        String query_nick_check = "SELECT EMAIL FROM users WHERE USER_ID = ? ";
+        
+        try {
+        	psmt = con.prepareStatement(query_nick_check);
+        	psmt.setString(1, Id);
+        	rs = psmt.executeQuery();
+        	
+        	if (rs.next()) {
+        		dto.setEMAIL(rs.getString("EMAIL"));
+        	}
+        	
+        	if(dto.getEMAIL() == null || dto.getEMAIL().equals(Email)) {
+
+			        try {
+			
+			            psmt = con.prepareStatement(query);
+			
+			            psmt.setString(1, N);
+			            psmt.setString(2, Id);
+			            psmt.setString(3, P);
+			            psmt.setString(4, St);
+			            psmt.setString(5, zip);
+			            psmt.setInt(6, idx);
+			            psmt.executeUpdate();         
+			            
+			            dto.setUD("UD");
+			          		       
+			            psmt = con.prepareStatement(query2);
+			            psmt.setInt(1, idx);
+			            rs = psmt.executeQuery();
+			
+			            if (rs.next()) {
+			                dto.setUSER_NUM(rs.getInt("USER_NUM"));
+			                dto.setUSER_ID(rs.getString("USER_ID"));
+			                dto.setEMAIL(rs.getString("EMAIL"));
+			                dto.setPHONENUM(rs.getString("PHONENUM"));
+			                dto.setUSERNAME(rs.getString("USERNAME"));
+			                dto.setUSER_STREET(rs.getString("USER_STREET"));
+			                dto.setUSER_ZIP(rs.getString("USER_ZIP"));
+			                dto.setUSER_PHOTO(rs.getBytes("USER_PHOTO")); // 사진 데이터를 DTO에 설정
+			                dto.setUSER_PASSWORD(rs.getString("USER_PASSWORD"));
+			            }
+			            
+			
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        } finally {
+			            // 리소스 해제
+			            try {
+			                if (rs != null) rs.close();
+			                if (psmt != null) psmt.close();
+			                if (con != null) con.close();
+			            } catch (SQLException e) {
+			                e.printStackTrace();
+			            }
+			        }
+			        return dto;
+			    }else {
+	        		dto.setUD_NICK("닉중복");
+	        	}
+	        	
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return dto;
+	    }
+
+
 }
