@@ -13,13 +13,10 @@ import common.DBConnPool;
 public class CommentDAO extends DBConnPool {
 
 	public boolean deleteCommentById(int commentId) {
-	    String sql = "DELETE FROM comments WHERE comment_id = ?";
+	    String sql = "DELETE FROM comments WHERE commentid = ?";
 	    boolean success = false;
 
-	    try (
-	        Connection conn = getDBConnection();
-	        PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
+	    try (Connection conn = getDBConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 	        pstmt.setInt(1, commentId);
 	        int rowsAffected = pstmt.executeUpdate();
 
@@ -35,6 +32,7 @@ public class CommentDAO extends DBConnPool {
 
 	    return success;
 	}
+
 
 
 
