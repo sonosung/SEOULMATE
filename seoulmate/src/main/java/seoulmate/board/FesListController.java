@@ -7,6 +7,7 @@ import java.util.Map;
 
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import utils.BoardPage;
 
 @WebServlet("/feslist.do")
+@MultipartConfig(
+		maxFileSize = 1024 * 1024 * 10,
+		maxRequestSize = 1024 * 1024 * 10
+	)
 public class FesListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        

@@ -1,4 +1,4 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@ page import="java.util.Map"%>
@@ -6,7 +6,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="seoulmate.board.UserBoardDAO"%>
 <%@ page import="seoulmate.board.UserBoardDTO"%>
-유저정보게시판 리스트 입니다..
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -277,9 +277,8 @@ a:hover {
 	<script src="./resources/js/scripts.js"></script>
 </body>
 </html>
- --%>
  
-<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@ page import="java.util.Map"%>
@@ -539,4 +538,4 @@ a:hover {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="./resources/js/scripts.js"></script>
 </body>
-</html>
+</html> --%>
