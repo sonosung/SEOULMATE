@@ -1,7 +1,6 @@
 package seoulmate.boardcomment;
 
 import java.io.IOException;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,13 +13,13 @@ public class CommentAdminDeleteController extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
-        int commentId = Integer.parseInt(request.getParameter("id"));  // Ensure parameter name matches what is sent in AJAX request
+        int commentId = Integer.parseInt(request.getParameter("id"));
 
         CommentDAO dao = new CommentDAO();
         boolean result = dao.deleteCommentById(commentId);
 
         if (result) {
-            response.getWriter().write("success");
+        	response.sendRedirect("/seoulmate/admin/adminComments.jsp");
         } else {
             response.getWriter().write("error");
         }

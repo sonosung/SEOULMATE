@@ -66,35 +66,34 @@ th, td {
 	crossorigin="anonymous"></script>
 
 <script>
-$(document).ready(function() {
-    // 삭제 버튼 클릭 이벤트 처리
-    $(document).on('click', '.delete-btn', function() {
-        var commentId = $(this).data('id');
-        if (confirm("정말 이 댓글을 삭제하시겠습니까?")) {
-            $.ajax({
-                url: 'admindelete.do',
-                type: 'POST',
-                data: {
-                    id: commentId  // Ensure 'id' matches the parameter name expected by the server
-                },
-                success: function(response) {
-                    if (response.trim() === "success") {
-                        alert("댓글이 삭제되었습니다.");
-                        location.reload(); // 페이지 새로고침
-                    } else {
-                        alert("댓글 삭제에 실패했습니다.");
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX 요청 실패: ', status, error);
-                    alert("댓글 삭제 중 오류가 발생했습니다.");
-                }
-            });
-        }
-    });
-});
-
-
+	$(document).ready(function() {
+		// 삭제 버튼 클릭 이벤트 처리
+		$(document).on('click', '.delete-btn', function() {
+			var commentId = $(this).data('id');
+			if (confirm("정말 이 댓글을 삭제하시겠습니까?")) {
+				$.ajax({
+					url : 'admindelete.do',
+					type : 'POST',
+					data : {
+						id : commentId
+					// Ensure 'id' matches the parameter name expected by the server
+					},
+					success : function(response) {
+						if (response.trim() === "success") {
+							alert("댓글이 삭제되었습니다.");
+							location.reload(); // 페이지 새로고침
+						} else {
+							alert("댓글 삭제에 실패했습니다.");
+						}
+					},
+					error : function(xhr, status, error) {
+						console.error('AJAX 요청 실패: ', status, error);
+						alert("댓글 삭제 중 오류가 발생했습니다.");
+					}
+				});
+			}
+		});
+	});
 </script>
 
 
@@ -319,6 +318,7 @@ $(document).ready(function() {
 								<th>내용</th>
 								<th>작성일</th>
 								<th>작성자 유저번호</th>
+								<th>삭제</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -336,7 +336,16 @@ $(document).ready(function() {
 								<td><%=comment.getContent()%></td>
 								<td><%=comment.getCreatedAt()%></td>
 								<td><%=comment.getWriternum()%></td>
-								<td><button class="delete-btn" data-id="<%= comment.getCommentId() %>">삭제</button></td>
+								<td>
+									<form
+										action="${pageContext.request.contextPath}/admindelete.do"
+										method="post">
+										<input type="hidden" name="id"
+											value="<%=comment.getCommentId()%>">
+										<button type="submit" class="delete-btn">삭제</button>
+									</form>
+
+								</td>
 							</tr>
 							<%
 							}
@@ -344,6 +353,8 @@ $(document).ready(function() {
 						</tbody>
 					</table>
 				</div>
+
+
 				<!-- End of Main Content -->
 
 				<!-- Footer -->
