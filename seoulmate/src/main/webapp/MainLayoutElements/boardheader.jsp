@@ -180,7 +180,7 @@ function toggleBtn1() {
 						if (user.getUSER_NUM() <= 4) { 
 					%>
 					<li class="nav-item mx-0 mx-lg-1">
-						<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/adminIndex.jsp" type="submit"
+						<a class="nav-link py-3 px-0 px-lg-3 rounded" href="./admin/adminIndex.jsp" type="submit"
 						onclick="document.getElementById('user').sumbit();">관리자 페이지</a>
 					</li>
 					
