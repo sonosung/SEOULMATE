@@ -48,7 +48,7 @@
 					</li>
 					
 					<%  
-					if (user.getUSER_NUM() <= 4) { 	
+					if (user.getUSER_NUM() <= 4) { 	//관리자 로그인
 					%>
 					<li class="nav-item mx-0 mx-lg-1">
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/adminIndex.jsp" type="submit"
@@ -71,19 +71,30 @@
       				</li>
       				
 					<%
-						} else {
+						} else { //일반 회원 로그인
 					%>
 					<li class="nav-item mx-0 mx-lg-1">
        					<a class="nav-link py-3 px-0 px-lg-3 rounded" style="color: white;" id="User_Info">
+       						<% 
+       							if (user.getBase64UserPhoto() != null) {
+    						%>
 							<img src="data:image/jpeg;base64, <%= user.getBase64UserPhoto() %>" class="rounded-circle" width="30" height="30" alt="User Photo">
         					<%= user.getUSER_ID() + "님! 환영합니다" %>
+        					<% 
+        						} else {
+        					%>
+        					<img src="../resources/assets/img/blankProfile.png" class="rounded-circle" width="30" height="30">
+        					<%	
+            					out.println(user.getUSER_ID() + "님! 환영합니다");
+        						}
+   							%>
         				</a>
         			</li>
 					<%
 						}
 					%>
 					<%
-  		 				} else {
+  		 				} else { //로그인 안했을 경우
 					%>
 					<li class="nav-item mx-0 mx-lg-1">
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../email/contact.jsp">Contact</a>
