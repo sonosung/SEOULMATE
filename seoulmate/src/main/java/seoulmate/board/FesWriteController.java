@@ -14,7 +14,11 @@ import jakarta.servlet.http.Part;
 import seoulmate.membership.MemberDTO;
 import utils.JSFunction;
 
-@MultipartConfig(maxFileSize = 1024 * 1024 * 1, maxRequestSize = 1024 * 1024 * 10)
+@MultipartConfig(
+	    fileSizeThreshold = 1024 * 1024, // 1MB
+	    maxFileSize = 1024 * 1024 * 10,  // 10MB
+	    maxRequestSize = 1024 * 1024 * 50 // 50MB
+	)
 /**
  * Servlet implementation class WriteController
  */

@@ -15,7 +15,11 @@ import seoulmate.membership.MemberDTO;
 import utils.JSFunction;
 
 @WebServlet("/fesedit.do")
-@MultipartConfig(maxFileSize = 1024 * 1024 * 1, maxRequestSize = 1024 * 1024 * 10)
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024, // 1MB
+    maxFileSize = 1024 * 1024 * 10,  // 10MB
+    maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class FesEditController extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
