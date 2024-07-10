@@ -435,6 +435,7 @@
 
                 </div> --%>
                 </div>
+                </div>
                 <!-- End of Main Content -->
 
                 <!-- Footer -->
