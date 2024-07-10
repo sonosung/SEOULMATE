@@ -142,6 +142,15 @@ a:hover {
 									<table class="table table-bordered table-hover mt-4">
 
 
+										<%
+										// DAO를 호출하여 게시글 목록을 가져오는 부분
+										UserBoardDAO dao = new UserBoardDAO();
+										List<UserBoardDTO> getAllUserBoardDetails = new ArrayList<>();
+										
+										List<UserBoardDTO> userBoardList = dao.getAllUserBoardDetails();
+										request.setAttribute("userBoardList", userBoardList);
+										%>
+
 										<thead class="thead-light">
 											<tr>
 												<th class="text-center" width="7%">게시글번호</th>
