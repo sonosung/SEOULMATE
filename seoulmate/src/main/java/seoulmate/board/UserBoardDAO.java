@@ -15,6 +15,43 @@ public class UserBoardDAO extends DBConnPool {
     public UserBoardDAO() {
         super();
     }
+    
+    //관리자 페이지 유저보드
+    public List<UserBoardDTO> getAllUserBoardDetails() {
+        List<UserBoardDTO> userBoardList = new ArrayList<>();
+        String sql = "SELECT idx, fescate, name, title, content, fesname, postdate, likecount, visitcount, feslocation, fesstart, fesend, writernum FROM userboard";
+        
+        try (PreparedStatement psmt = con.prepareStatement(sql);
+             ResultSet rs = psmt.executeQuery()) {
+            
+            while (rs.next()) {
+                UserBoardDTO userBoard = new UserBoardDTO();
+                userBoard.setIdx(rs.getString("idx"));
+                userBoard.setFescate(rs.getString("fescate"));
+                userBoard.setName(rs.getString("name"));
+                userBoard.setTitle(rs.getString("title"));
+                userBoard.setContent(rs.getString("content"));
+                userBoard.setFesname(rs.getString("fesname"));
+                userBoard.setPostdate(rs.getDate("postdate"));
+                userBoard.setLikecount(rs.getInt("likecount"));
+                userBoard.setVisitcount(rs.getInt("visitcount"));
+                userBoard.setFeslocation(rs.getString("feslocation"));
+                userBoard.setFesstart(rs.getString("fesstart"));
+                userBoard.setFesend(rs.getString("fesend"));
+                userBoard.setWriternum(rs.getString("writernum"));
+                
+                userBoardList.add(userBoard);
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be done in real application
+        }
+        
+        return userBoardList;
+    }
+    
+    
+    
 
     // 게시물 개수 조회
     public int selectCount(Map<String, Object> map) {
