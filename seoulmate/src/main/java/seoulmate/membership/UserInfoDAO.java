@@ -55,30 +55,6 @@ public class UserInfoDAO extends DBConnPool {
 
 		}
 		
-//		public int updateProfile(MemberDTO dto) {
-//			int result = 0;
-//			try {
-//				//쿼리문
-//				String query = "UPDATE  users"
-//							+ " SET USER_PHOTO=?, USERNAME=?, USER_ID=?, PHONENUM=?, USER_STREET=?, USER_ZIP=? "
-//							+ " WHERE EMAIL=?";
-//				
-//				psmt = con.prepareStatement(query);
-//				psmt.setString(1, dto.getUSER_PHOTO());
-//				psmt.setString(2, dto.getUSERNAME());
-//				psmt.setString(3, dto.getUSER_ID());
-//				psmt.setString(4, dto.getPHONENUM());
-//				psmt.setString(5, dto.getUSER_STREET());
-//				psmt.setString(6, dto.getUSER_ZIP());
-//				
-//				result = psmt.executeUpdate();
-//			}
-//			catch (Exception e) {
-//				System.out.println("회원정보 수정 중 예외 발생");
-//				e.printStackTrace();
-//			}
-//			return result;
-//		}
     public int updateProfile(MemberDTO dto) {
         int result = 0;
         try {

@@ -83,14 +83,14 @@
         Map<String, Integer> userBoardCount = userBoardDao.getUserBoardCountByMonth();
         String userBoardCountJson = gson.toJson(userBoardCount);
 
-        // 조회수 상위 3개의 글
+/*         // 조회수 상위 3개의 글
         List<UserBoardDTO> topVisitedPosts = userBoardDao.getTopVisitedPosts();
         
         // 추천수 상위 3개의 글
         List<UserBoardDTO> topLikedPosts = userBoardDao.getTopLikedPosts();
 
         // 실시간 댓글 데이터
-        List<CommentDTO> recentComments = commentDao.getAllComments();
+        List<CommentDTO> recentComments = commentDao.getAllComments(); */
     %>
 
     <!-- Page Wrapper -->
@@ -268,7 +268,7 @@
 							    </div>
 							    <div class="card-body">
 							        <!-- 차트를 그릴 영역 -->
-							        <div id="user-chart-title" class="text-center font-weight-bold mb-2">유저게시물 수</div>
+							        <div id="user-chart-title" class="text-center font-weight-bold mb-2">월별 유저게시물 수</div>
 							        <div class="chart-area" style="height: 400px; width: 100%;">
 							            <canvas id="userBoardChart"></canvas>
 							        </div>
@@ -281,7 +281,7 @@
 							                let chartData = <%= userBoardCountJson %>;
 							                let labels = [];
 							                let values = [];
-							                let chartTitle = '유저게시물 수';
+							                let chartTitle = '월별 유저게시물 수';
 							
 							                for (let month in chartData) {
 							                    labels.push(month);
@@ -362,7 +362,7 @@
                         </div>
                     </div>
 
-                    <!-- Top Visited Posts -->
+                    <%-- <!-- Top Visited Posts -->
                     <div class="row">
                         <div class="col-lg-6 mb-4">
                             <div class="card shadow mb-4">
@@ -433,6 +433,7 @@
                         </div>
                     </div>
 
+                </div> --%>
                 </div>
                 <!-- End of Main Content -->
 

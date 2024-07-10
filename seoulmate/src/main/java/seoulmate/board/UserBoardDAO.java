@@ -359,48 +359,30 @@ public class UserBoardDAO extends DBConnPool {
         }
         return boardCountByMonth;
     }
-
-    // 추가된 메서드: 조회수 상위 3개 게시물 조회
-    public List<UserBoardDTO> getTopVisitedPosts() {
-        List<UserBoardDTO> topVisitedPosts = new ArrayList<>();
-        String query = "SELECT * FROM userboard ORDER BY visitcount DESC FETCH FIRST 3 ROWS ONLY";
-
-        try (PreparedStatement psmt = con.prepareStatement(query);
-             ResultSet rs = psmt.executeQuery()) {
-            while (rs.next()) {
-                UserBoardDTO dto = new UserBoardDTO();
-                dto.setIdx(rs.getString("idx"));
-                dto.setName(rs.getString("name"));
-                dto.setTitle(rs.getString("title"));
-                dto.setContent(rs.getString("content"));
-                dto.setVisitcount(rs.getInt("visitcount"));
-                topVisitedPosts.add(dto);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return topVisitedPosts;
-    }
-
-    // 추가된 메서드: 추천수 상위 3개 게시물 조회
-    public List<UserBoardDTO> getTopLikedPosts() {
-        List<UserBoardDTO> topLikedPosts = new ArrayList<>();
-        String query = "SELECT * FROM userboard ORDER BY likecount DESC FETCH FIRST 3 ROWS ONLY";
-
-        try (PreparedStatement psmt = con.prepareStatement(query);
-             ResultSet rs = psmt.executeQuery()) {
-            while (rs.next()) {
-                UserBoardDTO dto = new UserBoardDTO();
-                dto.setIdx(rs.getString("idx"));
-                dto.setName(rs.getString("name"));
-                dto.setTitle(rs.getString("title"));
-                dto.setContent(rs.getString("content"));
-                dto.setLikecount(rs.getInt("likecount"));
-                topLikedPosts.add(dto);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return topLikedPosts;
-    }
 }
+
+/*
+ // 추가된 메서드: 조회수 상위 3개 게시물 조회 public List<UserBoardDTO> getTopVisitedPosts() {
+ List<UserBoardDTO> topVisitedPosts = new ArrayList<>(); String query =
+ "SELECT * FROM userboard ORDER BY visitcount DESC FETCH FIRST 3 ROWS ONLY";
+ 
+ try (PreparedStatement psmt = con.prepareStatement(query); ResultSet rs =
+ psmt.executeQuery()) { while (rs.next()) { UserBoardDTO dto = new
+ UserBoardDTO(); dto.setIdx(rs.getString("idx"));
+ dto.setName(rs.getString("name")); dto.setTitle(rs.getString("title"));
+ dto.setContent(rs.getString("content"));
+ dto.setVisitcount(rs.getInt("visitcount")); topVisitedPosts.add(dto); } }
+ catch (SQLException e) { e.printStackTrace(); } return topVisitedPosts; }
+ 
+ // 추가된 메서드: 추천수 상위 3개 게시물 조회 public List<UserBoardDTO> getTopLikedPosts() {
+ List<UserBoardDTO> topLikedPosts = new ArrayList<>(); String query =
+ "SELECT * FROM userboard ORDER BY likecount DESC FETCH FIRST 3 ROWS ONLY";
+ 
+ try (PreparedStatement psmt = con.prepareStatement(query); ResultSet rs =
+ psmt.executeQuery()) { while (rs.next()) { UserBoardDTO dto = new
+ UserBoardDTO(); dto.setIdx(rs.getString("idx"));
+ dto.setName(rs.getString("name")); dto.setTitle(rs.getString("title"));
+ dto.setContent(rs.getString("content"));
+ dto.setLikecount(rs.getInt("likecount")); topLikedPosts.add(dto); } } catch
+ (SQLException e) { e.printStackTrace(); } return topLikedPosts; } }
+ */
