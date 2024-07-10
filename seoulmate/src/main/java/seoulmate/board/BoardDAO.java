@@ -15,9 +15,9 @@ import common.DBConnPool;
 
 public class BoardDAO extends DBConnPool {
 
-	public BoardDAO() {
-		super();
-	}
+//	public BoardDAO() {
+//		super();
+//	}
 
 	public int selectCount(Map<String, Object> map) {
 		int totalCount = 0;

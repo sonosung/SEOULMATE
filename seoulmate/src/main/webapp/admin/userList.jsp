@@ -1,6 +1,44 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ page import="java.util.*"%>
+<%@ page import="seoulmate.admin.AuthBoardDAO" %>
+<%@ page import="seoulmate.membership.MemberDTO" %>
+
+<%
+//DAO를 생성해 DB에 연결
+AuthBoardDAO dao = new AuthBoardDAO();    
+
+//사용자가 입력한 검색 조건을 Map에 저장
+Map<String, Object> param = new HashMap<String, Object>();
+String searchField = request.getParameter("searchField");
+String searchWord = request.getParameter("searchWord");
+
+if (searchWord != null) {
+	param.put("searchField", searchField);
+	param.put("searchWord", searchWord);
+}
+
+int totalCount = dao.selectCount(param);
+
+/* 페이지 처리 start */
+int pageSize = Integer.parseInt(application.getInitParameter("POSTS_PER_PAGE"));
+int blockPage = Integer.parseInt(application.getInitParameter("PAGES_PER_BLOCK"));
+int totalPage = (int)Math.ceil((double)totalCount / pageSize);
+
+int pageNum = 1;
+String pageTemp = request.getParameter("pageNum");
+if (pageTemp != null && !pageTemp.equals(""))
+	pageNum = Integer.parseInt(pageTemp);
+
+int start = (pageNum -1) * pageSize + 1;
+int end = pageNum * pageSize;
+param.put("start", start);
+param.put("end", end);
+
+List<MemberDTO> boardLists = dao.selectUserListPage(param);
+dao.close();
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -70,109 +108,114 @@ footer {
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid" align="center">
-                
-                
-<h2>회원 목록 보기(List)</h2>
-	
-	<!-- 검색 폼 -->
-	<form method="get">
-	<table border="1" width="90%">
-	<tr>
-		<td align="center">
-			<select name="searchField">
-				<option value="">필드선택</option>
-				<option value="USER_ID">닉네임</option>
-				<option value="USERNAME">이름</option>
-				<option value="EMAIL">이메일</option>
-				<option value="PHONENUM">전화번호</option>
-				<option value="USER_STREET">주소</option>
-			</select>
-			<input type="text" name="searchWord" />
-			<input type="submit" value="검색하기" />
-		</td>
-		</tr>
-	</table>
-	</form>
-	
-	<!-- 목록 테이블 -->
-	<table border="1" width="90%">
-		<tr align="center">
-			<th width="5%">번호</th>
-			<th width="10%">닉네임</th>
-			<th width="10%">이름</th>
-			<th width="20%">이메일</th>
-			<th width="10%">전화번호</th>
-			<th width="25%">주소</th>
-			<th width="5%">우편번호</th>
-			<th width="15%">비밀번호</th>
-		</tr>
-<c:choose>
-	<c:when test="${ empty boardLists }"> <!-- 게시물이 없을 때 -->
-	<tr>
-		<td colspan="6" align="center">
-			등록된 회원이 없습니다.
-		</td>
-	</tr>		
-	</c:when>
-	<c:otherwise> <!-- 게시물이 있을 때 -->
-		<c:forEach items="${ boardLists }" var="row" varStatus="loop">
-		<tr align="center">
-			<td> <!-- 번호 -->
-				${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index) }
-			</td>
-			<td> <!-- 아이디 -->
-				${ row.USER_ID }
-			</td>
-			<td> <!-- 이름 -->
-				${ row.USERNAME }
-			</td>
-			<td> <!-- 이메일 -->
-				${ row.EMAIL }
-			</td>
-			<td> <!-- 전화번호 -->
-				${ row.PHONENUM }
-			</td>
-			<td> <!-- 주소 -->
-				${ row.USER_STREET }
-			</td>
-			<td>
-				${ row.USER_ZIP } 
-			</td>
-			<td> <!-- 비밀번호 -->
-				${ row.USER_PASSWORD }
-			</td>
-		</tr>
-		</c:forEach>
-	</c:otherwise>
-</c:choose>
-	</table>
-	
-	<!-- 하단 메뉴(바로가기, 글쓰기) -->
-	<table border="1" width="90%">
-		<tr align="center">
-		<td>
-			${ map.pagingImg }
-		</td>
-			<td width="100">
-				<button type="button" onclick="location.href='../mvcboard/write.do';">글쓰기</button>
-			</td>
-		</tr>
-	</table>
 
- <!-- /.container-fluid -->
+
+					<h2>회원 목록 보기(List)</h2>
+
+					<!-- 검색 폼 -->
+					<form method="get">
+						<table border="1" width="90%">
+							<tr>
+								<td align="center">
+								<select name="searchField">
+										<option value="USER_NUM">필드선택</option>
+										<option value="USER_ID">닉네임</option>
+										<option value="USERNAME">이름</option>
+										<option value="EMAIL">이메일</option>
+										<option value="PHONENUM">전화번호</option>
+										<option value="USER_STREET">주소</option>
+								</select> 
+								<input type="text" name="searchWord" /> 
+								<input type="submit" value="검색하기" />
+								</td>
+							</tr>
+						</table>
+					</form>
+
+					<!-- 목록 테이블 -->
+					<table border="1" width="90%">
+						<tr align="center">
+							<th width="5%">번호</th>
+							<th width="10%">닉네임</th>
+							<th width="10%">이름</th>
+							<th width="20%">이메일</th>
+							<th width="10%">전화번호</th>
+							<th width="25%">주소</th>
+							<th width="5%">우편번호</th>
+							<th width="10%">비밀번호</th>
+							<th width="5%">삭제</th>
+						</tr>
+						<c:choose>
+							<c:when test="${ empty boardLists }">
+								<!-- 게시물이 없을 때 -->
+								<tr>
+									<td colspan="6" align="center">등록된 회원이 없습니다.</td>
+								</tr>
+							</c:when>
+							<c:otherwise>
+								<!-- 게시물이 있을 때 -->
+								<c:forEach items="${ boardLists }" var="row" varStatus="loop">
+									<tr align="center">
+										<td>
+											<!-- 번호 --> ${ map.totalCount - (((map.pageNum-1) * map.pageSize) + loop.index) }
+										</td>
+										<td>
+											<!-- 아이디 --> ${ row.USER_ID }
+										</td>
+										<td>
+											<!-- 이름 --> ${ row.USERNAME }
+										</td>
+										<td>
+											<!-- 이메일 --> ${ row.EMAIL }
+										</td>
+										<td>
+											<!-- 전화번호 --> ${ row.PHONENUM }
+										</td>
+										<td>
+											<!-- 주소 --> ${ row.USER_STREET }
+										</td>
+										<td>${ row.USER_ZIP }</td>
+										<td>
+											<!-- 비밀번호 --> ${ row.USER_PASSWORD }
+										</td>
+										<td>
+											<form
+												action="${pageContext.request.contextPath}/admin/out.do"
+												method="post">
+												<input type="hidden" name="user_num" value="${row.USER_NUM}">
+												<button type="submit" class="delete-btn">삭제</button>
+											</form>
+										</td>
+									</tr>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</table>
+
+					<!-- 하단 메뉴(바로가기, 글쓰기) -->
+					<table border="1" width="90%">
+						<tr align="center">
+							<td>${ map.pagingImg }</td>
+							<%-- <td width="100">
+								<button type="button" onclick="location.href='../mvcboard/write.do';">글쓰기</button>
+							</td> --%>
+						</tr>
+					</table>
+					<!-- Footer -->
+					<footer class="bg-white">
+						<div class="container my-auto">
+							<div class="copyright text-center my-auto">
+								<span>Copyright &copy; SEOULMATE 2024</span>
+							</div>
+						</div>
+					</footer>
+					<!-- End of Footer -->
+					<!-- /.container-fluid -->
 
             </div>
             <!-- End of Main Content -->
 
-	<!-- Footer -->
-	<footer class="bg-white">
-		<div class="container my-auto">
-			<div class="copyright text-center my-auto">
-				<span>Copyright &copy; SEOULMATE 2024</span>
-			</div>
-		</div>
-	</footer>
-	<!-- End of Footer -->
+
 
         </div>
         <!-- End of Content Wrapper -->
@@ -216,6 +259,5 @@ footer {
     <script src="js/sb-admin-2.min.js"></script>
 
 </body>
-
 </html>
  

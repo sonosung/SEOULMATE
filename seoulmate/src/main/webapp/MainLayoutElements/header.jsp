@@ -34,10 +34,10 @@
 					<li class="nav-item mx-0 mx-lg-1">
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../MainContent/index.jsp#calendar">행사달력</a>
 					</li>
-<%
-   MemberDTO user = (MemberDTO) session.getAttribute("user");
-   if (user != null) {
-%>
+					<%
+   					MemberDTO user = (MemberDTO) session.getAttribute("user");
+   					if (user != null) {
+					%>
       				<li class="nav-item mx-0 mx-lg-1">
        				<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/logout.jsp" id="Logout">Logout</a>
       				</li>
@@ -46,73 +46,60 @@
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../userPage/myPage.jsp" type="submit"
 					onclick="document.getElementById('user').sumbit();">MyPage</a>
 					</li>
-<%  
-					if (user.getUSER_NUM() <= 4) { 
-						
+					
+					<%  
+					if (user.getUSER_NUM() <= 4) { 	
 					%>
 					<li class="nav-item mx-0 mx-lg-1">
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/adminIndex.jsp" type="submit"
 					onclick="document.getElementById('user').sumbit();">관리자 페이지</a>
 					</li>
 					
-					 <li class="nav-item mx-0 mx-lg-1">
+					<li class="nav-item mx-0 mx-lg-1">
        				<a class="nav-link py-3 px-0 px-lg-3 rounded" style="color: white;" id="User_Info">
-    <% 
-        if (user.getBase64UserPhoto() != null) {
-    %>
-        <img src="data:image/jpeg;base64, <%= user.getBase64UserPhoto() %>" class="rounded-circle" width="30" height="30" alt="User Photo">
-        <%= user.getUSER_ID() + "님! 환영합니다" %>
-    <% 
-        } else {
-            out.println(user.getUSER_ID() + "님! 환영합니다");
-        }
-    %>
-</a>
+    				<% 
+       				if (user.getBase64UserPhoto() != null) {
+    				%>
+        			<img src="data:image/jpeg;base64, <%= user.getBase64UserPhoto() %>" class="rounded-circle" width="30" height="30" alt="User Photo">
+        			<%= user.getUSER_ID() + "님! 환영합니다" %>
+    				<% 
+        			} else {
+            			out.println(user.getUSER_ID() + "님! 환영합니다");
+        			}
+   					%>
+					</a>
       				</li>
       				
 					<%
-					}
-%>
-					
-					
-					
-<%
-   } else {
-%>
+						} else {
+					%>
+					<li class="nav-item mx-0 mx-lg-1">
+       					<a class="nav-link py-3 px-0 px-lg-3 rounded" style="color: white;" id="User_Info">
+							<img src="data:image/jpeg;base64, <%= user.getBase64UserPhoto() %>" class="rounded-circle" width="30" height="30" alt="User Photo">
+        					<%= user.getUSER_ID() + "님! 환영합니다" %>
+        				</a>
+        			</li>
+					<%
+						}
+					%>
+					<%
+  		 				} else {
+					%>
 					<li class="nav-item mx-0 mx-lg-1">
 					<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../email/contact.jsp">Contact</a>
 					</li>
-				      <li class="nav-item mx-0 mx-lg-1">
-				         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/login.jsp" id="Login">Login</a>
-				      </li>
-				      <li class="nav-item mx-0 mx-lg-1">
-				         <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/register.jsp" id="SignIn">SignIn</a>
-				      </li>
-<%
-}
-%>
+				    <li class="nav-item mx-0 mx-lg-1">
+						<a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/login.jsp" id="Login">Login</a>
+				     </li>
+				     <li class="nav-item mx-0 mx-lg-1">
+				        <a class="nav-link py-3 px-0 px-lg-3 rounded" href="../admin/register.jsp" id="SignIn">SignIn</a>
+				     </li>
+					<%
+					}
+					%>
 				</ul>
 				</form>
 			</div>
 		</div>
 	 </nav>
 <!--------------------------------------------------------- End Navigation --------------------------------------------------------->
-
-<script>
-
-function toggleBtn1() {
-	  
-	  // 토글 할 버튼 선택 (btn1)
-	  const Login = document.getElementById('Login');
-	  
-	  // btn1 숨기기 (display: none)
-	  if(dao.getMemberDTO(USER_EMAIL, USER_PASSWORD) !== null) {
-		  Login.style.display = 'none';
-	  }
-	  // btn` 보이기 (display: block)
-	  else {
-		  Login.style.display = 'block';
-	  }
-	  
-	}
-</script>

@@ -28,12 +28,18 @@ public class ListController extends HttpServlet {
 
 		String searchField = req.getParameter("searchField");
 		String searchWord = req.getParameter("searchWord");
-
+		int totalCount = 0;
+		
 		if (searchWord != null) {
 			map.put("searchField", searchField);
 			map.put("searchWord", searchWord);
 		}
-		int totalCount = dao.selectCount(map);
+		
+		if (searchWord == null) {
+			totalCount = dao.selectCount(map);
+		}
+		
+		totalCount = dao.selectCount(map);
 
 		/* 페이지 처리 시작 */
 		ServletContext application = getServletContext();
