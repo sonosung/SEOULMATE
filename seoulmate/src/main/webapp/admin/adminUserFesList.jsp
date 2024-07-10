@@ -173,7 +173,8 @@ a:hover {
 													<c:forEach items="${userBoardList}" var="row"
 														varStatus="loop">
 														<tr>
-															<td class="text-center">${row.idx}</td>
+														<td class="text-center">${fn:length(userBoardList) - loop.index}</td>
+															<%-- <td class="text-center">${row.idx}</td> --%>
 															<td class="text-center">${row.fescate}</td>
 															<td align="left"><a href="../view.do?idx=${row.idx}"
 																class="title-link">${row.title}</a></td>
