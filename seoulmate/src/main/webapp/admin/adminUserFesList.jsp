@@ -153,7 +153,7 @@ a:hover {
 
 										<thead class="thead-light">
 											<tr>
-												<th class="text-center" width="7%">게시글번호</th>
+												<th class="text-center" width="10%">게시글번호</th>
 												<th class="text-center" width="10%">카테고리</th>
 												<th class="text-center" width="*">제목</th>
 												<th class="text-center" width="10%">작성자</th>
