@@ -172,6 +172,9 @@
                                                 labels.push(month);
                                                 values.push(chartData[month]);
                                             }
+                                            // 월을 기준으로 오름차순으로 정렬
+                                            labels.sort();
+                                            values = labels.map(label => chartData[label]);
                                         } else if (type === 2) {
                                             chartTitle = '추천 수';
                                             chartData = recommendedFestivalsData;
@@ -187,7 +190,6 @@
                                                 values.push(item.visitcount);
                                             });
                                         }
-
                                         if (myChart) {
                                             myChart.destroy(); // 기존 차트를 파괴
                                         }
@@ -275,7 +277,7 @@
 							        <%-- Chart.js 플러그인 로드 --%>
 							        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@0.7.0"></script>
 							        <script>
-							            var userBoardChart; // 유저 게시물 차트 객체 전역 변수로 선언
+							            <%-- var userBoardChart; // 유저 게시물 차트 객체 전역 변수로 선언
 							
 							            function showUserBoardChart() {
 							                let chartData = <%= userBoardCountJson %>;
@@ -290,7 +292,28 @@
 							
 							                if (userBoardChart) {
 							                    userBoardChart.destroy(); // 기존 차트를 파괴
-							                }
+							                } --%>
+							                
+							                var userBoardChart; // 유저 게시물 차트 객체 전역 변수로 선언
+
+							                function showUserBoardChart() {
+							                    let chartData = <%= userBoardCountJson %>;
+							                    let labels = [];
+							                    let values = [];
+							                    let chartTitle = '월별 유저게시물 수';
+
+							                    for (let month in chartData) {
+							                        labels.push(month);
+							                        values.push(chartData[month]);
+							                    }
+
+							                    // 월을 기준으로 오름차순으로 정렬
+							                    labels.sort();
+							                    values = labels.map(label => chartData[label]);
+
+							                    if (userBoardChart) {
+							                        userBoardChart.destroy(); // 기존 차트를 파괴
+							                    }
 							
 							                document.getElementById('user-chart-title').innerText = chartTitle; // 차트 제목 업데이트
 							
